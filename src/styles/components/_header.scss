@@ -1,0 +1,7 @@
+@import "../var";
+
+#app-header {
+	padding: 0.5rem 1rem;
+	background-color: var.$foreground;
+	@include flex-container(row, space-between, center, nowrap, 1, 1rem);
+}

@@ -11,7 +11,7 @@ const colors = {
 	text: "#FCFCFC",
 	secondaryText: "#cccccc",
 	background: "#22142F",
-	foreground: "#29183A",
+	foreground: "#422552",
 	danger: "#C74F4F",
 	success: "#65B36D",
 	link: "#4C81BF",

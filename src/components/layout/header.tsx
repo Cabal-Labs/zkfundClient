@@ -2,15 +2,15 @@ import { Button } from "@chakra-ui/react";
 
 export default function Header() {
 	return (
-		<header>
-			<span>
+		<header id={"app-header"}>
+			<div>
 				{/* logo  */}
 				<h4>zk.fund</h4>
-			</span>
-			<span>
+			</div>
+			<div>
 				{/* wallet */}
 				<Button>Connect Wallet</Button>
-			</span>
+			</div>
 		</header>
 	);
 }

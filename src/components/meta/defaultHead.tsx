@@ -12,12 +12,7 @@ export default function DefaultHead(props: HeadProps) {
 		<Head>
 			<title>{title || "zk.fund"}</title>
 			<meta property="og:title" content={title || "Quae"} />
-			<meta
-				name="description"
-				content={
-					"Quae is a community voting platform. Voice your concerns in your community and see results today!"
-				}
-			/>
+			<meta name="description" content={"TODO: FINISH DESCRIPTION: zk.fund"} />
 			<meta
 				property="og:description"
 				content={
@@ -29,11 +24,7 @@ export default function DefaultHead(props: HeadProps) {
 			<meta property="twitter:card" content="summary_large_image" />
 			<meta property="twitter:image:alt" content={"/quae_logo.png"} />
 			<meta property="twitter:text:title" content={title || "Quae"} />
-			<meta
-				property="keywords"
-				content="community, voting, democracy, government, politics, polling"
-			/>
-			<link rel="icon" href="/quae_logo.png" />
+			<meta property="keywords" content="donations, crypto, defi, charities" />
 		</Head>
 	);
 }
