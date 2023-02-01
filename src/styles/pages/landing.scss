@@ -1,0 +1,55 @@
+@use "../var";
+@import "../mixins";
+
+#page-container.landing-page {
+	main {
+		height: 100%;
+		#landing {
+			padding-top: 20%;
+			padding-bottom: 5%;
+			@include flex-container(column, space-between, center, nowrap, 1, 5rem);
+			height: 100%;
+			text-align: center;
+			.cta {
+				@include flex-container(column, center, center, nowrap, 0, 1.5rem);
+				.chakra-button {
+					transform: scale(1.5);
+				}
+			}
+		}
+		section {
+			margin: 0 auto;
+			width: min(100%, 60rem);
+			padding-block: 4rem;
+			justify-content: stretch;
+			display: grid;
+			justify-content: stretch;
+			align-items: stretch;
+			grid-template-rows: 1fr 1fr;
+			grid-template-columns: 1fr 1fr;
+			gap: 2rem;
+			grid-template-areas: "content picture" "content picture";
+			&.reverse {
+				grid-template-areas: "picture content" "picture content";
+			}
+			.content {
+				flex: 0.5;
+				grid-area: content;
+				@include flex-container(
+					column,
+					flex-start,
+					flex-start,
+					nowrap,
+					0,
+					1rem
+				);
+			}
+			.img-wrapper {
+				position: relative;
+				border-radius: 0.5rem;
+				overflow: hidden;
+				grid-area: picture;
+			}
+		}
+	}
+}

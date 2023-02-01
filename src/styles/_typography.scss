@@ -61,7 +61,11 @@ p {
 }
 a {
 	@include text(var.$font-body, var.$default, 500);
-	color: var.$link;
+	color: var.$link !important;
+	&:hover {
+		text-decoration: underline;
+		cursor: pointer;
+	}
 }
 h1 {
 	@include text(var.$font-title, var.$XXL, var.$Bold-weight);
