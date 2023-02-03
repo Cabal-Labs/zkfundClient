@@ -10,6 +10,7 @@ const colors = {
 	primaryDark: "#961BC0",
 	text: "#FCFCFC",
 	secondaryText: "#cccccc",
+	border: "#dddddd",
 	background: "#22142F",
 	foreground: "#422552",
 	danger: "#C74F4F",
@@ -20,7 +21,7 @@ const components = {
 	Button: {
 		baseStyle: {
 			margin: 0.5,
-			_hover: { opacity: "75%" },
+			_hover: { opacity: "85%" },
 			_focus: {
 				boxShadow: "none",
 			},
@@ -38,10 +39,13 @@ const components = {
 				color: "white",
 				backgroundColor: colors.primary,
 				_hover: {
-					_disabled: {
-						opacity: 0.25,
-						backgroundColor: colors.primary,
-					},
+					outlineColor: colors.primaryDark,
+					outlineWidth: 1,
+					outlineStyle: "solid",
+				},
+				_disabled: {
+					opacity: 0.25,
+					backgroundColor: colors.primary,
 				},
 			}),
 			primary: () => ({
@@ -74,17 +78,12 @@ const components = {
 				backgroundColor: colors.foreground,
 			}),
 		},
-		default: {
+		defaultProps: {
 			variant: "contained",
+			size: "md",
 		},
 	},
-	IconButton: {
-		variant: {
-			text: () => ({
-				backgroundColor: "transparent",
-			}),
-		},
-	},
+
 	Tooltip: {
 		baseStyle: () => ({
 			borderRadius: 5,
@@ -92,15 +91,22 @@ const components = {
 			color: colors.text,
 		}),
 	},
-	Alert: {
-		backgroundColor: "red",
-	},
+
 	Input: {
-		baseStyle: {},
+		baseStyle: {
+			backgroundColor: "red",
+		},
 		variants: {
-			filled: () => ({
-				backgroundColor: colors.foreground,
-			}),
+			outline: {
+				borderColor: colors.text,
+				borderWidth: 1.5,
+				borderStyle: "solid",
+				backgroundColor: "transparent",
+				padding: 20,
+			},
+		},
+		defaultProps: {
+			variant: "outline",
 		},
 	},
 	Popover: {

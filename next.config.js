@@ -15,4 +15,7 @@ module.exports = {
 	images: {
 		unoptimized: true,
 	},
+	env: {
+		ALCHEMY_ID: process.env.ALCHEMY_ID,
+	},
 };
