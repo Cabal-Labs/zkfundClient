@@ -1,4 +1,5 @@
 import { Button } from "@chakra-ui/react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Header() {
 	return (
@@ -8,8 +9,7 @@ export default function Header() {
 				<h4>zk.fund</h4>
 			</div>
 			<div>
-				{/* wallet */}
-				<Button>Connect Wallet</Button>
+				<ConnectButton />
 			</div>
 		</header>
 	);

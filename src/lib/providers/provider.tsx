@@ -4,8 +4,8 @@ import AllData, { Data } from "./context";
 export const Context = createContext<Data>({
 	loggedIn: false,
 	setLoggedIn: () => {},
-	address: "",
-	setAddress: () => {},
+	pubAddress: "",
+	setPubAddress: () => {},
 });
 
 export const Provider = ({ children }: any) => {

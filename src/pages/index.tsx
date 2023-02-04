@@ -3,8 +3,22 @@ import Image from "next/image";
 import { Button } from "@chakra-ui/react";
 import ScreenWrapper from "@/components/layout/screenWrapper";
 import Icon from "@/lib/icons";
+import { useContext, useEffect } from "react";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useRouter } from "next/router";
+import { Context } from "@/lib/providers/provider";
 
 export default function Home() {
+	const router = useRouter();
+	const { setPubAddress } = useContext(Context);
+	const { address, isConnected } = useAccount();
+
+	// useEffect(() => {
+	// 	if (address && isConnected) {
+	// 		setPubAddress(address);
+	// 		router.push("/home");
+	// 	}
+	// }, [address, isConnected]);
 	return (
 		<ScreenWrapper title={"Welcome to zk.fund"} className="landing-page">
 			<main>

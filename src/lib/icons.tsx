@@ -39,6 +39,7 @@ import {
 	LightMode,
 	Notifications,
 	NotificationsOff,
+	Search,
 } from "@styled-icons/material-rounded";
 
 interface IconProps {
@@ -123,6 +124,8 @@ export default function Icon(props: IconProps) {
 						return <Policy size={size} title={title} />;
 					case "Reply":
 						return <Reply size={size} title={title} />;
+					case "Search":
+						return <Search size={size} title={title} />;
 					case "Send":
 						return <Send size={size} title={title} />;
 					case "Settings":
