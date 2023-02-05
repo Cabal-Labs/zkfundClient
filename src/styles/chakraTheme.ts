@@ -10,6 +10,7 @@ const colors = {
   primaryDark: "#961BC0",
   text: "#FCFCFC",
   secondaryText: "#cccccc",
+  border: "#dddddd",
   background: "#22142F",
   foreground: "#422552",
   danger: "#C74F4F",
@@ -21,7 +22,7 @@ const components = {
   Button: {
     baseStyle: {
       margin: 0.5,
-      _hover: { opacity: "75%" },
+      _hover: { opacity: "85%" },
       _focus: {
         boxShadow: "none",
       },
@@ -39,10 +40,13 @@ const components = {
         color: "white",
         backgroundColor: colors.primary,
         _hover: {
-          _disabled: {
-            opacity: 0.25,
-            backgroundColor: colors.primary,
-          },
+          outlineColor: colors.primaryDark,
+          outlineWidth: 1,
+          outlineStyle: "solid",
+        },
+        _disabled: {
+          opacity: 0.25,
+          backgroundColor: colors.primary,
         },
       }),
       primary: () => ({
@@ -64,8 +68,6 @@ const components = {
         color: colors.text,
         _hover: { backgroundColor: colors.foreground },
       }),
-      // TODO: some of these variants don't seem relevant,
-      // feel free to name below however you want
       pinkOutline: () => ({
         backgroundColor: colors.buttonBackground,
         borderRadius: 1000,
@@ -90,8 +92,9 @@ const components = {
         backgroundColor: colors.foreground,
       }),
     },
-    default: {
+    defaultProps: {
       variant: "contained",
+      size: "md",
     },
   },
   IconButton: {
@@ -108,9 +111,7 @@ const components = {
       color: colors.text,
     }),
   },
-  Alert: {
-    backgroundColor: "red",
-  },
+
   Input: {
     baseStyle: {},
     variants: {
@@ -184,7 +185,6 @@ const components = {
     defaultProps: { variant: "outlined" },
   },
   Popover: {
-    // parts: ["portal", "header", "body"],
     variants: {
       primary: () => ({
         backgroundColor: colors.foreground,

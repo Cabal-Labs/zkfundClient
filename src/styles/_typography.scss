@@ -1,5 +1,6 @@
 @use "var";
 @import "mixins";
+
 h1,
 h2,
 h3,
@@ -9,6 +10,7 @@ h6,
 p {
 	padding: 0;
 	margin: 0;
+	color: var.$text;
 
 	&.secondary {
 		color: var.$text-secondary;
@@ -61,7 +63,11 @@ p {
 }
 a {
 	@include text(var.$font-body, var.$default, 500);
-	color: var.$link;
+	color: var.$link !important;
+	&:hover {
+		text-decoration: underline;
+		cursor: pointer;
+	}
 }
 h1 {
 	@include text(var.$font-title, var.$XXL, var.$Bold-weight);
