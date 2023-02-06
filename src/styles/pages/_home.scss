@@ -1,0 +1,22 @@
+@use "../var";
+@import "../mixins";
+
+.home-page {
+	#search-container {
+	}
+	#results-container {
+		background-color: black;
+	}
+}
+@media screen and (min-width: var.$screen_M) {
+	#home-search {
+		width: 100%;
+		@include flex-container(row, center, flex-start, nowrap, 1, 1rem);
+		#search-container {
+			width: 50%;
+		}
+		#results-container {
+			width: 50%;
+		}
+	}
+}

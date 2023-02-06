@@ -1,0 +1,15 @@
+@use "../var";
+@import "../mixins";
+.charity-card {
+	@include flex-container(row, flex-start, center, nowrap, 0, 1rem);
+	padding: 0.5rem;
+}
+.render-charities {
+	background-color: var.$background;
+	.odd {
+		background-color: var.$foreground;
+	}
+	.even {
+		background-color: var.$background;
+	}
+}

@@ -13,12 +13,12 @@ export default function Home() {
 	const { setPubAddress } = useContext(Context);
 	const { address, isConnected } = useAccount();
 
-	// useEffect(() => {
-	// 	if (address && isConnected) {
-	// 		setPubAddress(address);
-	// 		router.push("/home");
-	// 	}
-	// }, [address, isConnected]);
+	useEffect(() => {
+		if (address && isConnected) {
+			setPubAddress(address);
+			router.push("/home");
+		}
+	}, [address, isConnected]);
 	return (
 		<ScreenWrapper title={"Welcome to zk.fund"} className="landing-page">
 			<main>

@@ -1,42 +1,48 @@
+import { useState } from "react";
+import DebounceSearch from "@/components/home/debounceSearch";
+import RenderCharities from "@/components/home/renderCharities";
 import ScreenWrapper from "@/components/layout/screenWrapper";
-import Icon from "@/lib/icons";
-import { Context } from "@/lib/providers/provider";
-import {
-	Button,
-	IconButton,
-	Input,
-	InputGroup,
-	InputRightElement,
-} from "@chakra-ui/react";
-import { useContext, useState } from "react";
-import { useBalance, useProvider } from "wagmi";
-export default function Home() {
-	const { pubAddress } = useContext(Context);
-	const provider = useProvider();
-	const { data, isError, isLoading } = useBalance({
-		address: pubAddress as `0x${string}`,
-	});
-	async function getBalance() {
-		const test = await provider.getBalance("ricmoo.eth");
-		console.log(test);
+import { CharityCardProps } from "@/lib/types";
+import { charityCards } from "@/lib/dummyData";
+
+function getServerSideProps() {
+	// get initial charity list (just 10)
+}
+export default function Home(props) {
+	const [loading, setLoading] = useState<boolean>(false);
+	const [charities, setCharities] = useState<CharityCardProps[]>([]);
+	async function filter(search): Promise<CharityCardProps[] | void> {
+		const initialData = charityCards;
+		//mock an api request that returns charities with names that match the search param
+		const filteredData = initialData.filter((charity) => {
+			return charity.name.toLowerCase().includes(search.toLowerCase());
+		});
+		console.log(filteredData);
+		return filteredData;
 	}
-	if (isLoading) return <div>Fetching balance…</div>;
-	if (isError) return <div>Error fetching balance</div>;
+	async function getCharities(search: string): Promise<CharityCardProps[]> {
+		setLoading(true);
+		console.log("getting Charities that match: ", search);
+		// const { data, status, ok } = await charityApi.search(search);
+		//mocked ^^ charityApi.search will return a list of charities that match the search param
+		const ok = true;
+		const data = (await filter(search)) as CharityCardProps[];
+		console.log(data);
+		if (ok) {
+			setCharities(data);
+		}
+		setLoading(false);
+		return data;
+	}
+
 	return (
-		<ScreenWrapper>
-			<main>
+		<ScreenWrapper className="home-page">
+			<main id="home-search">
 				<div id="search-container">
-					<InputGroup>
-						<Input />
-						<InputRightElement>
-							<IconButton
-								aria-label="search"
-								placeholder="Search for a charity">
-								<Icon icon={"Search"} />
-							</IconButton>
-						</InputRightElement>
-					</InputGroup>
+					<DebounceSearch onSubmit={getCharities} />
+					<RenderCharities loading={loading} charities={charities} />
 				</div>
+				<div id="results-container">bro</div>
 			</main>
 		</ScreenWrapper>
 	);
