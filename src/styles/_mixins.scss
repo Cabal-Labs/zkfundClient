@@ -51,9 +51,6 @@
 	padding: 1rem;
 	margin: 0.25rem 0;
 	@include shadow-3();
-	@include themed() {
-		background-color: t(var.$card);
-	}
 }
 @mixin line-card() {
 	padding: 1rem;
@@ -69,4 +66,9 @@
 	@include card();
 	@include border();
 	box-shadow: none;
+}
+@mixin glass() {
+	background-color: rgba(241, 212, 255, 0.2);
+	-webkit-backdrop-filter: blur(100px);
+	backdrop-filter: blur(100px);
 }

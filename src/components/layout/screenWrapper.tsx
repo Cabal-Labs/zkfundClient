@@ -31,7 +31,7 @@ export default function ScreenWrapper({
 }: ScreenWrapperProps) {
 	return (
 		<>
-			{/* {title ? <DefaultHead title={title} /> : <></>} */}
+			{title ? <DefaultHead title={title} /> : <></>}
 			<div id="app-container">
 				<div id="app-header">
 					<Header />

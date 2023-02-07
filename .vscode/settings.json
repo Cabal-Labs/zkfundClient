@@ -1,7 +1,8 @@
 {
-    "workbench.colorCustomizations": {
-        "activityBar.background": "#0D3330",
-        "titleBar.activeBackground": "#134743",
-        "titleBar.activeForeground": "#F5FCFC"
-    }
+	"workbench.colorCustomizations": {
+		"activityBar.background": "#0D3330",
+		"titleBar.activeBackground": "#134743",
+		"titleBar.activeForeground": "#F5FCFC"
+	},
+	"cSpell.words": ["zkfund"]
 }
