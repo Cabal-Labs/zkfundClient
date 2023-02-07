@@ -5,6 +5,7 @@ import ScreenWrapper from "@/components/layout/screenWrapper";
 import { CharityCardProps } from "@/lib/types";
 import { charityCards, charityDetails } from "@/lib/dummyData";
 import CharityDetails from "@/components/charity/charityDetails";
+import charitiesApi from "@/lib/api/charity";
 
 function getServerSideProps() {
 	// get initial charity list (just 10)
@@ -26,14 +27,14 @@ export default function Home(props) {
 		console.log("getting Charities that match: ", search);
 		// const { data, status, ok } = await charityApi.search(search);
 		//mocked ^^ charityApi.search will return a list of charities that match the search param
-		const ok = true;
-		const data = (await filter(search)) as CharityCardProps[];
-		console.log(data);
+		const { data, status, ok } = await charitiesApi.getCharities({ search });
 		if (ok) {
-			setCharities(data);
+			// @ts-ignore
+			setCharities(data.data.data);
+			setLoading(false);
 		}
-		setLoading(false);
-		return data;
+		// @ts-ignore
+		return data.data.data;
 	}
 
 	return (
