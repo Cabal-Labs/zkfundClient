@@ -5,14 +5,14 @@ export type CharityCardProps = {
 };
 export type CharityDataProps = {
 	charityId: string;
-	pic: string;
+	pic?: string;
 	name: string;
 	description: string;
 	location: string;
-	mission: string;
-	website: string;
-	contact: string;
-	tags: string[];
+	mission?: string;
+	website?: string;
+	contact?: string;
+	tags?: string[];
 };
 
 //General Types
