@@ -5,7 +5,7 @@ import ScreenWrapper from "@/components/layout/screenWrapper";
 import { CharityCardProps } from "@/lib/types";
 import { charityCards, charityDetails } from "@/lib/dummyData";
 import CharityDetails from "@/components/charity/charityDetails";
-import charitiesApi from "@/lib/api/charity";
+import charitiesApi from "@/lib/api/charities";
 
 function getServerSideProps() {
 	// get initial charity list (just 10)

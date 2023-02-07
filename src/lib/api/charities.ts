@@ -1,4 +1,4 @@
-import client from "../client";
+import client from "./client";
 const endpoint = "/charities";
 
 const getAllCharities = () => client.get(`${endpoint}`);

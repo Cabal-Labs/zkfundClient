@@ -1,10 +1,10 @@
-import charityApi from "@/lib/api/charity";
+import charitiesApi from "@/lib/api/charities";
 import { useEffect, useState } from "react";
 
 export async function getServerSideProps() {
 	console.log("Here");
 	// Fetch data from external API
-	const { data, status, ok } = await charityApi.getAllCharities();
+	const { data, status, ok } = await charitiesApi.getAllCharities();
 	console.log(data);
 	return {
 		props: {
