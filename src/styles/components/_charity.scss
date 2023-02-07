@@ -1,5 +1,13 @@
 @use "../var";
 @import "../mixins";
+.charity-details {
+	.header {
+		@include flex-container(row, flex-start, flex-start, nowrap, 1, 1rem);
+		> .content {
+			flex: 1;
+		}
+	}
+}
 .charity-card {
 	@include flex-container(row, flex-start, center, nowrap, 0, 1rem);
 	padding: 0.5rem;

@@ -1,7 +1,8 @@
 import { Heart } from "@styled-icons/ionicons-outline/Heart";
 import { Options } from "@styled-icons/ionicons-solid/Options";
 import { PresenceBlocked } from "@styled-icons/fluentui-system-regular/PresenceBlocked";
-import { ChevronDown } from "@styled-icons/fa-solid";
+import { ChevronDown, City } from "@styled-icons/fa-solid";
+
 import {
 	Flag,
 	Home,
@@ -78,6 +79,8 @@ export default function Icon(props: IconProps) {
 						return <Check size={size} title={title} />;
 					case "ChevronDown":
 						return <ChevronDown size={size} title={title} />;
+					case "City":
+						return <City size={size} title={title} />;
 					case "Comment":
 						return <Comment size={size} title={title} />;
 					case "DarkMode":

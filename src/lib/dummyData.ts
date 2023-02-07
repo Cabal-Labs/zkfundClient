@@ -1,4 +1,4 @@
-import { CharityCardProps } from "./types";
+import { CharityCardProps, CharityDataProps } from "./types";
 
 export const charityCards: CharityCardProps[] = [
 	{
@@ -60,5 +60,18 @@ export const charityCards: CharityCardProps[] = [
 		charityId: "12",
 		pic: "pic String",
 		name: "The United Way",
+	},
+];
+export const charityDetails: CharityDataProps[] = [
+	{
+		charityId: "1",
+		pic: "pic String",
+		name: "Clean Water Project",
+		location: "USA",
+		contact: "hello@cleanwaterproject.com",
+		description: "",
+		website: "",
+		mission: "Bringing the world clean water",
+		tags: ["water", "clean", "drinking"],
 	},
 ];

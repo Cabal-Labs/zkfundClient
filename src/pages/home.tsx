@@ -3,7 +3,8 @@ import DebounceSearch from "@/components/home/debounceSearch";
 import RenderCharities from "@/components/home/renderCharities";
 import ScreenWrapper from "@/components/layout/screenWrapper";
 import { CharityCardProps } from "@/lib/types";
-import { charityCards } from "@/lib/dummyData";
+import { charityCards, charityDetails } from "@/lib/dummyData";
+import CharityDetails from "@/components/charity/charityDetails";
 
 function getServerSideProps() {
 	// get initial charity list (just 10)
@@ -42,7 +43,9 @@ export default function Home(props) {
 					<DebounceSearch onSubmit={getCharities} />
 					<RenderCharities loading={loading} charities={charities} />
 				</div>
-				<div id="results-container">bro</div>
+				<div id="results-container">
+					<CharityDetails {...charityDetails[0]} />
+				</div>
 			</main>
 		</ScreenWrapper>
 	);
