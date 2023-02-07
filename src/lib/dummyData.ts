@@ -69,8 +69,9 @@ export const charityDetails: CharityDataProps[] = [
 		name: "Clean Water Project",
 		location: "USA",
 		contact: "hello@cleanwaterproject.com",
-		description: "",
-		website: "",
+		description:
+			"Aliquip laborum est ea nisi deserunt ipsum aliquip nulla incididunt ex Lorem occaecat. Irure incididunt id exercitation minim aliqua amet elit et ullamco cillum. Duis reprehenderit consectetur ullamco ex Lorem incididunt velit voluptate. Fugiat anim laboris dolor eu.",
+		website: "www.cleanwaterproject.com",
 		mission: "Bringing the world clean water",
 		tags: ["water", "clean", "drinking"],
 	},

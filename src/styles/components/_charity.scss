@@ -1,23 +1,46 @@
 @use "../var";
 @import "../mixins";
 .charity-details {
+	padding: 1rem;
+	position: relative;
+	.options {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 1rem 0.5rem;
+	}
 	.header {
 		@include flex-container(row, flex-start, flex-start, nowrap, 1, 1rem);
 		> .content {
 			flex: 1;
 		}
 	}
+	> .content {
+		padding: 1rem;
+		.description {
+			padding: 1rem 0;
+		}
+	}
+	.quick-info {
+		@include flex-container(row, flex-start, center, wrap, 1, 1.5rem);
+		.info {
+			@include flex-container(row, flex-start, flex-start, nowrap, 0, 0.5rem);
+		}
+	}
 }
 .charity-card {
-	@include flex-container(row, flex-start, center, nowrap, 0, 1rem);
+	@include flex-container(row, flex-start, center, nowrap, 1, 1rem);
 	padding: 0.5rem;
+	width: 100%;
+	&:hover {
+		background-color: var.$accent1-LO;
+	}
 }
 .render-charities {
-	background-color: var.$background;
 	.odd {
-		background-color: var.$foreground;
+		background-color: var.$foreground-LO;
 	}
 	.even {
-		background-color: var.$background;
+		background-color: var.$background-LO;
 	}
 }

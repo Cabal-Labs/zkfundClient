@@ -2,21 +2,215 @@
 @import "../mixins";
 
 .home-page {
+	> main {
+		position: relative;
+		> .container {
+			position: relative;
+			@include glass();
+			border-radius: 1rem;
+			padding: 1rem;
+			overflow: hidden;
+			z-index: 1;
+		}
+		.shapes {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+			top: 0;
+			bottom: 0;
+			border-radius: 1rem;
+			.shape-0 {
+				height: 30%;
+				width: 30%;
+				border-radius: 5rem;
+				background-color: var.$primary;
+				position: absolute;
+				top: 50%;
+				right: 50%;
+				transform: translate(50%, -50%);
+				//animation using breathe-0 keyframe that scales the shape and returns it to its original size infinitely
+				animation: breathe-0 15s infinite;
+				@keyframes breathe-0 {
+					0% {
+						transform: translate(50%, -50%) scale(1);
+					}
+					50% {
+						transform: translate(50%, -50%) scale(1.3);
+					}
+					100% {
+						transform: translate(50%, -50%) scale(1);
+					}
+				}
+			}
+			.shape-1 {
+				height: 15rem;
+				width: 15rem;
+				border-radius: 5rem;
+				background-color: var.$primary;
+				position: absolute;
+				bottom: -2rem;
+				left: 10%;
+			}
+			.shape-2 {
+				height: 20%;
+				width: 10%;
+				border-radius: 5%;
+				background-color: var.$danger;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				animation: hover-2 5s infinite;
+				@keyframes hover-2 {
+					0% {
+						transform: translate(0, 0);
+					}
+					50% {
+						transform: translate(80%, 15%);
+					}
+					100% {
+						transform: translate(0, 0);
+					}
+				}
+			}
+			.shape-3 {
+				width: 0;
+				height: 0;
+				border-left: 10rem solid transparent;
+				border-right: 10rem solid transparent;
+
+				border-bottom: 10rem solid var.$accent2;
+				position: absolute;
+				top: 5rem;
+				left: 15rem;
+			}
+			.shape-4 {
+				height: 10rem;
+				width: 10rem;
+				border-radius: 5rem;
+				background: linear-gradient(
+					to bottom right,
+					var.$primary,
+					var.$success
+				);
+				position: absolute;
+				right: 2rem;
+				bottom: 2rem;
+				animation: rotate-4 10s linear infinite;
+				@keyframes rotate-4 {
+					0% {
+						transform: rotate(0deg);
+					}
+
+					100% {
+						transform: rotate(360deg);
+					}
+				}
+			}
+			.shape-5 {
+				height: 10rem;
+				width: 10rem;
+				border-radius: 5rem;
+				background-color: var.$accent1;
+				position: absolute;
+				top: 0;
+				right: 0;
+			}
+			.shape-6 {
+				height: 10rem;
+				width: 10rem;
+				border-radius: 5rem;
+				background-color: var.$accent3;
+				position: absolute;
+				bottom: 0;
+				right: 25%;
+			}
+			.shape-7 {
+				height: 10rem;
+				width: 10rem;
+				border-radius: 5rem;
+				background-color: var.$accent4;
+				position: absolute;
+				top: 0;
+				right: 50%;
+			}
+		}
+	}
 	#search-container {
+		.render-charities {
+			margin: 0.5rem 0;
+			border-radius: 0.5rem;
+			overflow: hidden;
+		}
 	}
 	#results-container {
-		background-color: black;
+		background-color: rgb(44, 44, 44);
+		border-radius: 1em;
+
+		position: relative;
+
+		$border: 3px;
+		background-clip: padding-box;
+		border: solid $border transparent;
+
+		&:before {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: -1;
+			margin: -$border;
+			border-radius: inherit;
+			background: linear-gradient(
+				to bottom right,
+				var.$accent1,
+				var.$primary,
+				var.$accent2
+			);
+		}
+	}
+}
+@media screen and (max-width: calc(var.$screen_M - 1px)) {
+	.home-page {
+		> main {
+			> .container {
+				@include flex-container(column, center, flex-start, nowrap, 1, 1rem);
+				#search-container {
+					width: 100%;
+					position: relative;
+					z-index: 2;
+					.render-charities {
+						background-color: var.$background;
+						max-height: 25rem;
+						position: absolute;
+						width: 100%;
+						&.open {
+							max-height: 100%;
+						}
+						&.close {
+							display: none;
+						}
+					}
+				}
+			}
+		}
 	}
 }
 @media screen and (min-width: var.$screen_M) {
-	#home-search {
-		width: 100%;
-		@include flex-container(row, center, flex-start, nowrap, 1, 1rem);
-		#search-container {
-			width: 50%;
-		}
-		#results-container {
-			width: 50%;
+	.home-page {
+		> main {
+			> .container {
+				@include flex-container(row, center, flex-start, nowrap, 1, 1rem);
+
+				#search-container {
+					width: 50%;
+				}
+				#results-container {
+					width: 50%;
+				}
+			}
 		}
 	}
 }

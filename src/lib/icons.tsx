@@ -2,7 +2,7 @@ import { Heart } from "@styled-icons/ionicons-outline/Heart";
 import { Options } from "@styled-icons/ionicons-solid/Options";
 import { PresenceBlocked } from "@styled-icons/fluentui-system-regular/PresenceBlocked";
 import { ChevronDown, City } from "@styled-icons/fa-solid";
-
+import { Link } from "@styled-icons/octicons/Link";
 import {
 	Flag,
 	Home,
@@ -83,10 +83,10 @@ export default function Icon(props: IconProps) {
 						return <City size={size} title={title} />;
 					case "Comment":
 						return <Comment size={size} title={title} />;
-					case "DarkMode":
-						return <DarkMode size={size} title={title} />;
 					case "Contact":
 						return <ContactMail size={size} title={title} />;
+					case "DarkMode":
+						return <DarkMode size={size} title={title} />;
 					case "FavoriteBorder":
 						return <FavoriteBorder size={size} title={title} />;
 					case "Flag":
@@ -103,6 +103,8 @@ export default function Icon(props: IconProps) {
 						return <IosShare size={size} title={title} />;
 					case "LightMode":
 						return <LightMode size={size} title={title} />;
+					case "Link":
+						return <Link size={size} title={title} />;
 					case "Logout":
 						return <Logout size={size} title={title} />;
 					case "Mail":

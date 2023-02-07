@@ -13,7 +13,7 @@ export default function RenderCharities({ loading, charities }: RenderProps) {
 		return <>No Charities Match Your Search</>;
 	}
 	return (
-		<div className="render-charities">
+		<div className="render-charities close">
 			{charities?.map((item, idx) => {
 				return (
 					<div key={item.charityId} className={idx % 2 === 0 ? "even" : "odd"}>
