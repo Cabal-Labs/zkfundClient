@@ -12,7 +12,7 @@ export default function Home() {
 	const router = useRouter();
 	const { setPubAddress } = useContext(Context);
 	const { address, isConnected } = useAccount();
-
+	//todo: important important! - fix wallet connect bug
 	useEffect(() => {
 		if (address && isConnected) {
 			setPubAddress(address);

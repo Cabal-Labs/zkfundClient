@@ -1,7 +1,8 @@
 @use "../var";
 @import "../mixins";
 
-.home-page {
+.home-page,
+.request-form {
 	> main {
 		position: relative;
 		> .container {
@@ -141,12 +142,16 @@
 			margin: 0.5rem 0;
 			border-radius: 0.5rem;
 			overflow: hidden;
+			&.no-charities {
+				@include flex-container(column, center, center, nowrap, 0, 1rem);
+			}
 		}
 	}
 	#results-container {
 		background-color: rgb(44, 44, 44);
 		border-radius: 1em;
-
+		flex: 1;
+		width: 100%;
 		position: relative;
 
 		$border: 3px;
@@ -192,20 +197,43 @@
 						&.close {
 							display: none;
 						}
+						&.no-charities {
+							margin-top: 1rem;
+							padding: 2rem 1rem;
+						}
 					}
 				}
 			}
 		}
 	}
 }
+.request-form {
+	> main {
+		overflow: hidden;
+		> .container,
+		.shapes {
+			margin: 0 auto;
+			overflow: hidden;
+			max-width: 90ch;
+			left: 0;
+			right: 0;
+		}
+	}
+}
 @media screen and (min-width: var.$screen_M) {
-	.home-page {
+	.home-page,
+	.request-form {
 		> main {
 			> .container {
 				@include flex-container(row, center, flex-start, nowrap, 1, 1rem);
 
 				#search-container {
 					width: 50%;
+					.render-charities {
+						&.no-charities {
+							margin-top: 2rem;
+						}
+					}
 				}
 				#results-container {
 					width: 50%;

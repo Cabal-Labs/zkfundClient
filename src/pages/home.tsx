@@ -6,22 +6,18 @@ import { CharityCardProps } from "@/lib/types";
 import { charityCards, charityDetails } from "@/lib/dummyData";
 import CharityDetails from "@/components/charity/charityDetails";
 import charitiesApi from "@/lib/api/charities";
+import { useToast } from "@chakra-ui/react";
 
 function getServerSideProps() {
 	// get initial charity list (just 10)
 }
 export default function Home(props) {
+	const toast = useToast();
+	const [searchTerm, setSearchTerm] = useState<string>("");
+
 	const [loading, setLoading] = useState<boolean>(false);
 	const [charities, setCharities] = useState<CharityCardProps[]>([]);
-	async function filter(search): Promise<CharityCardProps[] | void> {
-		const initialData = charityCards;
-		//mock an api request that returns charities with names that match the search param
-		const filteredData = initialData.filter((charity) => {
-			return charity.name.toLowerCase().includes(search.toLowerCase());
-		});
-		console.log(filteredData);
-		return filteredData;
-	}
+	const [selectedCharity, setSelectedCharity] = useState<CharityCardProps>();
 	async function getCharities(search: string): Promise<CharityCardProps[]> {
 		setLoading(true);
 		console.log("getting Charities that match: ", search);
@@ -30,9 +26,19 @@ export default function Home(props) {
 		const { data, status, ok } = await charitiesApi.getCharities({ search });
 		if (ok) {
 			// @ts-ignore
-			setCharities(data.data.data);
-			setLoading(false);
+			setCharities(data?.data.data);
+		} else {
+			// show an error toast saying something went wrong
+			setCharities([]);
+			toast({
+				title: "Error",
+				description: "Something went wrong",
+				status: "error",
+				duration: 5000,
+				isClosable: true,
+			});
 		}
+		setLoading(false);
 		// @ts-ignore
 		return data.data.data;
 	}
@@ -42,11 +48,20 @@ export default function Home(props) {
 			<main>
 				<div className="container">
 					<div id="search-container">
-						<DebounceSearch onSubmit={getCharities} />
-						<RenderCharities loading={loading} charities={charities} />
+						<DebounceSearch
+							onSubmit={getCharities}
+							searchTerm={searchTerm}
+							setSearchTerm={setSearchTerm}
+						/>
+						<RenderCharities
+							loading={loading}
+							charities={charities}
+							searchTerm={searchTerm}
+							setSelectedCharity={setSelectedCharity}
+						/>
 					</div>
 					<div id="results-container">
-						<CharityDetails {...charityDetails[0]} />
+						<CharityDetails {...selectedCharity} />
 					</div>
 				</div>
 				<div className="shapes">

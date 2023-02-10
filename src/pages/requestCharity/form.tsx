@@ -357,6 +357,7 @@ export default function Charity(props) {
 			{/* Country */}
 			<FormLabel>Country</FormLabel>
 			<Select
+				variant={"outlined"}
 				className="requestCharityInput"
 				placeholder="Select country..."
 				onChange={(e) => setCountryCode(e.target.value)}>
@@ -373,6 +374,7 @@ export default function Charity(props) {
 				Anything else we should know? Try to provide as much detail as you can.
 			</FormHelperText>
 			<Textarea
+				variant={"outlined"}
 				className="requestCharityInput requestCharityMultilineInput"
 				value={description}
 				onChange={(e) => setDescription(e.target.value)}
@@ -434,27 +436,32 @@ export default function Charity(props) {
 	);
 
 	return (
-		<ScreenWrapper>
-			<div
-				style={{
-					width: "50vw",
-					backgroundColor: "#4C3B55",
-					padding: 30,
-					margin: 30,
-					borderRadius: 30,
-					// TODO: Remove this style later, I just wanted it bc it was so ugly
-				}}>
-				<ZkModal
-					isOpen={modal.visible}
-					isError={modal.isError}
-					title={modal.title}
-					onClose={hideAndClearModal}>
-					<>{modal.content}</>
-				</ZkModal>
-				<FormControl>
-					{page === 1 ? renderFirstPage() : renderSecondPage()}
-				</FormControl>
-			</div>
+		<ScreenWrapper className="request-form">
+			<main>
+				<div className="container">
+					<ZkModal
+						isOpen={modal.visible}
+						isError={modal.isError}
+						title={modal.title}
+						onClose={hideAndClearModal}>
+						<>{modal.content}</>
+					</ZkModal>
+					<FormControl>
+						{page === 1 ? renderFirstPage() : renderSecondPage()}
+					</FormControl>
+				</div>
+
+				<div className="shapes">
+					<div className="shape-0"></div>
+					<div className="shape-1"></div>
+					<div className="shape-2"></div>
+					<div className="shape-3"></div>
+					<div className="shape-4"></div>
+					<div className="shape-5"></div>
+					<div className="shape-6"></div>
+					<div className="shape-7"></div>
+				</div>
+			</main>
 		</ScreenWrapper>
 	);
 }

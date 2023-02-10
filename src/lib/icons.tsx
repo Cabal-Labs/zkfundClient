@@ -3,6 +3,7 @@ import { Options } from "@styled-icons/ionicons-solid/Options";
 import { PresenceBlocked } from "@styled-icons/fluentui-system-regular/PresenceBlocked";
 import { ChevronDown, City } from "@styled-icons/fa-solid";
 import { Link } from "@styled-icons/octicons/Link";
+import { DonateHeart } from "@styled-icons/boxicons-regular/DonateHeart";
 import {
 	Flag,
 	Home,
@@ -87,6 +88,8 @@ export default function Icon(props: IconProps) {
 						return <ContactMail size={size} title={title} />;
 					case "DarkMode":
 						return <DarkMode size={size} title={title} />;
+					case "DonateHeart":
+						return <DonateHeart size={size} title={title} />;
 					case "FavoriteBorder":
 						return <FavoriteBorder size={size} title={title} />;
 					case "Flag":

@@ -4,6 +4,18 @@ import { CharityDataProps } from "@/lib/types";
 import { Avatar, Button } from "@chakra-ui/react";
 
 export default function CharityDetails(props: CharityDataProps) {
+	if (!props.charityId) {
+		return (
+			<div className="charity-details no-charity">
+				<Icon icon={"DonateHeart"} title={"Charity"} size={50} />
+				<h3>Welcome to zk.fund</h3>
+				<div className="hint">
+					<Icon icon={"Search"} title={"Search"} />
+					Search for a charity to learn more
+				</div>
+			</div>
+		);
+	}
 	return (
 		<div className="charity-details" id={`charity-${props.charityId}`}>
 			<Options id={props.charityId} />

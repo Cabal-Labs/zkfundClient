@@ -13,10 +13,14 @@ import { CharityCardProps } from "@/lib/types";
 import { charityCards } from "@/lib/dummyData";
 interface DebounceSearchProps {
 	onSubmit: (string) => Promise<CharityCardProps[]>;
+	searchTerm: string;
+	setSearchTerm: (string) => void;
 }
-export default function DebounceSearch({ onSubmit }: DebounceSearchProps) {
-	const [searchTerm, setSearchTerm] = useState("");
-
+export default function DebounceSearch({
+	onSubmit,
+	searchTerm,
+	setSearchTerm,
+}: DebounceSearchProps) {
 	const handleChange = (e) => {
 		setSearchTerm(e.target.value);
 		onSubmit(e.target.value);

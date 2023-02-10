@@ -140,9 +140,9 @@ const components = {
 		baseStyle: {},
 		variants: {
 			outlined: () => ({
-				background: colors.buttonBackground,
+				background: "transparent",
 				borderWidth: 2,
-				borderColor: colors.buttonBackground,
+				borderColor: colors.border,
 				_focus: {
 					borderColor: colors.primary,
 					borderWidth: 2,
@@ -156,9 +156,9 @@ const components = {
 		variants: {
 			outlined: () => ({
 				field: {
-					background: colors.buttonBackground,
+					background: "transparent",
 					borderWidth: 2,
-					borderColor: colors.buttonBackground,
+					borderColor: colors.border,
 					_focus: {
 						borderColor: colors.primary,
 						borderWidth: 2,
