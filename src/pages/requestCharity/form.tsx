@@ -12,8 +12,10 @@ import {
 } from "@chakra-ui/react";
 import ZkModal from "@/components/zkModal";
 import charityApi from "@/lib/api/charity";
+import { Router, useRouter } from "next/router";
 
 export default function Charity(props) {
+	const router = useRouter();
 	const [name, setName] = useState<string>("");
 	const [countryCode, setCountryCode] = useState<string>("");
 	const [description, setDescription] = useState<string>("");
@@ -312,11 +314,11 @@ export default function Charity(props) {
 
 	const hideAndClearModal = () => {
 		setModal({ visible: false, isError: false, title: "", content: null });
+		router.push("/home");
 	};
 
 	async function handleSubmit() {
 		console.log("submit"); // TODO: add api call to backend to create charity request
-		// code below shows success modal, but should only happen onSuccess of api call
 
 		const body = {
 			name,
@@ -326,6 +328,7 @@ export default function Charity(props) {
 			tags: [],
 			ein,
 			walletAddress,
+			Validation: { Validated: "processing", Comments: [""], ValidatedAt: "" },
 		};
 		const { data, status, ok } = await charityApi.createCharity(body);
 		console.log("STATUS: ", status);
