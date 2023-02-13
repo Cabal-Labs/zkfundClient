@@ -4,7 +4,7 @@ import { CharityDataProps } from "@/lib/types";
 import { Avatar, Button } from "@chakra-ui/react";
 
 export default function CharityDetails(props: CharityDataProps) {
-	if (!props.charityId) {
+	if (!props.id) {
 		return (
 			<div className="charity-details no-charity">
 				<Icon icon={"DonateHeart"} title={"Charity"} size={50} />
@@ -17,8 +17,8 @@ export default function CharityDetails(props: CharityDataProps) {
 		);
 	}
 	return (
-		<div className="charity-details" id={`charity-${props.charityId}`}>
-			<Options id={props.charityId} />
+		<div className="charity-details" id={`charity-${props.id}`}>
+			<Options id={props.id} />
 
 			<div className="header">
 				<Avatar src={props.pic} size="lg" />

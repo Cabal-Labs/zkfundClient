@@ -16,6 +16,11 @@ export default function RenderCharities({
 	searchTerm,
 	setSelectedCharity,
 }: RenderProps) {
+	useEffect(() => {
+		console.log("renderCharities mounted");
+		console.log("charities: ", charities);
+		console.log("searchTerm:, ", searchTerm);
+	}, [searchTerm]);
 	const router = useRouter();
 	function handleNavigate() {
 		// navigate to a page that will allow the user to request a charity to be added
@@ -23,6 +28,8 @@ export default function RenderCharities({
 	}
 	function handleClick(item: CharityCardProps) {
 		//set selected charity
+		setOpen(false);
+		console.log(item);
 		setSelectedCharity(item);
 	}
 
@@ -34,8 +41,7 @@ export default function RenderCharities({
 
 	if (loading) {
 		return <div className="render-charities loading">Loading...</div>;
-	}
-	if (charities?.length === 0 && searchTerm !== "") {
+	} else if (charities?.length === 0 && searchTerm.length > 0) {
 		return (
 			<div className="render-charities no-charities">
 				No Charities Match Your Search
@@ -44,20 +50,22 @@ export default function RenderCharities({
 				</Button>
 			</div>
 		);
-	}
-	return (
-		<div className={`render-charities ${open ? "open" : "close"}`}>
-			{charities?.map((item, idx) => {
-				return (
-					<button
-						key={item.charityId}
-						className={idx % 2 === 0 ? "even" : "odd"}
-						type={"button"}
-						onClick={() => handleClick(item)}>
-						<CharityCard {...item} />
-					</button>
-				);
-			})}
-		</div>
-	);
+	} else
+		return (
+			<div className={`render-charities ${open ? "open" : "close"}`}>
+				{charities?.map((item, idx) => {
+					return (
+						<button
+							key={item.id}
+							className={`charity-card-wrapper ${
+								idx % 2 === 0 ? "even" : "odd"
+							}`}
+							type={"button"}
+							onClick={() => handleClick(item)}>
+							<CharityCard {...item} />
+						</button>
+					);
+				})}
+			</div>
+		);
 }

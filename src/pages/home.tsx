@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DebounceSearch from "@/components/home/debounceSearch";
 import RenderCharities from "@/components/home/renderCharities";
 import ScreenWrapper from "@/components/layout/screenWrapper";
@@ -8,9 +8,6 @@ import CharityDetails from "@/components/charity/charityDetails";
 import charitiesApi from "@/lib/api/charities";
 import { useToast } from "@chakra-ui/react";
 
-function getServerSideProps() {
-	// get initial charity list (just 10)
-}
 export default function Home(props) {
 	const toast = useToast();
 	const [searchTerm, setSearchTerm] = useState<string>("");
@@ -26,7 +23,12 @@ export default function Home(props) {
 		const { data, status, ok } = await charitiesApi.getCharities({ search });
 		if (ok) {
 			// @ts-ignore
-			setCharities(data?.data.data);
+			if (data?.data.data === null) {
+				setCharities([]);
+			} else {
+				// @ts-ignore
+				setCharities(data?.data.data);
+			}
 		} else {
 			// show an error toast saying something went wrong
 			setCharities([]);
@@ -38,13 +40,20 @@ export default function Home(props) {
 				isClosable: true,
 			});
 		}
+		console.log("charities: ", charities);
 		setLoading(false);
 		// @ts-ignore
 		return data.data.data;
 	}
-
+	type HeaderProps = {
+		title: string;
+		children: React.ReactNode;
+	};
+	useEffect(() => {
+		console.log("selectedCharity: ", selectedCharity);
+	}, [selectedCharity]);
 	return (
-		<ScreenWrapper className="home-page">
+		<ScreenWrapper className="home-page" title={"zk.fund Home"}>
 			<main>
 				<div className="container">
 					<div id="search-container">

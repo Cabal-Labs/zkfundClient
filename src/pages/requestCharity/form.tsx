@@ -317,10 +317,15 @@ export default function Charity(props) {
 	async function handleSubmit() {
 		console.log("submit"); // TODO: add api call to backend to create charity request
 		// code below shows success modal, but should only happen onSuccess of api call
+
 		const body = {
 			name,
 			location: countryCode,
-			description,
+			description: description + "\nADDITIONAL INFO:\n" + additionalInfo,
+			website,
+			tags: [],
+			ein,
+			walletAddress,
 		};
 		const { data, status, ok } = await charityApi.createCharity(body);
 		console.log("STATUS: ", status);

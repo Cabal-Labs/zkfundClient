@@ -142,6 +142,9 @@
 			margin: 0.5rem 0;
 			border-radius: 0.5rem;
 			overflow: hidden;
+			.charity-card-wrapper {
+				width: 100%;
+			}
 			&.no-charities {
 				@include flex-container(column, center, center, nowrap, 0, 1rem);
 			}
@@ -189,7 +192,7 @@
 					.render-charities {
 						background-color: var.$background;
 						max-height: 25rem;
-						position: absolute;
+						// position: absolute;
 						width: 100%;
 						&.open {
 							max-height: 100%;

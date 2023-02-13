@@ -2,7 +2,7 @@ import Header from "./header";
 import Footer from "./footer";
 import DefaultHead from "../meta/defaultHead";
 interface ScreenWrapperProps {
-	children: JSX.Element;
+	children?: React.ReactNode;
 	layout?:
 		| "full-width"
 		| "one-column"
@@ -31,7 +31,8 @@ export default function ScreenWrapper({
 }: ScreenWrapperProps) {
 	return (
 		<>
-			{title ? <DefaultHead title={title} /> : <></>}
+			{/* TODO: important: fix default  head */}
+			{/* {title ? <DefaultHead title={title} /> : <></>} */}
 			<div id="app-container">
 				<div id="app-header">
 					<Header />
