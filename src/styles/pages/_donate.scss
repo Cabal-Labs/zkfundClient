@@ -1,0 +1,33 @@
+@use "../var";
+@use "../mixins";
+.donate-page {
+	> main {
+		> .container {
+			// all the styles regardless of screen size go here
+			#pick-charity {
+				//blah
+			}
+			#pick-amount {
+				//blah
+			}
+		}
+	}
+}
+@media screen and (max-width: var.$screen_M) {
+	.donate-page {
+		> main {
+			> .container {
+				// all the mobile styles go here
+			}
+		}
+	}
+}
+@media screen and (min-width: var.$screen_M) {
+	.donate-page {
+		> main {
+			> .container {
+				// all the desktop styles go here
+			}
+		}
+	}
+}

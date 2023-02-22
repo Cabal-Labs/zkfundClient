@@ -229,7 +229,6 @@
 		> main {
 			> .container {
 				@include flex-container(row, center, flex-start, nowrap, 1, 1rem);
-
 				#search-container {
 					width: 50%;
 					.render-charities {
