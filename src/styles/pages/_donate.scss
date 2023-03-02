@@ -1,37 +1,73 @@
 @use "../var";
 @use "../mixins";
 .donate-page {
-	> main {
-		> .container {
-			// all the styles regardless of screen size go here
-			#pick-charity {
-				//blah
-				#charity-logo {
-					background-color: red;
-					border-radius: 50%;
-				}
-			}
-			#pick-amount {
-				//blah
-			}
-		}
-	}
+  > main {
+    > .container {
+      // all the styles regardless of screen size go here
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      // TODO: temporary background-color until we put glass back
+      background-color: rgba($color: #f1d4ff, $alpha: 0.2);
+      padding: 30px;
+      border-radius: 20px;
+      #pick-charity {
+        //blah
+        // background-color: red;
+        #charity-logo-div {
+          display: flex;
+          justify-content: center;
+          #charity-logo {
+            border-radius: 50%;
+            width: 50%;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+          }
+        }
+
+        #charity-name {
+          text-align: center;
+          //   background-color: purple;
+        }
+        #select-value-row {
+          display: flex;
+          //   background-color: cornflowerblue;
+        }
+        #select-value-input {
+          // background-color: blue;
+          width: 150px;
+          margin-left: 0.25rem;
+          margin-right: 0.625rem;
+          font-size: 30px;
+          text-align: center;
+        }
+      }
+      .anonymous-checkbox {
+        // background-color: blue;
+        margin-top: 1.875rem;
+        //blah
+      }
+      #donate-button {
+        width: "100%";
+      }
+    }
+  }
 }
 @media screen and (max-width: var.$screen_M) {
-	.donate-page {
-		> main {
-			> .container {
-				// all the mobile styles go here
-			}
-		}
-	}
+  .donate-page {
+    > main {
+      > .container {
+        // all the mobile styles go here
+      }
+    }
+  }
 }
 @media screen and (min-width: var.$screen_M) {
-	.donate-page {
-		> main {
-			> .container {
-				// all the desktop styles go here
-			}
-		}
-	}
+  .donate-page {
+    > main {
+      > .container {
+        // all the desktop styles go here
+      }
+    }
+  }
 }
