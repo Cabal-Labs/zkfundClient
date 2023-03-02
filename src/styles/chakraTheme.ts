@@ -81,6 +81,36 @@ const components = {
         fontWeight: "regular",
         fontSize: "lg",
       }),
+      gradientOutline: () => ({
+        fontFamily: "Arvo",
+        fontWeight: "regular",
+        fontSize: "lg",
+        border: "solid 2px transparent",
+        borderRadius: "12px",
+        paddingLeft: "2rem",
+        paddingRight: "2rem",
+        // below 3 attributes are used for the border gradient
+        backgroundImage:
+          "linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, #5960FF, #5200FF, #0085FF)",
+        backgroundOrigin: "border-box",
+        boxShadow: "2px 1000px 1px #171616 inset",
+        _hover: {
+          opacity: "85%",
+        },
+        _active: {
+          opacity: "65%",
+          // below 2 attributes keep gradient border consistent
+          backgroundImage:
+            "linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, #5960FF, #5200FF, #0085FF)",
+          boxShadow: "2px 1000px 1px #171616 inset",
+        },
+        _focus: {
+          // below 2 attributes keep gradient border consistent
+          backgroundImage:
+            "linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, #5960FF, #5200FF, #0085FF)",
+          boxShadow: "2px 1000px 1px #171616 inset",
+        },
+      }),
       text: () => ({
         _hover: { backgroundColor: colors.foreground },
       }),
@@ -137,13 +167,11 @@ const components = {
         field: {
           backgroundColor: "transparent",
           borderBottomWidth: 3,
-		  borderRadius: 0,
-		  borderColor: "black",
-		  _focus: {
-			borderColor: colors.primary,
-		  },
-		  fontSize: 40,
-		  padding: "2rem",
+          borderRadius: 0,
+          borderColor: "black",
+          _focus: {
+            borderColor: colors.primary,
+          },
         },
       }),
     },
@@ -242,6 +270,45 @@ const components = {
         },
       }),
     },
+  },
+  Checkbox: {
+    variants: {
+      primary: () => ({
+        control: {
+          borderColor: "black",
+          height: 8,
+          width: 8,
+          borderRadius: 8,
+          _checked: {
+            borderColor: "black",
+            backgroundColor: "transparent",
+            _hover: {
+              borderColor: colors.primary,
+              backgroundColor: "transparent",
+            },
+            _focus: {
+              borderColor: colors.primary,
+              backgroundColor: "transparent",
+            },
+          },
+          _focus: {
+            borderColor: "black",
+            backgroundColor: "transparent",
+          },
+          _hover: {
+            borderColor: colors.primary,
+            backgroundColor: "transparent",
+          },
+        },
+        label: {
+          fontSize: "lg",
+        },
+        icon: {
+          color: "white",
+        },
+      }),
+    },
+    defaultProps: { variant: "primary" },
   },
 };
 const chakraTheme = extendTheme({ components, colors, config });
