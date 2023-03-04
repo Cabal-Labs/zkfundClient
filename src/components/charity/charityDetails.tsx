@@ -2,16 +2,23 @@ import Options from "@/lib/components/options";
 import Icon from "@/lib/icons";
 import { CharityDataProps } from "@/lib/types";
 import { Avatar, Button } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 export default function CharityDetails(props: CharityDataProps) {
+	const router = useRouter();
 	if (!props.id) {
 		return (
 			<div className="charity-details no-charity">
-				<Icon icon={"DonateHeart"} title={"Charity"} size={50} />
+				<Icon
+					icon={"DonateHeart"}
+					title={"Charity"}
+					size={50}
+					className="white"
+				/>
 				<h3>Welcome to zk.fund</h3>
 				<div className="hint">
 					<Icon icon={"Search"} title={"Search"} />
-					Search for a charity to learn more
+					<p>Search for a charity to learn more</p>
 				</div>
 			</div>
 		);
@@ -45,7 +52,15 @@ export default function CharityDetails(props: CharityDataProps) {
 					</div>
 				</div>
 				<p className="description">{props.description}</p>
-				<Button variant={"outlined"}>Donate to {props.name}</Button>
+				<Button
+					variant={"outlined"}
+					onClick={() => {
+						router.push(`/donate`, {
+							query: { id: props.id },
+						});
+					}}>
+					Donate to {props.name}
+				</Button>
 			</div>
 		</div>
 	);
