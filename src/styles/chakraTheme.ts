@@ -226,6 +226,16 @@ const components = {
           borderColor: colors.primary,
         },
       }),
+      gradientOutlined: () => ({
+        dialog: {
+          borderRadius: 15,
+          borderWidth: 2,
+          backgroundImage:
+            "linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, #5960FF, #5200FF, #0085FF)",
+          backgroundOrigin: "border-box",
+          boxShadow: "2px 1000px 1px #171616 inset",
+        },
+      }),
     },
     defaultProps: { variant: "outlined" },
   },

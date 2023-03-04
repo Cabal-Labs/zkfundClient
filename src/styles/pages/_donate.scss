@@ -12,8 +12,6 @@
       padding: 30px;
       border-radius: 20px;
       #pick-charity {
-        //blah
-        // background-color: red;
         #charity-logo-div {
           display: flex;
           justify-content: center;
@@ -27,11 +25,10 @@
 
         #charity-name {
           text-align: center;
-          //   background-color: purple;
         }
         #select-value-row {
           display: flex;
-          //   background-color: cornflowerblue;
+          margin-top: 2rem;
         }
         #select-value-input {
           // background-color: blue;
@@ -42,13 +39,19 @@
           text-align: center;
         }
       }
-      .anonymous-checkbox {
-        // background-color: blue;
-        margin-top: 1.875rem;
-        //blah
-      }
-      #donate-button {
-        width: "100%";
+      #bottom-container {
+        display: flex;
+        flex-direction: column;
+        .anonymous-checkbox {
+          margin-top: 1.875rem;
+          //blah
+        }
+        #donate-button {
+          width: "100%";
+          font-size: 1.5rem;
+          margin-top: 2rem;
+          padding: 1.5rem 0rem;
+        }
       }
     }
   }
