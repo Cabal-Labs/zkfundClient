@@ -17,5 +17,6 @@ module.exports = {
 	},
 	env: {
 		ALCHEMY_ID: process.env.ALCHEMY_ID,
+		WEB_STORAGE: process.env.WEB_STORAGE,
 	},
 };
