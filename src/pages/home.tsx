@@ -17,9 +17,7 @@ export default function Home(props) {
 	const [selectedCharity, setSelectedCharity] = useState<CharityCardProps>();
 	async function getCharities(search: string): Promise<CharityCardProps[]> {
 		setLoading(true);
-		console.log("getting Charities that match: ", search);
-		// const { data, status, ok } = await charityApi.search(search);
-		//mocked ^^ charityApi.search will return a list of charities that match the search param
+		// console.log("getting Charities that match: ", search);
 		const { data, status, ok } = await charitiesApi.getCharities({ search });
 		if (ok) {
 			// @ts-ignore
