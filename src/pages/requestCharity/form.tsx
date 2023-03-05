@@ -11,8 +11,11 @@ import {
 	Textarea,
 } from "@chakra-ui/react";
 import ZkModal from "@/components/zkModal";
-import charityApi from "@/lib/api/charity";
 import { Router, useRouter } from "next/router";
+import { makeFileObjects, storeFiles } from "@/lib/ipfs";
+import { useSigner } from "wagmi";
+import {InitCharity} from "@/lib/contracts";
+import { sign } from "crypto";
 
 export default function Charity(props) {
 	const router = useRouter();
@@ -23,6 +26,7 @@ export default function Charity(props) {
 	const [ein, setEin] = useState<string>("");
 	const [walletAddress, setWalletAddress] = useState<string>("");
 	const [additionalInfo, setAdditionalInfo] = useState<string>("");
+	const { data: signer, isLoading } = useSigner();
 
 	const [page, setPage] = useState<number>(1); // page can only be either 1 or 2
 	const [modal, setModal] = useState({
@@ -318,37 +322,48 @@ export default function Charity(props) {
 	};
 
 	async function handleSubmit() {
-		console.log("submit"); // TODO: add api call to backend to create charity request
+		if(!isLoading){
+			console.log("submit"); // TODO: add api call to backend to create charity request
+		
+			const body = {
+				location: countryCode,
+				description: description + "\nADDITIONAL INFO:\n" + additionalInfo,
+				website,
+				tags: [],
+				ein,
+				Validation: { Validated: "processing", Comments: [""], ValidatedAt: "" },
+			};
+			
+			const files = makeFileObjects(body);
+			const cid = await storeFiles(files);
 
-		const body = {
-			name,
-			location: countryCode,
-			description: description + "\nADDITIONAL INFO:\n" + additionalInfo,
-			website,
-			tags: [],
-			ein,
-			walletAddress,
-			Validation: { Validated: "processing", Comments: [""], ValidatedAt: "" },
-		};
-		const { data, status, ok } = await charityApi.createCharity(body);
-		console.log("STATUS: ", status);
-		console.log({ data });
-		if (ok) {
-			setModal({
-				visible: true,
-				isError: false,
-				title: "Thanks for your submission!",
-				content: (
-					<h6>
-						zk.fund relies on the support of users like you to continue adding
-						charities and organizations to the platform. In the spirit of
-						privacy and anonymity, we won’t be able to notify you whether the
-						organization you submitted was approved or denied. Just keep an eye
-						on the charities in the home screen. We try our best to handle all
-						validation requests within a few days. Thanks again!
-					</h6>
-				),
-			});
+			const charity = {
+				name: name,
+				charityAddress: walletAddress,
+				ownsWallet: true,
+				info: cid,
+			}
+
+			
+			const { data,  ok } = await InitCharity(charity, signer);
+			console.log({ data });
+			if (ok) {
+				setModal({
+					visible: true,
+					isError: false,
+					title: "Thanks for your submission!",
+					content: (
+						<h6>
+							zk.fund relies on the support of users like you to continue adding
+							charities and organizations to the platform. In the spirit of
+							privacy and anonymity, we won’t be able to notify you whether the
+							organization you submitted was approved or denied. Just keep an eye
+							on the charities in the home screen. We try our best to handle all
+							validation requests within a few days. Thanks again!
+						</h6>
+					),
+				});
+			}
 		}
 	}
 
