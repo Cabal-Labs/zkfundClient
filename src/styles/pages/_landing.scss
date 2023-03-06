@@ -63,6 +63,12 @@
 			}
 		}
 		#timeline {
+			// background: linear-gradient(
+			// 	to top,
+			// 	var.$foreground 0%,
+
+			// 	var.$background 100%
+			// );
 			@include flex-container(column, center, center, nowrap, 0, 1rem);
 			.content {
 				.timeline {
