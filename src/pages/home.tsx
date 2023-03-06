@@ -7,7 +7,7 @@ import { charityCards, charityDetails } from "@/lib/dummyData";
 import CharityDetails from "@/components/charity/charityDetails";
 import charitiesApi from "@/lib/api/charities";
 import { useToast } from "@chakra-ui/react";
-import { SearchCharities } from "@/lib/api/validation";
+import { SearchCharities } from "@/lib/api/graph";
 
 export default function Home(props) {
 	const toast = useToast();
@@ -21,7 +21,9 @@ export default function Home(props) {
 		setLoading(true);
 		// console.log("getting Charities that match: ", search);
 		// const { data, status, ok } = await charitiesApi.getCharities({ search });
-		const charities = await SearchCharities(search);
+		if (search !== "") {
+			const charities = await SearchCharities(search);
+		}
 		if (charities) {
 			setCharities(charities);
 		} else {
@@ -52,7 +54,7 @@ export default function Home(props) {
 							searchTerm={searchTerm}
 							setSearchTerm={setSearchTerm}
 						/>
-					
+
 						<RenderCharities
 							loading={loading}
 							charities={charities}
@@ -61,7 +63,7 @@ export default function Home(props) {
 						/>
 					</div>
 					<div id="results-container">
-						<CharityDetails  selectedCharity={selectedCharity} />
+						<CharityDetails selectedCharity={selectedCharity} />
 					</div>
 				</div>
 				<div className="shapes">

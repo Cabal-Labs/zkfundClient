@@ -1,5 +1,6 @@
 // handles api requests related to validating charities
 import { createClient } from "urql";
+import { retriveCharity as retrieveCharity } from "../ipfs";
 const APIURL =
 	"https://api.studio.thegraph.com/query/43431/zkfundrequests/v0.0.1";
 const client = createClient({
@@ -56,24 +57,32 @@ export async function GetVoteState(
 	return result.data.approveVotes;
 }
 export async function getCharityInfo(charityId: number) {
+	console.log("ID: ", charityId);
 	const query = `
     {
-        charityApproveds(where: {charityId: "${charityId}"}) {
+        charityCreateds(where: {charityId: "${charityId}"}) {
             id
             charityId
             name
             charityAddress
             status
+            info
         }
     }`;
 	let result = await client.query(query, { charityId }).toPromise();
-	console.log("in validation: ", result);
-	return result.data;
+	console.log(result);
+	let info = result.data.charityCreateds[0].info;
+
+	let charityInfo = await retrieveCharity(info);
+	console.log({ charityInfo });
+	let charity = { ...result.data.charityCreateds[0], ...charityInfo };
+	console.log("Charity: ", charity);
+	return charity;
 }
 
-export async function getPendingCharities(charityId: number) {
-    const status = 0;
-    const query = `
+export async function getPendingCharities() {
+	const status = 0;
+	const query = `
     {
         charityCreateds(where: {status: 0}) {
           info
@@ -84,14 +93,14 @@ export async function getPendingCharities(charityId: number) {
           charityAddress
         }
       }`;
-	let result = await client.query(query,{status}).toPromise();
+	let result = await client.query(query, { status }).toPromise();
 	console.log("in validation: ", result);
 	return result.data;
 }
 
 export async function getApprovedCharities(charityId: number) {
-    const status = 2;
-    const query = `
+	const status = 2;
+	const query = `
     {
         charityCreateds(where: {status: 2}) {
           info
@@ -107,8 +116,8 @@ export async function getApprovedCharities(charityId: number) {
 	return result.data;
 }
 export async function getDisapprovedCharities(charityId: number) {
-    const status = 1;
-    const query = `
+	const status = 1;
+	const query = `
     {
         charityCreateds(where: {status: 1}) {
           info
@@ -123,7 +132,6 @@ export async function getDisapprovedCharities(charityId: number) {
 	console.log("in validation: ", result);
 	return result.data;
 }
-
 
 // export async function GetCharityRequests() {
 // 	const query = `

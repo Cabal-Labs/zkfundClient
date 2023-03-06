@@ -86,6 +86,7 @@ const components = {
 				fontFamily: "Arvo",
 				fontWeight: "regular",
 				fontSize: "lg",
+				color: "white",
 				border: "solid 2px transparent",
 				borderRadius: "12px",
 				paddingLeft: "2rem",
@@ -151,6 +152,7 @@ const components = {
 					background: "transparent",
 					borderWidth: 2,
 					borderColor: colors.border,
+					color: colors.text,
 					_focus: {
 						borderColor: colors.primary,
 						borderWidth: 2,

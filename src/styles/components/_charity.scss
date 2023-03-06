@@ -26,8 +26,12 @@
 	}
 	.quick-info {
 		@include flex-container(row, flex-start, center, wrap, 1, 1.5rem);
+		width: 100%;
 		.info {
-			@include flex-container(row, flex-start, flex-start, nowrap, 0, 0.5rem);
+			@include flex-container(row, flex-start, flex-start, nowrap, 1, 0.5rem);
+			p {
+				flex: 1;
+			}
 		}
 	}
 	&.no-charity {

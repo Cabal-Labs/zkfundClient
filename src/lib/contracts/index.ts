@@ -115,6 +115,11 @@ async function GetVoteState(signer: Signer, charityId: number) {
 	}
 	return hasVoted;
 }
+async function GetCharityInfo(charityId: number, signer: Signer) {
+	const { CharitiesRegistry } = Contracts(signer);
+	const info = await CharitiesRegistry.getCharityInfo(charityId);
+	return info;
+}
 export {
 	InitCharity,
 	GetCharityVotes,
@@ -124,4 +129,5 @@ export {
 	ResolveCharities,
 	GetCharityRequests,
 	GetVoteState,
+	GetCharityInfo,
 };

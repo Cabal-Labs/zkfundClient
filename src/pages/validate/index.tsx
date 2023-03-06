@@ -3,7 +3,7 @@ import ScreenWrapper from "@/components/layout/screenWrapper";
 import RequestCard from "@/components/validate/requestCard";
 import { useSigner } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { GetAllCharities } from "@/lib/api/validation";
+import { GetAllCharities, getPendingCharities } from "@/lib/api/graph";
 
 export default function ValidatorPortal() {
 	const { data: signer, isLoading } = useSigner();
@@ -19,7 +19,6 @@ export default function ValidatorPortal() {
 		{
 			charityName: "Action Against Hunger",
 			charityWallet: "0x0000000",
-
 			charityId: 2,
 			charityDescription:
 				"We feed the hungry using food that would otherwise go to waste. We provide nutrition education and training to help communities become self-sufficient. We advocate for policies that protect people from hunger and malnutrition. We are a global movement of people working together to end hunger. We are Action Against Hunger. We also work in the United States to help people in need. We are a 501(c)(3) nonprofit organization.",
@@ -30,10 +29,10 @@ export default function ValidatorPortal() {
 		//todo: check if the signer is a validator
 
 		//todo: get charities from chain
-		let result = await GetAllCharities();
+		let result = await getPendingCharities();
 		console.log(result);
 		// todo: loop through charities and decrypt the info stored in ipfs, restructure the data at the same time
-		let _formattedCharities = charityRequests;
+		let _formattedCharities = [];
 		for (let i = 0; i < result.length; i++) {
 			let _charity = {
 				charityName: result[i].name,

@@ -1,4 +1,4 @@
-import { getCharityInfo } from "@/lib/api/validation";
+import { getCharityInfo } from "@/lib/api/graph";
 import Options from "@/lib/components/options";
 import Icon from "@/lib/icons";
 import { Avatar, Button } from "@chakra-ui/react";
@@ -11,9 +11,12 @@ export default function CharityDetails({ selectedCharity }) {
 
 	async function getCharity() {
 		console.log("getting charity info with id: ", selectedCharity);
-		let data = await getCharityInfo(selectedCharity);
-		console.log("data: ", data);
-		setData(data);
+		if (selectedCharity === undefined) return;
+		else {
+			let data = await getCharityInfo(selectedCharity);
+			console.log("data: ", data);
+			setData(data);
+		}
 	}
 	useEffect(() => {
 		getCharity();
@@ -44,7 +47,7 @@ export default function CharityDetails({ selectedCharity }) {
 					<div className="content">
 						<h2>{data?.name}</h2>
 						<h5 className="secondary">
-							<i>{data?.mission}</i>
+							<i>{data?.mission || "No mission"}</i>
 						</h5>
 					</div>
 				</div>
@@ -52,24 +55,22 @@ export default function CharityDetails({ selectedCharity }) {
 					<div className="quick-info">
 						<div className="info">
 							<Icon icon={"City"} title={"Location"} />
-							{data?.location}
+							<p>{data?.location || "No location"}</p>
 						</div>
 						<div className="info">
 							<Icon icon={"Link"} title={"Location"} />
-							{data?.website}
+							<p>{data?.website || "No website"}</p>
 						</div>
 						<div className="info">
 							<Icon icon={"Contact"} title={"Location"} />
-							{data?.contact}
+							<p>{data?.contact || "No contact"}</p>
 						</div>
 					</div>
-					<p className="description">{data?.description}</p>
+					<p className="description">{data?.description || "No Description"}</p>
 					<Button
 						variant={"outlined"}
 						onClick={() => {
-							router.push(`/donate`, {
-								query: { id: data?.id },
-							});
+							router.push(`/donate/${selectedCharity}`);
 						}}>
 						Donate to {data?.name}
 					</Button>
