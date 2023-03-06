@@ -26,7 +26,7 @@ export async function GetAllCharities() {
 export async function SearchCharities(search: string) {
 	const query = `
     {
-        charityCreateds(where: {name_contains: "${search}"}) {
+        charityCreateds(where: {name_starts_with_nocase: "${search}"}) {
             id
             charityAddress
             name
@@ -70,6 +70,61 @@ export async function getCharityInfo(charityId: number) {
 	console.log("in validation: ", result);
 	return result.data;
 }
+
+export async function getPendingCharities(charityId: number) {
+    const status = 0;
+    const query = `
+    {
+        charityCreateds(where: {status: 0}) {
+          info
+          name
+          id
+          status
+          charityId
+          charityAddress
+        }
+      }`;
+	let result = await client.query(query,{status}).toPromise();
+	console.log("in validation: ", result);
+	return result.data;
+}
+
+export async function getApprovedCharities(charityId: number) {
+    const status = 2;
+    const query = `
+    {
+        charityCreateds(where: {status: 2}) {
+          info
+          name
+          id
+          status
+          charityId
+          charityAddress
+        }
+      }`;
+	let result = await client.query(query, { status }).toPromise();
+	console.log("in validation: ", result);
+	return result.data;
+}
+export async function getDisapprovedCharities(charityId: number) {
+    const status = 1;
+    const query = `
+    {
+        charityCreateds(where: {status: 1}) {
+          info
+          name
+          id
+          status
+          charityId
+          charityAddress
+        }
+      }`;
+	let result = await client.query(query, { status }).toPromise();
+	console.log("in validation: ", result);
+	return result.data;
+}
+
+
 // export async function GetCharityRequests() {
 // 	const query = `
 //     {

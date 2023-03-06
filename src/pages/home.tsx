@@ -52,7 +52,7 @@ export default function Home(props) {
 							searchTerm={searchTerm}
 							setSearchTerm={setSearchTerm}
 						/>
-						{/* //todo: fix case sensitivity for search*/}
+					
 						<RenderCharities
 							loading={loading}
 							charities={charities}
@@ -61,7 +61,7 @@ export default function Home(props) {
 						/>
 					</div>
 					<div id="results-container">
-						<CharityDetails selectedCharity={selectedCharity} />
+						<CharityDetails  selectedCharity={selectedCharity} />
 					</div>
 				</div>
 				<div className="shapes">
