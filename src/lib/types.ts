@@ -1,10 +1,10 @@
 export type CharityCardProps = {
-	id: string;
+	id: number;
 	pic: string;
 	name: string;
 };
 export type CharityDataProps = {
-	id: string;
+	id: number;
 	pic?: string;
 	name: string;
 	description?: string;

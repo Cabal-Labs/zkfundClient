@@ -7,12 +7,20 @@ import { useContext, useEffect } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { useRouter } from "next/router";
 import { Context } from "@/lib/providers/provider";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Home() {
 	const router = useRouter();
 	const { setPubAddress } = useContext(Context);
 	const { address, isConnected } = useAccount();
 	//todo: important important! - fix wallet connect bug
+	function handleMainCTA() {
+		if (isConnected) {
+			router.push("/home");
+		} else {
+			useConnect();
+		}
+	}
 	useEffect(() => {
 		if (address && isConnected) {
 			setPubAddress(address);
@@ -28,13 +36,17 @@ export default function Home() {
 						<h3>powered by Aztec</h3>
 					</div>
 					<div className="cta">
-						<Button size={"lg"} variant={"contained"}>
-							Connect Wallet
+						<ConnectButton />
+						<Button
+							size={"lg"}
+							variant={"contained"}
+							onClick={() => handleMainCTA()}>
+							{isConnected ? "Go to Dashboard" : "Connect Wallet"}
 						</Button>
 						<a href="">What's a Wallet?</a>
 					</div>
 					<div className="footer">
-						<Icon icon={"ChevronDown"} size={60} />
+						<Icon icon={"ChevronDown"} size={60} className={"white"} />
 						<h4>Learn More</h4>
 					</div>
 				</div>

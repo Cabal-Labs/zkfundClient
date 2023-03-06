@@ -8,7 +8,7 @@ interface RenderProps {
 	loading: boolean;
 	charities: CharityCardProps[];
 	searchTerm: string;
-	setSelectedCharity: (charity: CharityCardProps) => void;
+	setSelectedCharity: (charity: number) => void;
 }
 export default function RenderCharities({
 	loading,
@@ -26,11 +26,11 @@ export default function RenderCharities({
 		// navigate to a page that will allow the user to request a charity to be added
 		router.push({ pathname: "./requestCharity", query: { searchTerm } });
 	}
-	function handleClick(item: CharityCardProps) {
+	function handleClick(item) {
 		//set selected charity
 		setOpen(false);
 		console.log(item);
-		setSelectedCharity(item);
+		setSelectedCharity(item.charityId);
 	}
 
 	const [open, setOpen] = useState<boolean>(false);

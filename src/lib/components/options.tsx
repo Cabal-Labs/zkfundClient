@@ -8,7 +8,7 @@ import {
 import { OptionProps } from "../../lib/types";
 import Icon from "../../lib/icons";
 type OptionsProps = {
-	id: string;
+	id: number;
 	options?: OptionProps[];
 	size?: number;
 };

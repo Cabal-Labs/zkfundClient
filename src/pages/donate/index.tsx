@@ -9,19 +9,20 @@ import { useSigner } from "wagmi";
 export default function Donate(props: any) {
 	const [amount, setAmount] = useState("");
 	const router = useRouter();
-	const id: string = router.query.id as string;
-  const { data: signer,isLoading } = useSigner()
+	const id = router.query.id;
+	console.log("id: ", id);
+
+	const { data: signer, isLoading } = useSigner();
 	async function donate() {
 		// send amount to charity
-    if (isLoading) return null;
-    else if (!signer) return null;
-    else {
-      const _amount: BigNumber = ethers.utils.parseEther(amount);
-      const charityId : number = 1; 
-      const result = await MakeDonation(1, _amount, signer);
-      console.log(result);
-     
-    }
+		if (isLoading) return null;
+		else if (!signer) return null;
+		else {
+			const _amount: BigNumber = ethers.utils.parseEther(amount);
+			const charityId: number = 1;
+			const result = await MakeDonation(charityId, _amount, signer);
+			console.log(result);
+		}
 	}
 	return (
 		<ScreenWrapper className="donate-page" title={"zk.fund Home"}>

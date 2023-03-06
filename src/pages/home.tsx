@@ -7,6 +7,7 @@ import { charityCards, charityDetails } from "@/lib/dummyData";
 import CharityDetails from "@/components/charity/charityDetails";
 import charitiesApi from "@/lib/api/charities";
 import { useToast } from "@chakra-ui/react";
+import { SearchCharities } from "@/lib/api/validation";
 
 export default function Home(props) {
 	const toast = useToast();
@@ -14,19 +15,21 @@ export default function Home(props) {
 
 	const [loading, setLoading] = useState<boolean>(false);
 	const [charities, setCharities] = useState<CharityCardProps[]>([]);
-	const [selectedCharity, setSelectedCharity] = useState<CharityCardProps>();
+	const [selectedCharity, setSelectedCharity] = useState<number>();
 	async function getCharities(search: string): Promise<CharityCardProps[]> {
 		setLoading(true);
 		// console.log("getting Charities that match: ", search);
-		const { data, status, ok } = await charitiesApi.getCharities({ search });
-		if (ok) {
-			// @ts-ignore
-			if (data?.data.data === null) {
-				setCharities([]);
-			} else {
-				// @ts-ignore
-				setCharities(data?.data.data);
-			}
+		// const { data, status, ok } = await charitiesApi.getCharities({ search });
+		const charities = await SearchCharities(search);
+		if (charities) {
+			setCharities(charities);
+			// // @ts-ignore
+			// if (data?.data.data === null) {
+			// 	setCharities([]);
+			// } else {
+			// 	// @ts-ignore
+			// 	setCharities(data?.data.data);
+			// }
 		} else {
 			// show an error toast saying something went wrong
 			setCharities([]);
@@ -41,7 +44,7 @@ export default function Home(props) {
 		console.log("charities: ", charities);
 		setLoading(false);
 		// @ts-ignore
-		return data.data.data;
+		return charities;
 	}
 	type HeaderProps = {
 		title: string;
@@ -60,6 +63,7 @@ export default function Home(props) {
 							searchTerm={searchTerm}
 							setSearchTerm={setSearchTerm}
 						/>
+						{/* //todo: fix case sensitivity for search*/}
 						<RenderCharities
 							loading={loading}
 							charities={charities}
@@ -68,7 +72,7 @@ export default function Home(props) {
 						/>
 					</div>
 					<div id="results-container">
-						<CharityDetails {...selectedCharity} />
+						<CharityDetails selectedCharity={selectedCharity} />
 					</div>
 				</div>
 				<div className="shapes">
