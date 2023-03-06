@@ -2,7 +2,6 @@
 
 .styled-icon-base {
 	color: var.$text !important;
-	// background-color: red;
 
 	&.inline {
 		display: inline;
@@ -34,10 +33,7 @@
 	&.danger {
 		color: var.$danger;
 	}
-	&.favorite,
-	&.yellow {
-		color: var.$yellow;
-	}
+
 	&.inline {
 		display: inline;
 		margin-bottom: -0.3rem;

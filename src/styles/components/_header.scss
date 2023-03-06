@@ -3,6 +3,7 @@
 #app-header {
 	padding: 0.5rem 1rem;
 	background-color: var.$foreground;
+	z-index: 2;
 	@include flex-container(row, space-between, center, nowrap, 1, 1rem);
 	.logo {
 		@include flex-container(row, flex-start, center, nowrap, auto, 0.5rem);

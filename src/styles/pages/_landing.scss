@@ -11,6 +11,7 @@
 			@include flex-container(column, space-between, center, nowrap, 1, 5rem);
 			height: 100%;
 			text-align: center;
+
 			.cta {
 				@include flex-container(column, center, center, nowrap, 0, 1.5rem);
 				.chakra-button {

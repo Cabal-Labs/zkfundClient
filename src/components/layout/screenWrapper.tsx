@@ -1,6 +1,7 @@
 import Header from "./header";
 import Footer from "./footer";
 import DefaultHead from "../meta/defaultHead";
+import { useEffect, useState } from "react";
 interface ScreenWrapperProps {
 	children?: React.ReactNode;
 	layout?:
@@ -20,6 +21,7 @@ export type PageProps<T> = {
 	status: number;
 	error: string;
 };
+
 export default function ScreenWrapper({
 	children,
 	layout,

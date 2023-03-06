@@ -8,7 +8,38 @@ import { Provider } from "@/lib/providers/provider";
 import chakraTheme from "@/styles/chakraTheme";
 import { WagmiConfig } from "wagmi";
 import { chains, wagmiClient } from "@/lib/rainbowKit/config";
+import { useEffect, useState } from "react";
+function useMousePosition() {
+	const [position, setPosition] = useState({ x: 0, y: 0 });
 
+	useEffect(() => {
+		function handleMouseMove(event) {
+			setPosition({ x: event.clientX, y: event.clientY });
+		}
+
+		document.addEventListener("mousemove", handleMouseMove);
+
+		return () => {
+			document.removeEventListener("mousemove", handleMouseMove);
+		};
+	}, []);
+
+	return position;
+}
+
+function MouseFollower() {
+	const { x, y } = useMousePosition();
+
+	return (
+		<div
+			className="app-blob"
+			style={{
+				position: "absolute",
+				left: `${x}px`,
+				top: `${y}px`,
+			}}></div>
+	);
+}
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<WagmiConfig client={wagmiClient}>
@@ -26,6 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
 								}
 							`}</style>
 							<Component {...pageProps} />
+							<MouseFollower />
 						</div>
 					</Provider>
 				</ChakraProvider>
