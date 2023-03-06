@@ -29,7 +29,7 @@ export default function RenderCharities({
 	function handleClick(item) {
 		//set selected charity
 		setOpen(false);
-		console.log(item);
+		console.log("onclick: ", item);
 		setSelectedCharity(item.charityId);
 	}
 
@@ -44,7 +44,7 @@ export default function RenderCharities({
 	} else if (charities?.length === 0 && searchTerm.length > 0) {
 		return (
 			<div className="render-charities no-charities">
-				No Charities Match Your Search
+				<p>No Charities Match Your Search</p>
 				<Button onClick={() => handleNavigate()}>
 					Request "{searchTerm}" to be added!
 				</Button>

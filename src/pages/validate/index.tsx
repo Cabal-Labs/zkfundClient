@@ -33,7 +33,7 @@ export default function ValidatorPortal() {
 		let result = await GetAllCharities();
 		console.log(result);
 		// todo: loop through charities and decrypt the info stored in ipfs, restructure the data at the same time
-		let _formattedCharities = [];
+		let _formattedCharities = charityRequests;
 		for (let i = 0; i < result.length; i++) {
 			let _charity = {
 				charityName: result[i].name,
@@ -74,7 +74,7 @@ export default function ValidatorPortal() {
 							<ConnectButton />
 						</>
 					)}
-					{!isLoading && signer && (
+					{!charitiesLoading && signer && (
 						<>
 							{charityRequests.map((request) => (
 								<RequestCard {...request} signer={signer} />

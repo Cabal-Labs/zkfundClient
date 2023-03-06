@@ -11,11 +11,12 @@ import { SearchCharities } from "@/lib/api/validation";
 
 export default function Home(props) {
 	const toast = useToast();
-	const [searchTerm, setSearchTerm] = useState<string>("");
 
+	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 	const [charities, setCharities] = useState<CharityCardProps[]>([]);
 	const [selectedCharity, setSelectedCharity] = useState<number>();
+
 	async function getCharities(search: string): Promise<CharityCardProps[]> {
 		setLoading(true);
 		// console.log("getting Charities that match: ", search);
@@ -23,16 +24,9 @@ export default function Home(props) {
 		const charities = await SearchCharities(search);
 		if (charities) {
 			setCharities(charities);
-			// // @ts-ignore
-			// if (data?.data.data === null) {
-			// 	setCharities([]);
-			// } else {
-			// 	// @ts-ignore
-			// 	setCharities(data?.data.data);
-			// }
 		} else {
-			// show an error toast saying something went wrong
 			setCharities([]);
+			// show an error toast saying something went wrong
 			toast({
 				title: "Error",
 				description: "Something went wrong",
@@ -41,15 +35,10 @@ export default function Home(props) {
 				isClosable: true,
 			});
 		}
-		console.log("charities: ", charities);
 		setLoading(false);
-		// @ts-ignore
 		return charities;
 	}
-	type HeaderProps = {
-		title: string;
-		children: React.ReactNode;
-	};
+
 	useEffect(() => {
 		console.log("selectedCharity: ", selectedCharity);
 	}, [selectedCharity]);

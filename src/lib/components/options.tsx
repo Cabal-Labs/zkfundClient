@@ -20,7 +20,7 @@ export default function Options({ id, options, size = 20 }: OptionsProps) {
 				alert("reported");
 		}
 	}
-	console.log({ options });
+	// console.log({ options });
 
 	return (
 		<div className="options">

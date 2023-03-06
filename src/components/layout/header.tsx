@@ -7,7 +7,7 @@ export default function Header() {
 	const router = useRouter();
 	return (
 		<header id={"app-header"}>
-			<div className="logo" onClick={() => router.push("/home")}>
+			<div className="logo" onClick={() => router.push("/")}>
 				<Image
 					src="/zkfundlogo_white.png"
 					alt="ZK.Fund"
@@ -18,6 +18,14 @@ export default function Header() {
 			</div>
 			<div className="right">
 				<Button
+					size="sm"
+					onClick={() => {
+						router.push("/home");
+					}}>
+					Search Charities
+				</Button>
+				<Button
+					size="sm"
 					onClick={() => {
 						router.push("/validate");
 					}}>

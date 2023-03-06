@@ -1,6 +1,7 @@
 // handles api requests related to validating charities
 import { createClient } from "urql";
-const APIURL = "https://api.studio.thegraph.com/query/43431/zkfundv1/v0.0.1";
+const APIURL =
+	"https://api.studio.thegraph.com/query/43431/zkfundrequests/v0.0.1";
 const client = createClient({
 	url: APIURL,
 });
@@ -66,7 +67,7 @@ export async function getCharityInfo(charityId: number) {
         }
     }`;
 	let result = await client.query(query, { charityId }).toPromise();
-	console.log(result);
+	console.log("in validation: ", result);
 	return result.data;
 }
 // export async function GetCharityRequests() {

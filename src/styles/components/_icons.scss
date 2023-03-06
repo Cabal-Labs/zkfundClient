@@ -1,7 +1,8 @@
 @use "../var";
 
 .styled-icon-base {
-	color: var.$text;
+	color: var.$text !important;
+	// background-color: red;
 
 	&.inline {
 		display: inline;

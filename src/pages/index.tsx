@@ -21,29 +21,35 @@ export default function Home() {
 			useConnect();
 		}
 	}
-	useEffect(() => {
-		if (address && isConnected) {
-			setPubAddress(address);
-			router.push("/home");
-		}
-	}, [address, isConnected]);
+	// useEffect(() => {
+	// 	if (address && isConnected) {
+	// 		setPubAddress(address);
+	// 		router.push("/home");
+	// 	}
+	// }, [address, isConnected]);
 	return (
 		<ScreenWrapper title={"Welcome to zk.fund"} className="landing-page">
 			<main>
 				<div id="landing">
 					<div className="title">
-						<h1>Donate Anonymously</h1>
+						<h1>Donations are your Right</h1>
 						<h3>powered by Aztec</h3>
 					</div>
 					<div className="cta">
 						<ConnectButton />
-						<Button
+						{/* <Button
 							size={"lg"}
 							variant={"contained"}
 							onClick={() => handleMainCTA()}>
 							{isConnected ? "Go to Dashboard" : "Connect Wallet"}
-						</Button>
-						<a href="">What's a Wallet?</a>
+						</Button> */}
+						{!isConnected ? (
+							<a href="https://metamask.io/" target={"_blank"}>
+								What's a Wallet?
+							</a>
+						) : (
+							<></>
+						)}
 					</div>
 					<div className="footer">
 						<Icon icon={"ChevronDown"} size={60} className={"white"} />

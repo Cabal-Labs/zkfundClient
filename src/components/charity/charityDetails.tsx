@@ -13,6 +13,7 @@ export default function CharityDetails({ selectedCharity }) {
 		console.log("getting charity info with id: ", selectedCharity);
 		let data = await getCharityInfo(selectedCharity);
 		console.log("data: ", data);
+		setData(data);
 	}
 	useEffect(() => {
 		getCharity();
@@ -39,11 +40,11 @@ export default function CharityDetails({ selectedCharity }) {
 				<Options id={selectedCharity} />
 
 				<div className="header">
-					<Avatar src={data.pic} size="lg" />
+					<Avatar src={data?.pic} size="lg" />
 					<div className="content">
-						<h2>{data.name}</h2>
+						<h2>{data?.name}</h2>
 						<h5 className="secondary">
-							<i>{data.mission}</i>
+							<i>{data?.mission}</i>
 						</h5>
 					</div>
 				</div>
@@ -51,26 +52,26 @@ export default function CharityDetails({ selectedCharity }) {
 					<div className="quick-info">
 						<div className="info">
 							<Icon icon={"City"} title={"Location"} />
-							{data.location}
+							{data?.location}
 						</div>
 						<div className="info">
 							<Icon icon={"Link"} title={"Location"} />
-							{data.website}
+							{data?.website}
 						</div>
 						<div className="info">
 							<Icon icon={"Contact"} title={"Location"} />
-							{data.contact}
+							{data?.contact}
 						</div>
 					</div>
-					<p className="description">{data.description}</p>
+					<p className="description">{data?.description}</p>
 					<Button
 						variant={"outlined"}
 						onClick={() => {
 							router.push(`/donate`, {
-								query: { id: data.id },
+								query: { id: data?.id },
 							});
 						}}>
-						Donate to {data.name}
+						Donate to {data?.name}
 					</Button>
 				</div>
 			</div>
