@@ -4,8 +4,11 @@ import RequestCard from "@/components/validate/requestCard";
 import { useSigner } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { GetAllCharities, getPendingCharities } from "@/lib/api/graph";
+import { Button } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 export default function ValidatorPortal() {
+	const router = useRouter();
 	const { data: signer, isLoading } = useSigner();
 	const [charitiesLoading, setCharitiesLoading] = useState(false);
 	const [charityRequests, setCharityRequests] = useState([
@@ -63,6 +66,20 @@ export default function ValidatorPortal() {
 						<h6>
 							Validate any pending requests to add charities to the platform!
 						</h6>
+						<p>
+							We are still in development, and are only allowing US based
+							charities found in the IRS database that also own a public crypto
+							wallet. Learn more about our milestones and how we plan on
+							expanding zk.fund
+						</p>
+						<Button
+							variant={"outlined"}
+							size="sm"
+							onClick={() => {
+								router.push("/#timeline");
+							}}>
+							Learn More
+						</Button>
 					</div>
 					{/* map this */}
 					{isLoading && <div>Loading validator credentials...</div>}

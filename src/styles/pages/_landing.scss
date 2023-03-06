@@ -5,6 +5,10 @@
 	main {
 		height: 100%;
 		overflow: scroll;
+		// hide scroll bars
+		&::-webkit-scrollbar {
+			display: none;
+		}
 		#landing {
 			padding-top: 20%;
 			padding-bottom: 5%;
@@ -14,6 +18,11 @@
 
 			.cta {
 				@include flex-container(column, center, center, nowrap, 0, 1.5rem);
+				//first child
+				& > *:first-child {
+					transform: scale(2);
+					margin-bottom: 1rem;
+				}
 				.chakra-button {
 					transform: scale(1.5);
 				}
@@ -51,6 +60,35 @@
 				border-radius: 0.5rem;
 				overflow: hidden;
 				grid-area: picture;
+			}
+		}
+		#timeline {
+			@include flex-container(column, center, center, nowrap, 0, 1rem);
+			.content {
+				.timeline {
+					&::after {
+						content: "";
+						height: 1000px;
+						width: 50px;
+						background-color: var.$text;
+					}
+					.timeline-item {
+						&.even {
+							// background-color: red;
+						}
+						&.odd {
+							// background-color: blue;
+						}
+						.timeline-item-content {
+						}
+						.dot {
+							background-color: var.$text;
+							height: 1rem;
+							width: 1rem;
+							border-radius: 50%;
+						}
+					}
+				}
 			}
 		}
 	}

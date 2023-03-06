@@ -27,6 +27,28 @@ export default function Home() {
 	// 		router.push("/home");
 	// 	}
 	// }, [address, isConnected]);
+	const timelineItems = [
+		{
+			title: "Team Formation",
+			description: "We formed a team of 5 people",
+			status: "done",
+		},
+		{
+			title: "Proof of Concept",
+			description: "Charity",
+			status: "done",
+		},
+		{
+			title: "Process Donation",
+			description: "Charity",
+			status: "done",
+		},
+		{
+			title: "Process Donation Using Aztec",
+			description: "Charity",
+			status: "done",
+		},
+	];
 	return (
 		<ScreenWrapper title={"Welcome to zk.fund"} className="landing-page">
 			<main>
@@ -36,13 +58,16 @@ export default function Home() {
 						<h3>powered by Aztec</h3>
 					</div>
 					<div className="cta">
-						<ConnectButton />
-						{/* <Button
-							size={"lg"}
-							variant={"contained"}
-							onClick={() => handleMainCTA()}>
-							{isConnected ? "Go to Dashboard" : "Connect Wallet"}
-						</Button> */}
+						{isConnected ? (
+							<Button
+								size={"lg"}
+								variant={"contained"}
+								onClick={() => handleMainCTA()}>
+								Go to Dashboard
+							</Button>
+						) : (
+							<ConnectButton />
+						)}
 						{!isConnected ? (
 							<a href="https://metamask.io/" target={"_blank"}>
 								What's a Wallet?
@@ -127,6 +152,29 @@ export default function Home() {
 							objectFit={"cover"}
 							objectPosition={"center"}
 						/>
+					</div>
+				</section>
+				<section id="timeline">
+					<div className="content">
+						<h2>Our Timeline</h2>
+						<div className="timeline">
+							<div className="line"></div>
+							{timelineItems.map((item, index) => {
+								return (
+									<div
+										className={`timeline-item ${item.status} ${
+											index % 2 === 0 ? "even" : "odd"
+										}`}
+										key={index}>
+										<div className="timeline-item-content">
+											<h3>{item.title}</h3>
+											<p>{item.description}</p>
+										</div>
+										<div className="dot"></div>
+									</div>
+								);
+							})}
+						</div>
 					</div>
 				</section>
 			</main>
