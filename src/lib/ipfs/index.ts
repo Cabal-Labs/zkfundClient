@@ -42,8 +42,9 @@ function ipfsToHTTP(cid: string) {
 }
 
 async function retrieveCharity(cid: string) {
+	const _cid = ipfsToHTTP(cid);
 	try {
-		const res = await fetch(cid);
+		const res = await fetch(_cid);
 		const data = await res.json();
 		return data;
 	} catch (e) {

@@ -18,27 +18,29 @@ export default function Home(props) {
 	const [selectedCharity, setSelectedCharity] = useState<number>();
 
 	async function getCharities(search: string): Promise<CharityCardProps[]> {
-		setLoading(true);
+		
 		// console.log("getting Charities that match: ", search);
 		// const { data, status, ok } = await charitiesApi.getCharities({ search });
 		if (search !== "") {
+			setLoading(true);
 			const charities = await SearchCharities(search);
-		}
-		if (charities) {
-			setCharities(charities);
-		} else {
-			setCharities([]);
-			// show an error toast saying something went wrong
-			toast({
-				title: "Error",
-				description: "Something went wrong",
-				status: "error",
-				duration: 5000,
-				isClosable: true,
-			});
+			if (charities) {
+				setCharities(charities);
+			} else {
+				setCharities([]);
+				// show an error toast saying something went wrong
+				toast({
+					title: "Error",
+					description: "Something went wrong",
+					status: "error",
+					duration: 5000,
+					isClosable: true,
+				});
+			}
+			setLoading(false);
+			return charities;
 		}
 		setLoading(false);
-		return charities;
 	}
 
 	useEffect(() => {

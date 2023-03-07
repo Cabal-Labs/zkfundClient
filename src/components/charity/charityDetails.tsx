@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 export default function CharityDetails({ selectedCharity }) {
 	const router = useRouter();
 	const [data, setData] = useState({} as any);
+	const [pending, setPending] = useState(true);
 
 	async function getCharity() {
 		console.log("getting charity info with id: ", selectedCharity);
@@ -16,6 +17,9 @@ export default function CharityDetails({ selectedCharity }) {
 			let data = await getCharityInfo(selectedCharity);
 			console.log("data: ", data);
 			setData(data);
+			if(data?.status == 0){
+				setPending(false);
+			}
 		}
 	}
 	useEffect(() => {
@@ -68,9 +72,10 @@ export default function CharityDetails({ selectedCharity }) {
 					</div>
 					<p className="description">{data?.description || "No Description"}</p>
 					<Button
+						disabled={pending}
 						variant={"outlined"}
 						onClick={() => {
-							router.push(`/donate/${selectedCharity}`);
+							pending && router.push(`/donate/${selectedCharity}`);
 						}}>
 						Donate to {data?.name}
 					</Button>

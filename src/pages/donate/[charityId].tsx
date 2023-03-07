@@ -24,6 +24,8 @@ export default function Donate(props: any) {
 	const { data: signer, isLoading } = useSigner();
 	const [charityData, setCharityData] = useState(null);
 	const [charityLoading, setCharityLoading] = useState(false);
+	const [ethPrice, setEthPrice] = useState("0.00");
+	const [timer, setTimer] = useState(null)
 
 	const [amount, setAmount] = useState("");
 	const [modal, setModal] = useState({
@@ -73,6 +75,39 @@ export default function Donate(props: any) {
 		console.log(data);
 		setCharityLoading(false);
 	}
+	async function ETHPrice(amount: string) {
+		const res = await fetch(`https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.ETHSCAN_KEY}}`);
+		const data = await res.json();
+		console.log(data.result.ethusd);
+		const price = parseFloat(data.result.ethusd);
+		console.log(price);
+		const _amount = parseFloat(amount);
+		const total = price * _amount;
+
+
+		return total.toPrecision(6);
+	}
+	async function handleAmount(amount: string) {
+		// handle amount input
+		setAmount(amount);
+
+		clearTimeout(timer)
+
+		const newTimer = setTimeout(async () => {
+			if(amount !== ""){
+				const price = await ETHPrice(amount);
+				setEthPrice(price);
+				console.log(price);
+			}else{
+				setEthPrice("0.00");
+			}
+		}, 500)
+
+		setTimer(newTimer)
+
+
+
+	}
 	useEffect(() => {
 		getCharity();
 	}, [charityId]);
@@ -100,7 +135,7 @@ export default function Donate(props: any) {
 									id="select-value-input"
 									variant={"underlined"}
 									value={amount}
-									onChange={(e: any) => setAmount(e.target.value)}
+									onChange={(e: any) => {handleAmount(e.target.value)}}
 								/>
 								<InputRightElement>
 									<h4>ETH</h4>
@@ -112,7 +147,7 @@ export default function Donate(props: any) {
 							</Button> */}
 						</div>
 						<h6 className="secondary">
-							~$0.00
+							~${	ethPrice}
 							{/* //todo: Marco */}
 						</h6>
 					</div>
