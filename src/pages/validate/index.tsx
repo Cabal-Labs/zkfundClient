@@ -33,18 +33,20 @@ export default function ValidatorPortal() {
 
 		//todo: get charities from chain
 		let result = await getPendingCharities();
-		console.log(result);
+		console.log("this", result.charityCreateds);
+
 		// todo: loop through charities and decrypt the info stored in ipfs, restructure the data at the same time
 		let _formattedCharities = [];
-		for (let i = 0; i < result.length; i++) {
+		for (let i = 0; i < result.charityCreateds.length; i++) {
 			let _charity = {
-				charityName: result[i].name,
-				charityId: result[i].charityId,
-				charityWallet: result[i].charityAddress,
-				charityDescription: result[i].description,
+				charityName: result.charityCreateds[i].name,
+				charityId: result.charityCreateds[i].charityId,
+				charityWallet: result.charityCreateds[i].charityAddress,
+				charityDescription: result.charityCreateds[i].description,
 			};
 			_formattedCharities.push(_charity);
 		}
+		console.log(`formateed`, _formattedCharities);
 
 		setCharityRequests(_formattedCharities);
 		setCharitiesLoading(false);

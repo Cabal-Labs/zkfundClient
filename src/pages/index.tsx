@@ -29,24 +29,38 @@ export default function Home() {
 	// }, [address, isConnected]);
 	const timelineItems = [
 		{
+			date: "Sept '22",
 			title: "Team Formation",
-			description: "We formed a team of 5 people",
-			status: "done",
+			description:
+				"The zk.fund team came together to through the Stevens Institute of Technology Senior Design Program. Team members Brendan, Amit, Christian, and Marcos had worked together in the past and were excited to begin working on issues in the donation space.",
+			status: "Done",
 		},
 		{
-			title: "Proof of Concept",
-			description: "Charity",
-			status: "done",
+			date: "Sept '22 - November '22",
+			title: "ClearFund",
+			description:
+				"Initially, the team was called ClearFund and the problem we were focusing on was a lack of transparency during the donation process. Though, after interviewing charities we realized that each organization has its own policies and procedures and it would be difficult ot build a system that would work well with enough charities.",
+			status: "Done",
 		},
 		{
-			title: "Process Donation",
-			description: "Charity",
-			status: "done",
+			date: "November '22",
+			title: "Pivot to zk.fund",
+			description:
+				"Marco found a bounty from the Aztec Network for an Anonymous Donation Portal. We liked that this still related to the charity space, but had a clearer problem and solution. People around the world are unable to donate to causes they care about because of oppressive rules or social taboo. We believe that it a right to be able to donate to causes you care about.",
+			status: "Done",
 		},
 		{
-			title: "Process Donation Using Aztec",
-			description: "Charity",
-			status: "done",
+			date: "Novemner '22 - May '23",
+			title: "Building an MPV",
+			description:
+				"We are in the process of building our first version of zk.fund. At release, users will be able to donate to charities that have been verified by the zk.fund team. Users can also request new charities to be added, which will be handled by the zk.fund team. We are aware that only real charities can be allowed, else we risk allowing evil actors to use zk.fund to launder money. We are working on a solution to this problem and will be releasing it in the future.",
+			status: "in-progress",
+		},
+		{
+			date: "May '23 - Future",
+			title: "Open Source",
+			description: `After graduation, we plan on working with Cabal Labs to open source this project. We hope that this will allow us to continue to work on zk.fund and allow others to contribute to the validator network, and grow our list of charities.`,
+			status: "todo",
 		},
 	];
 	return (
@@ -166,17 +180,27 @@ export default function Home() {
 											index % 2 === 0 ? "even" : "odd"
 										}`}
 										key={index}>
+										<div className="dot"></div>
 										<div className="timeline-item-content">
-											<h3>{item.title}</h3>
+											<div className="title">
+												<h3>{item.title}</h3>
+												<div className="status">{item.status}</div>
+											</div>
+											<h6>{item.date}</h6>
+											<hr />
 											<p>{item.description}</p>
 										</div>
-										<div className="dot"></div>
 									</div>
 								);
 							})}
 						</div>
 					</div>
 				</section>
+				<h4 className="center pb">
+					Interested in contribuing? Email us at{" "}
+					<a href={"mailto:zkfundproject@gmail.com"}>zkfundproject@gmail.com</a>
+					!
+				</h4>
 			</main>
 		</ScreenWrapper>
 	);

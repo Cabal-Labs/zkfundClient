@@ -113,7 +113,7 @@ export async function getApprovedCharities(charityId: number) {
       }`;
 	let result = await client.query(query, { status }).toPromise();
 	console.log("in validation: ", result);
-	return result.data;
+	return result.data.charityCreateds;
 }
 export async function getDisapprovedCharities(charityId: number) {
 	const status = 1;
