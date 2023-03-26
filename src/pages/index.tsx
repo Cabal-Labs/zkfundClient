@@ -55,7 +55,7 @@ export default function Home() {
 				<div id="landing">
 					<div className="title">
 						<h1>Donations are your Right</h1>
-						<h3>powered by Aztec</h3>
+						<h3>powered by ZKSync</h3>
 					</div>
 					<div className="cta">
 						{isConnected ? (
