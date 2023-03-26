@@ -79,7 +79,7 @@ export default function RequestCard({
 					<h5>
 						{votesApprove} / {votesDisapprove}
 					</h5>
-					<p>{hasVoted.toString()}</p>
+					{/* <p>{hasVoted.toString()}</p> */}
 					<h3>{charityName}</h3>
 					<h6 className="secondary">{charityWallet}</h6>
 					<p>{charityDescription}</p>
@@ -107,7 +107,7 @@ export default function RequestCard({
 					</div>
 					<Button
 						onClick={() => approve()}
-						isDisabled={!canValidate}
+						// isDisabled={!canValidate}
 						// disabled if approval percentage is less than 80%
 					>
 						Approve
