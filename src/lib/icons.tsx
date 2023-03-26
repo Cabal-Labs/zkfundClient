@@ -43,7 +43,7 @@ import {
 	NotificationsOff,
 	Search,
 } from "@styled-icons/material-rounded";
-
+import { Incognito } from "@styled-icons/fluentui-system-filled/Incognito";
 interface IconProps {
 	icon: string;
 	className?: string;
@@ -104,6 +104,8 @@ export default function Icon(props: IconProps) {
 						return <Inbox size={size} title={title} />;
 					case "IosShare":
 						return <IosShare size={size} title={title} />;
+					case "Incognito":
+						return <Incognito size={size} title={title} />;
 					case "LightMode":
 						return <LightMode size={size} title={title} />;
 					case "Link":

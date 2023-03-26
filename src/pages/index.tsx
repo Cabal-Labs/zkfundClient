@@ -14,11 +14,25 @@ export default function Home() {
 	const { setPubAddress } = useContext(Context);
 	const { address, isConnected } = useAccount();
 	//todo: important important! - fix wallet connect bug
-	function handleMainCTA() {
+	function handleMainCTA({ isAnnon }) {
 		if (isConnected) {
-			router.push("/home");
+			if (!isAnnon) {
+				router.push("/home");
+			}
 		} else {
 			useConnect();
+		}
+	}
+	function isCharity(address: string) {
+		// checks with the graph if the address is a valid charity
+		return true;
+	}
+	function handleCharityPortal() {
+		if (isConnected) {
+			if (isCharity(address)) {
+				router.push(`/charity/${address}`);
+			} else {
+			}
 		}
 	}
 	// useEffect(() => {
@@ -39,7 +53,7 @@ export default function Home() {
 			date: "Sept '22 - November '22",
 			title: "ClearFund",
 			description:
-				"Initially, the team was called ClearFund and the problem we were focusing on was a lack of transparency during the donation process. Though, after interviewing charities we realized that each organization has its own policies and procedures and it would be difficult ot build a system that would work well with enough charities.",
+				"Initially, the team was called ClearFund and the problem we were focusing on was a lack of transparency during the donation process. Though, after interviewing charities we realized that each organization has its own policies and procedures and it would be difficult ot build a system that would work well with enough charities. We considered shifting our focus.",
 			status: "Done",
 		},
 		{
@@ -63,22 +77,50 @@ export default function Home() {
 			status: "todo",
 		},
 	];
+
 	return (
 		<ScreenWrapper title={"Welcome to zk.fund"} className="landing-page">
 			<main>
 				<div id="landing">
 					<div className="title">
 						<h1>Donations are your Right</h1>
-						<h3>powered by Aztec</h3>
+						<h3>powered by Polygon zkEVM</h3>
 					</div>
 					<div className="cta">
 						{isConnected ? (
-							<Button
-								size={"lg"}
-								variant={"contained"}
-								onClick={() => handleMainCTA()}>
-								Go to Dashboard
-							</Button>
+							<div>
+								<div className="top">
+									<Button
+										size={"md"}
+										variant={"contained"}
+										onClick={() => handleMainCTA({ isAnnon: false })}
+										leftIcon={<Icon icon={"DonateHeart"} size={20} />}>
+										Donate
+									</Button>
+									<div>
+										<p className="secondary">Coming Soon!</p>
+										<Button
+											size={"md"}
+											isDisabled
+											variant={"contained"}
+											onClick={() => handleMainCTA({ isAnnon: true })}
+											leftIcon={<Icon icon={"Incognito"} size={20} />}>
+											Donate Anonymously
+										</Button>
+									</div>
+								</div>
+								{isCharity(address) ? (
+									<Button
+										size={"sm"}
+										variant={"outlined"}
+										onClick={() => handleCharityPortal()}
+										leftIcon={<Icon icon={"Group"} size={20} />}>
+										Enter Charity Portal
+									</Button>
+								) : (
+									<></>
+								)}
+							</div>
 						) : (
 							<ConnectButton />
 						)}

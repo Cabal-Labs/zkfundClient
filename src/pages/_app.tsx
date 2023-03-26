@@ -8,11 +8,11 @@ import { Provider } from "@/lib/providers/provider";
 import chakraTheme from "@/styles/chakraTheme";
 import { WagmiConfig } from "wagmi";
 import { chains, wagmiClient } from "@/lib/rainbowKit/config";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 function useMousePosition() {
 	const [position, setPosition] = useState({ x: 0, y: 0 });
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		function handleMouseMove(event) {
 			setPosition({ x: event.clientX, y: event.clientY });
 		}

@@ -20,11 +20,15 @@
 				@include flex-container(column, center, center, nowrap, 0, 1.5rem);
 				//first child
 				& > *:first-child {
-					transform: scale(2);
+					transform: scale(1.5);
 					margin-bottom: 1rem;
 				}
 				.chakra-button {
-					transform: scale(1.5);
+					transform: scale(1);
+				}
+				.top {
+					@include flex-container(row, center, flex-end, nowrap, 0, 0.5rem);
+					margin-bottom: 0.5rem;
 				}
 			}
 		}

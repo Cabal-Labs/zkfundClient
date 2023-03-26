@@ -120,6 +120,13 @@ async function GetCharityInfo(charityId: number, signer: Signer) {
 	const info = await CharitiesRegistry.getCharityInfo(charityId);
 	return info;
 }
+async function GetCharityFunds(charityId: number, signer: Signer) {
+	const { CharitiesRegistry } = Contracts(signer);
+	const data = await CharitiesRegistry.getCharity(charityId);
+	console.log(data);
+	return data.donationPool;
+}
+
 export {
 	InitCharity,
 	GetCharityVotes,
@@ -130,4 +137,5 @@ export {
 	GetCharityRequests,
 	GetVoteState,
 	GetCharityInfo,
+	GetCharityFunds,
 };
