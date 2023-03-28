@@ -1,0 +1,13 @@
+@use "../var";
+@use "../mixins";
+
+.charity-page {
+	#charity-info {
+		.header {
+			@include flex-container(row, space-between, center, wrap, 1, 0.25rem);
+		}
+		.chakra_button {
+			margin-top: 1rem;
+		}
+	}
+}

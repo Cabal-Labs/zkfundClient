@@ -79,7 +79,7 @@ export async function getCharityInfo(charityId: number) {
 	console.log("Charity: ", charity);
 	return charity;
 }
-export async function getCharityInfoByAddress(charityAddress: string) {
+export async function getCharityInfoByAddress(charityAddress) {
 	console.log("address: ", charityAddress);
 	const query = `
     {
@@ -93,12 +93,16 @@ export async function getCharityInfoByAddress(charityAddress: string) {
     }`;
 	let result = await client.query(query, { charityAddress }).toPromise();
 	console.log("getByAddress", result);
-	let info = result.data.charityCreateds[0];
-	let charityInfo = await retrieveCharity(info);
-	console.log({ charityInfo });
-	let charity = { ...result.data.charityCreateds[0], ...charityInfo };
-	console.log("Charity: ", charity);
-	return charity;
+	if (!result.data) {
+		return null;
+	} else {
+		let info = result.data.charityCreateds[0];
+		let charityInfo = await retrieveCharity(info);
+		console.log({ charityInfo });
+		let charity = { ...result.data.charityCreateds[0], ...charityInfo };
+		console.log("Charity: ", charity);
+		return charity;
+	}
 }
 export async function getPendingCharities() {
 	const status = 0;

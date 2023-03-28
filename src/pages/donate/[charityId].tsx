@@ -14,6 +14,8 @@ import { BigNumber, ethers } from "ethers";
 import { useSigner } from "wagmi";
 import { getCharityInfo } from "@/lib/api/graph";
 import ZkModal from "@/components/zkModal";
+import { ETHPrice } from "@/lib/components/helpers";
+// import { ETHPrice } from "@/lib/components/helpers";
 
 export default function Donate(props: any) {
 	const router = useRouter();
@@ -25,7 +27,7 @@ export default function Donate(props: any) {
 	const [charityData, setCharityData] = useState(null);
 	const [charityLoading, setCharityLoading] = useState(false);
 	const [ethPrice, setEthPrice] = useState("0.00");
-	const [timer, setTimer] = useState(null)
+	const [timer, setTimer] = useState(null);
 
 	const [amount, setAmount] = useState("");
 	const [modal, setModal] = useState({
@@ -34,6 +36,7 @@ export default function Donate(props: any) {
 		title: "",
 		content: null,
 	});
+
 	async function donate() {
 		// send amount to charity
 		if (isLoading) return null;
@@ -75,38 +78,22 @@ export default function Donate(props: any) {
 		console.log(data);
 		setCharityLoading(false);
 	}
-	async function ETHPrice(amount: string) {
-		const res = await fetch(`https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.ETHSCAN_KEY}}`);
-		const data = await res.json();
-		console.log(data.result.ethusd);
-		const price = parseFloat(data.result.ethusd);
-		console.log(price);
-		const _amount = parseFloat(amount);
-		const total = price * _amount;
 
-
-		return total.toPrecision(6);
-	}
 	async function handleAmount(amount: string) {
 		// handle amount input
 		setAmount(amount);
-
-		clearTimeout(timer)
+		clearTimeout(timer);
 
 		const newTimer = setTimeout(async () => {
-			if(amount !== ""){
+			if (amount !== "") {
 				const price = await ETHPrice(amount);
 				setEthPrice(price);
-				console.log(price);
-			}else{
+			} else {
 				setEthPrice("0.00");
 			}
-		}, 500)
+		}, 500);
 
-		setTimer(newTimer)
-
-
-
+		setTimer(newTimer);
 	}
 	useEffect(() => {
 		getCharity();
@@ -135,7 +122,9 @@ export default function Donate(props: any) {
 									id="select-value-input"
 									variant={"underlined"}
 									value={amount}
-									onChange={(e: any) => {handleAmount(e.target.value)}}
+									onChange={(e: any) => {
+										handleAmount(e.target.value);
+									}}
 								/>
 								<InputRightElement>
 									<h4>ETH</h4>
@@ -147,7 +136,7 @@ export default function Donate(props: any) {
 							</Button> */}
 						</div>
 						<h6 className="secondary">
-							~${	ethPrice}
+							~${ethPrice}
 							{/* //todo: Marco */}
 						</h6>
 					</div>

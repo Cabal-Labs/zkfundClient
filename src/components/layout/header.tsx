@@ -31,6 +31,7 @@ export default function Header() {
 					}}>
 					Validator Portal
 				</Button>
+
 				<ConnectButton />
 			</div>
 		</header>

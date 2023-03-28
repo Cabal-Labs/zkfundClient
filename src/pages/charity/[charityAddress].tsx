@@ -1,26 +1,34 @@
 import ScreenWrapper from "@/components/layout/screenWrapper";
 import { getCharityInfoByAddress } from "@/lib/api/graph";
+import Container from "@/lib/components/glassContainer";
 import { GetCharityFunds } from "@/lib/contracts";
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useLayoutEffect, useState } from "react";
 import { useSigner } from "wagmi";
-
+import { ethers } from "ethers";
+import { ETHPrice } from "@/lib/components/helpers";
 export default function Charity() {
 	const { data: signer, isLoading } = useSigner();
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const charityAddress = router.query.charityAddress;
 	const [charity, setCharity] = useState({} as any);
+
 	async function getCharity(address) {
 		let data = await getCharityInfoByAddress(address);
 		console.log("data: ", data);
-		console.log("charityId: ", data.id);
-		let balance = await GetCharityFunds(data.charityId, signer);
-		console.log("balance: ", balance.toString());
-		setCharity(data);
+		if (data) {
+			let balance = await GetCharityFunds(data.charityId, signer);
+			let _balance = ethers.utils.formatEther(balance);
+			let _usd = await ETHPrice(_balance);
+			let _data = { ...data, balance: _balance, usd: _usd };
+			console.log("_data: ", _data);
+			setCharity(_data);
+		}
 		return data;
 	}
+
 	useLayoutEffect(() => {
 		setLoading(true);
 		console.log("inUseEffect", charityAddress);
@@ -33,33 +41,29 @@ export default function Charity() {
 			{loading ? (
 				<div className="loading"></div>
 			) : (
-				<main>
-					<div className="container">
-						<div id="charity-info">
-							<h2>Hi {charity.name}</h2>
-							{charity.status !== 2 ? (
-								<>
-									<p>Not Approved Yet</p>
-								</>
-							) : (
-								<div>
+				<Container>
+					<>
+						{charity.status !== 2 ? (
+							<>
+								<p>This wallet is not owned by a charity</p>
+								<p>
+									Need Help? Contact the zk.fund team at zkfundproject@gmail.com
+								</p>
+							</>
+						) : (
+							<div id="charity-info">
+								<div className="header">
+									<h2>Hi {charity.name}</h2>
 									<p>Approved Charity</p>
-									<Button variant={"solid"}>Withdraw All Funds</Button>
 								</div>
-							)}
-						</div>
-					</div>
-					<div className="shapes">
-						<div className="shape-0"></div>
-						<div className="shape-1"></div>
-						<div className="shape-2"></div>
-						<div className="shape-3"></div>
-						<div className="shape-4"></div>
-						<div className="shape-5"></div>
-						<div className="shape-6"></div>
-						<div className="shape-7"></div>
-					</div>
-				</main>
+								<p>Total Funds:</p>
+								<h2>{charity.balance || "0.00"} ETH </h2>
+								<h5 className="secondary">${charity.usd || "0.00"}</h5>
+								<Button variant={"solid"}>Withdraw All Funds</Button>
+							</div>
+						)}
+					</>
+				</Container>
 			)}
 		</ScreenWrapper>
 	);
