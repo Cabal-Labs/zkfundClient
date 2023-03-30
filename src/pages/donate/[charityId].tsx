@@ -15,6 +15,7 @@ import { useSigner } from "wagmi";
 import { getCharityInfo } from "@/lib/api/graph";
 import ZkModal from "@/components/zkModal";
 import { ETHPrice } from "@/lib/components/helpers";
+import Container from "@/lib/components/glassContainer";
 // import { ETHPrice } from "@/lib/components/helpers";
 
 export default function Donate(props: any) {
@@ -100,8 +101,8 @@ export default function Donate(props: any) {
 	}, [charityId]);
 	return (
 		<ScreenWrapper className="donate-page" title={"zk.fund Home"}>
-			<main>
-				<div className="container">
+			<Container>
+				<>
 					<div id="pick-charity">
 						{/* show selected charity, onclick opens modal */}
 						<div id="charity-logo-div">
@@ -149,7 +150,7 @@ export default function Donate(props: any) {
 						onClick={() => donate()}>
 						DONATE
 					</Button>
-				</div>
+				</>
 				<ZkModal
 					isOpen={modal.visible}
 					isError={modal.isError}
@@ -157,17 +158,7 @@ export default function Donate(props: any) {
 					onClose={hideAndClearModal}>
 					<>{modal.content}</>
 				</ZkModal>
-				<div className="shapes">
-					<div className="shape-0"></div>
-					<div className="shape-1"></div>
-					<div className="shape-2"></div>
-					<div className="shape-3"></div>
-					<div className="shape-4"></div>
-					<div className="shape-5"></div>
-					<div className="shape-6"></div>
-					<div className="shape-7"></div>
-				</div>
-			</main>
+			</Container>
 		</ScreenWrapper>
 	);
 }

@@ -9,5 +9,42 @@
 		.chakra_button {
 			margin-top: 1rem;
 		}
+		.bar-wrapper {
+			width: 100%;
+			@include flex-container(row, flex-start, center, nowrap, 0, 0);
+			border-radius: 0.25rem;
+			margin-top: 1rem;
+			cursor: pointer !important;
+
+			.token {
+				&:hover {
+					background-color: var.$foreground-LO;
+				}
+				height: 100%;
+				border: 1px solid white;
+				padding: 0.125rem 0.5rem;
+				text-overflow: ellipsis;
+				.chakra-popover__popper {
+					.chakra-popover__content {
+						padding: 0.5rem;
+						background-color: var.$foreground;
+						@include flex-container(
+							row,
+							space-between,
+							flex-start,
+							nowrap,
+							1,
+							0.5rem
+						);
+						h5 {
+							color: var.$text;
+						}
+						p {
+							color: var.$text-secondary;
+						}
+					}
+				}
+			}
+		}
 	}
 }

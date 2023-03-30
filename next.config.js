@@ -19,5 +19,6 @@ module.exports = {
 		ALCHEMY_ID: process.env.ALCHEMY_ID,
 		WEB_STORAGE: process.env.WEB_STORAGE,
 		ETHSCAN_KEY: process.env.ETHSCAN_KEY,
+		MORALIS_KEY: process.env.MORALIS_KEY,
 	},
 };
