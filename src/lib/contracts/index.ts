@@ -3,8 +3,8 @@ import validateCharities from "../ABIs/validateCharities.json";
 import charitiesRegistry from "../ABIs/charitiesRegistry.json";
 
 function Contracts(signer: Signer) {
-	const validateAddress = "0xF5C8fF7325Ef10fc6AF54Ddc38A80908932bb7b4";
-	const charitiesRegistryAddress = "0x32f37362d46F11cf0DD9B20154af93d0D90Fa50a";
+	const validateAddress = "0xF166d4cD88957d5e7b2aB56cf45240f67C838499";
+	const charitiesRegistryAddress = "0x130eA5825782298baAf52341Fb0b792569d5AA1b";
 
 	const ValidateCharities = new ethers.Contract(
 		validateAddress,

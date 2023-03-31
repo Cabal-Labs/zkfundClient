@@ -2,7 +2,7 @@
 import { createClient } from "urql";
 import { retriveCharity as retrieveCharity } from "../ipfs";
 const APIURL =
-	"https://api.studio.thegraph.com/query/43431/zkfundrequests/v0.0.1";
+	"https://api.studio.thegraph.com/query/43431/zkfundv2/v0.0.1";
 const client = createClient({
 	url: APIURL,
 });
