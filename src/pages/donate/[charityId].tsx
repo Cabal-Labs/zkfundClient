@@ -43,9 +43,10 @@ export default function Donate(props: any) {
 		if (isLoading) return null;
 		else if (!signer) return null;
 		else {
-			const _amount: BigNumber = ethers.utils.parseEther(amount);
+			//TODO: ADD all the tokens donations options
+			let _amount = ethers.utils.parseEther(amount);
 			try {
-				const result = await MakeDonation(id, _amount, signer);
+				const result = await MakeDonation(id, _amount, "", signer);
 				if (result) {
 					console.log(result);
 

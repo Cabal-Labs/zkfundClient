@@ -1,7 +1,6 @@
 import { Button, IconButton } from "@chakra-ui/react";
 import Icon from "@/lib/icons";
-import React, { useEffect, useState } from "react";
-import { useSigner } from "wagmi";
+import { useEffect, useState } from "react";
 import {
 	GetCharityVotes,
 	GetVoteState,
@@ -10,6 +9,7 @@ import {
 } from "@/lib/contracts";
 import { Signer } from "ethers";
 import ZkModal from "../zkModal";
+import CharityDetails from "../charity/charityDetails";
 interface RequestCardProps {
 	signer: Signer;
 	charityId: number;
@@ -35,6 +35,14 @@ export default function RequestCard({
 		title: "",
 		content: null,
 	});
+	function handleOpenModal() {
+		setModal({
+			visible: true,
+			isError: false,
+			title: "Charity Details",
+			content: null,
+		});
+	}
 	const hideAndClearModal = () => {
 		setModal({ visible: false, isError: false, title: "", content: null });
 	};
@@ -58,7 +66,11 @@ export default function RequestCard({
 	}
 
 	async function approve() {
-		await ResolveCharities(charityId, signer);
+		try {
+			await ResolveCharities(charityId, signer);
+		} catch (error) {
+			console.log(error);
+		}
 	}
 	const totalValidators = 4;
 	const canValidate: boolean =
@@ -74,11 +86,13 @@ export default function RequestCard({
 	}, [charityId]);
 	return (
 		<>
-			<div className="validate-request-card-container">
+			<div
+				className="validate-request-card-container"
+				onClick={handleOpenModal}>
 				<div className="validate-request-charity-info-container">
-					<h5>
+					{/* <h5>
 						{votesApprove} / {votesDisapprove}
-					</h5>
+					</h5> */}
 					{/* <p>{hasVoted.toString()}</p> */}
 					<h3>{charityName}</h3>
 					<h6 className="secondary">{charityWallet}</h6>
@@ -91,7 +105,10 @@ export default function RequestCard({
 								aria-label="Approve"
 								backgroundColor={"#65B36D"}
 								icon={<Icon icon="ThumbsUpAlt" size={30} />}
-								onClick={() => handleVote(true)}
+								onClick={(e) => {
+									e.stopPropagation();
+									handleVote(true);
+								}}
 							/>
 							{hasVoted ? <h6>{votesApprove}</h6> : <h6></h6>}
 						</div>
@@ -100,13 +117,19 @@ export default function RequestCard({
 								aria-label="Disapprove"
 								backgroundColor={"#C74F4F"}
 								icon={<Icon icon="ThumbsDownAlt" size={30} />}
-								onClick={() => handleVote(false)}
+								onClick={(e) => {
+									e.stopPropagation();
+									handleVote(false);
+								}}
 							/>
 							{hasVoted ? <h6>{votesDisapprove}</h6> : <h6></h6>}
 						</div>
 					</div>
 					<Button
-						onClick={() => approve()}
+						onClick={(e) => {
+							e.stopPropagation();
+							approve();
+						}}
 						// isDisabled={!canValidate}
 						// disabled if approval percentage is less than 80%
 					>
@@ -119,7 +142,7 @@ export default function RequestCard({
 				isError={modal.isError}
 				title={modal.title}
 				onClose={hideAndClearModal}>
-				<>{modal.content}</>
+				<CharityDetails selectedCharity={charityId} />
 			</ZkModal>
 		</>
 	);

@@ -72,30 +72,44 @@ async function Vote(charityId: number, approves: boolean, signer: Signer) {
 async function MakeDonation(
 	charityId: number,
 	_value: BigNumber,
+	_tokensA: string,
 	signer: Signer
 ) {
 	const { CharitiesRegistry } = Contracts(signer);
+	if (_tokensA == "0") {
+		const gasFee = await CharitiesRegistry.estimateGas.makeDonation(
+			charityId,
+			_tokensA,
+			0,
+			{
+				value: _value,
+			}
+		);
 
-	// Calculating Gas fees
-	const gasFee = await CharitiesRegistry.estimateGas.makeDonation(charityId, {
-		value: _value,
-	});
-
-	// Making the donation
-	try {
-		const result = await CharitiesRegistry.makeDonation(charityId, {
-			value: _value,
-			gasLimit: gasFee,
-		});
-		return result;
-	} catch (e) {
-		console.log(e);
-		return e;
+		// Making the donation
+		try {
+			const result = await CharitiesRegistry.makeDonation(charityId, {
+				value: _value,
+				gasLimit: gasFee,
+			});
+			return result;
+		} catch (e) {
+			console.log(e);
+			return e;
+		}
+	} else {
 	}
 }
 async function ResolveCharities(charityId: number, signer: Signer) {
 	const { ValidateCharities } = Contracts(signer);
-	await ValidateCharities.resolveCharity(charityId);
+	try {
+		const _fees = ValidateCharities.estimateGas.resolveCharity(charityId);
+		await ValidateCharities.resolveCharity(charityId, {
+			gasLimit: _fees,
+		});
+	} catch (e) {
+		console.log(e);
+	}
 }
 async function GetCharityRequests(signer: Signer) {
 	const { ValidateCharities } = Contracts(signer);
@@ -120,16 +134,14 @@ async function GetCharityInfo(charityId: number, signer: Signer) {
 	const info = await CharitiesRegistry.getCharityInfo(charityId);
 	return info;
 }
-async function GetCharityFunds(charityId: number, signer: Signer) {
+async function GetDonationPools(charityId: number, signer: Signer) {
 	const { CharitiesRegistry } = Contracts(signer);
-	const data = await CharitiesRegistry.getCharity(charityId);
-	console.log(data);
-	return data.donationPool;
+	const data = await CharitiesRegistry.getDonationPools(charityId);
+	return data;
 }
 async function WithdrawDonations(charityId: number, signer: Signer) {
 	const { CharitiesRegistry } = Contracts(signer);
 	const data = await CharitiesRegistry.withdrawDonations(charityId);
-	console.log(data);
 	return data;
 }
 
@@ -143,6 +155,6 @@ export {
 	GetCharityRequests,
 	GetVoteState,
 	GetCharityInfo,
-	GetCharityFunds,
+	GetDonationPools,
 	WithdrawDonations,
 };

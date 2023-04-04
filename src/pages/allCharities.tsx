@@ -1,3 +1,4 @@
+import ScreenWrapper from "@/components/layout/screenWrapper";
 import charitiesApi from "@/lib/api/charities";
 import { useEffect, useState } from "react";
 
@@ -26,7 +27,7 @@ export default function AllCharities(props: any) {
 		}
 	}, [props.data]);
 	return (
-		<div>
+		<ScreenWrapper loading={loading}>
 			<h1>All Charities</h1>
 			{charities.length !== 0 ? (
 				<div>
@@ -37,6 +38,6 @@ export default function AllCharities(props: any) {
 			) : (
 				<p>no data</p>
 			)}
-		</div>
+		</ScreenWrapper>
 	);
 }

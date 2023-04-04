@@ -6,6 +6,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { GetAllCharities, getPendingCharities } from "@/lib/api/graph";
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import Container from "@/lib/components/glassContainer";
 
 export default function ValidatorPortal() {
 	const router = useRouter();
@@ -33,9 +34,8 @@ export default function ValidatorPortal() {
 
 		//todo: get charities from chain
 		let result = await getPendingCharities();
-		console.log("this", result.charityCreateds);
 
-		// todo: loop through charities and decrypt the info stored in ipfs, restructure the data at the same time
+		// todo: loop through charities and decrypt the info stored in IPFS, restructure the data at the same time
 		let _formattedCharities = [];
 		for (let i = 0; i < result.charityCreateds.length; i++) {
 			let _charity = {
@@ -46,7 +46,7 @@ export default function ValidatorPortal() {
 			};
 			_formattedCharities.push(_charity);
 		}
-		console.log(`formateed`, _formattedCharities);
+		console.log(`formatted`, _formattedCharities);
 
 		setCharityRequests(_formattedCharities);
 		setCharitiesLoading(false);
@@ -60,9 +60,10 @@ export default function ValidatorPortal() {
 	return (
 		<ScreenWrapper
 			className="validator-portal-page"
-			title={"zk.fund Validator Portal"}>
-			<main>
-				<div className="container">
+			title={"zk.fund Validator Portal"}
+			loading={isLoading}>
+			<Container>
+				<>
 					<div className="title">
 						<h1>Validator Portal</h1>
 						<h6>
@@ -99,18 +100,8 @@ export default function ValidatorPortal() {
 							))}
 						</>
 					)}
-				</div>
-				<div className="shapes">
-					<div className="shape-0"></div>
-					<div className="shape-1"></div>
-					<div className="shape-2"></div>
-					<div className="shape-3"></div>
-					<div className="shape-4"></div>
-					<div className="shape-5"></div>
-					<div className="shape-6"></div>
-					<div className="shape-7"></div>
-				</div>
-			</main>
+				</>
+			</Container>
 		</ScreenWrapper>
 	);
 }

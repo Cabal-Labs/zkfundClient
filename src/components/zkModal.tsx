@@ -27,7 +27,7 @@ export default function ZkModal({
 }: ModalProps) {
 	return (
 		<>
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<Modal isOpen={isOpen} onClose={onClose} size={"full"}>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>

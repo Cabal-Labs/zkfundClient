@@ -8,6 +8,7 @@ import CharityDetails from "@/components/charity/charityDetails";
 import charitiesApi from "@/lib/api/charities";
 import { useToast } from "@chakra-ui/react";
 import { SearchCharities } from "@/lib/api/graph";
+import Icon from "@/lib/icons";
 
 export default function Home(props) {
 	const toast = useToast();
@@ -15,10 +16,9 @@ export default function Home(props) {
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 	const [charities, setCharities] = useState<CharityCardProps[]>([]);
-	const [selectedCharity, setSelectedCharity] = useState<number>();
+	const [selectedCharity, setSelectedCharity] = useState<number>(0);
 
 	async function getCharities(search: string): Promise<CharityCardProps[]> {
-		
 		// console.log("getting Charities that match: ", search);
 		// const { data, status, ok } = await charitiesApi.getCharities({ search });
 		if (search !== "") {
@@ -47,7 +47,10 @@ export default function Home(props) {
 		console.log("selectedCharity: ", selectedCharity);
 	}, [selectedCharity]);
 	return (
-		<ScreenWrapper className="home-page" title={"zk.fund Home"}>
+		<ScreenWrapper
+			className="home-page"
+			title={"zk.fund Home"}
+			loading={loading}>
 			<main>
 				<div className="container">
 					<div id="search-container">
@@ -65,7 +68,23 @@ export default function Home(props) {
 						/>
 					</div>
 					<div id="results-container">
-						<CharityDetails selectedCharity={selectedCharity} />
+						{selectedCharity === 0 ? (
+							<div className="charity-details no-charity">
+								<Icon
+									icon={"DonateHeart"}
+									title={"Charity"}
+									size={50}
+									className="white"
+								/>
+								<h3>Welcome to zk.fund</h3>
+								<div className="hint">
+									<Icon icon={"Search"} title={"Search"} />
+									<p>Search for a charity to learn more</p>
+								</div>
+							</div>
+						) : (
+							<CharityDetails selectedCharity={selectedCharity} />
+						)}
 					</div>
 				</div>
 				<div className="shapes">

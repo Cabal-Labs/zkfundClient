@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Button } from "@chakra-ui/react";
 import ScreenWrapper from "@/components/layout/screenWrapper";
 import Icon from "@/lib/icons";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { useRouter } from "next/router";
 import { Context } from "@/lib/providers/provider";
@@ -11,9 +11,14 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Home() {
 	const router = useRouter();
-	const { setPubAddress } = useContext(Context);
+	const [loading, setLoading] = useState(false);
+	const {
+		walletAddress,
+		setWalletAddress,
+		setIsConnected,
+		isConnected: _isConnected,
+	} = useContext(Context);
 	const { address, isConnected } = useAccount();
-	//todo: important important! - fix wallet connect bug
 	function handleMainCTA({ isAnnon }) {
 		if (isConnected) {
 			if (!isAnnon) {
@@ -28,19 +33,22 @@ export default function Home() {
 		return true;
 	}
 	function handleCharityPortal() {
-		if (isConnected) {
+		if (_isConnected) {
 			if (isCharity(address)) {
-				router.push(`/charity/${address}`);
+				router.push(`/charity`);
 			} else {
+				return;
 			}
 		}
 	}
-	// useEffect(() => {
-	// 	if (address && isConnected) {
-	// 		setPubAddress(address);
-	// 		router.push("/home");
-	// 	}
-	// }, [address, isConnected]);
+	useEffect(() => {
+		setLoading(true);
+		if (address && isConnected) {
+			setWalletAddress(address);
+			setIsConnected(isConnected);
+		}
+		setLoading(false);
+	}, [address, isConnected]);
 	const timelineItems = [
 		{
 			date: "Sept '22",
@@ -79,7 +87,10 @@ export default function Home() {
 	];
 
 	return (
-		<ScreenWrapper title={"Welcome to zk.fund"} className="landing-page">
+		<ScreenWrapper
+			title={"Welcome to zk.fund"}
+			className="landing-page"
+			loading={loading}>
 			<main>
 				<div id="landing">
 					<div className="title">
@@ -87,7 +98,7 @@ export default function Home() {
 						<h3>powered by Polygon zkEVM</h3>
 					</div>
 					<div className="cta">
-						{isConnected ? (
+						{_isConnected ? (
 							<div>
 								<div className="top">
 									<Button
@@ -124,7 +135,7 @@ export default function Home() {
 						) : (
 							<ConnectButton />
 						)}
-						{!isConnected ? (
+						{!_isConnected ? (
 							<a href="https://metamask.io/" target={"_blank"}>
 								What's a Wallet?
 							</a>

@@ -18,7 +18,7 @@ import { InitCharity } from "@/lib/contracts";
 import { sign } from "crypto";
 import countries from "@/lib/countries";
 
-export default function Charity(props) {
+export default function Charity() {
 	const router = useRouter();
 	const [name, setName] = useState<string>("");
 	const [countryCode, setCountryCode] = useState<string>("");

@@ -18,12 +18,8 @@ export default function RequestCharity() {
 	}
 
 	return (
-		<ScreenWrapper>
+		<ScreenWrapper title="Request Charity">
 			<main>
-				<Head>
-					<title>Request Charity</title>
-					<meta name="description" content="Request Charity" />
-				</Head>
 				<h1>Request Charity</h1>
 
 				<p>

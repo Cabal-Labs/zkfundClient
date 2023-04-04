@@ -11,21 +11,20 @@ export async function getTokenPrice(tokenAddress: string) {
 	try {
 		await initMoralis();
 
-		// const address = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599";
-		// const address = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-
-		const chain = EvmChain.ETHEREUM;
-
+		const chain = EvmChain.MUMBAI;
+		console.log("chain: ", chain);
+		console.log("tokenAddress: ", tokenAddress);
 		const response = await Moralis.EvmApi.token.getTokenPrice({
 			address: tokenAddress,
 			chain,
 		});
 
-		console.log(response.raw);
+		console.log("response:", response);
 
 		return response.raw;
 	} catch (e) {
 		console.error(e);
+		return null; // Return null or other default value if the API call fails.
 	}
 }
 

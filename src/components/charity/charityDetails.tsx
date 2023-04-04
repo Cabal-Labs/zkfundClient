@@ -4,11 +4,13 @@ import Icon from "@/lib/icons";
 import { Avatar, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { P } from "styled-icons/fa-solid";
 
 export default function CharityDetails({ selectedCharity }) {
 	const router = useRouter();
 	const [data, setData] = useState({} as any);
 	const [pending, setPending] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	async function getCharity() {
 		console.log("getting charity info with id: ", selectedCharity);
@@ -17,35 +19,21 @@ export default function CharityDetails({ selectedCharity }) {
 			let data = await getCharityInfo(selectedCharity);
 			console.log("data: ", data);
 			setData(data);
-			if(data?.status == 0){
+			if (data?.status == 0) {
 				setPending(false);
 			}
 		}
 	}
 	useEffect(() => {
+		setLoading(true);
 		getCharity();
+		setLoading(false);
 	}, [selectedCharity]);
-	if (selectedCharity === undefined) {
-		return (
-			<div className="charity-details no-charity">
-				<Icon
-					icon={"DonateHeart"}
-					title={"Charity"}
-					size={50}
-					className="white"
-				/>
-				<h3>Welcome to zk.fund</h3>
-				<div className="hint">
-					<Icon icon={"Search"} title={"Search"} />
-					<p>Search for a charity to learn more</p>
-				</div>
-			</div>
-		);
+	if (loading) {
+		return <p>Loading...</p>;
 	} else {
 		return (
 			<div className="charity-details" id={`charity-${selectedCharity}`}>
-				<Options id={selectedCharity} />
-
 				<div className="header">
 					<Avatar src={data?.pic} size="lg" />
 					<div className="content">

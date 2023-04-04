@@ -1,11 +1,17 @@
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, goerli, WagmiConfig } from "wagmi";
-import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
+import {
+	mainnet,
+	polygon,
+	optimism,
+	arbitrum,
+	polygonMumbai,
+} from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
 export const { chains, provider } = configureChains(
-	[goerli],
+	[polygonMumbai],
 	[alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
 );
 
@@ -15,7 +21,7 @@ const { connectors } = getDefaultWallets({
 });
 
 export const wagmiClient = createClient({
-	autoConnect: false,
+	autoConnect: true,
 	connectors,
 	provider,
 });

@@ -15,6 +15,7 @@ interface ScreenWrapperProps {
 	className?: string;
 	status?: number;
 	error?: string;
+	loading?: boolean;
 }
 export type PageProps<T> = {
 	data: T;
@@ -30,6 +31,7 @@ export default function ScreenWrapper({
 	className = "",
 	status,
 	error,
+	loading = false,
 }: ScreenWrapperProps) {
 	return (
 		<>
@@ -39,17 +41,21 @@ export default function ScreenWrapper({
 				<div id="app-header">
 					<Header />
 				</div>
-				<div id="page-container" className={`${layout} ${className}`}>
-					{status === 200 || !status ? (
-						// todo: ^^ make this accept all good status's
-						<>{children}</>
-					) : (
-						<div className="error">
-							<h2>Error: {status}</h2>
-							{error}
-						</div>
-					)}
-				</div>
+				{loading ? (
+					<div className="loading">Loading...</div>
+				) : (
+					<div id="page-container" className={`${layout} ${className}`}>
+						{status === 200 || !status ? (
+							// todo: ^^ make this accept all good status's
+							<>{children}</>
+						) : (
+							<div className="error">
+								<h2>Error: {status}</h2>
+								{error}
+							</div>
+						)}
+					</div>
+				)}
 				<Footer />
 			</div>
 		</>

@@ -1,8 +1,7 @@
 // handles api requests related to validating charities
 import { createClient } from "urql";
 import { retriveCharity as retrieveCharity } from "../ipfs";
-const APIURL =
-	"https://api.studio.thegraph.com/query/43431/zkfundv2/v0.0.1";
+const APIURL = "https://api.studio.thegraph.com/query/43431/zkfundv2/v0.0.1";
 const client = createClient({
 	url: APIURL,
 });
@@ -80,28 +79,32 @@ export async function getCharityInfo(charityId: number) {
 	return charity;
 }
 export async function getCharityInfoByAddress(charityAddress) {
-	console.log("address: ", charityAddress);
-	const query = `
-    {
-        charityCreateds(where: {charityAddress: "${charityAddress}"}) {
-            id
-            charityId
-            name
-            status
-            info
-        }
-    }`;
-	let result = await client.query(query, { charityAddress }).toPromise();
-	console.log("getByAddress", result);
-	if (!result.data) {
-		return null;
-	} else {
-		let info = result.data.charityCreateds[0];
-		let charityInfo = await retrieveCharity(info);
-		console.log({ charityInfo });
-		let charity = { ...result.data.charityCreateds[0], ...charityInfo };
-		console.log("Charity: ", charity);
-		return charity;
+	try {
+		console.log("address: ", charityAddress);
+		const query = `
+        {
+            charityCreateds(where: {charityAddress: "${charityAddress}"}) {
+                id
+                charityId
+                name
+                status
+                info
+            }
+        }`;
+		let result = await client.query(query, { charityAddress }).toPromise();
+		console.log("getByAddress", result);
+		if (result.data.length === 0) {
+			return null;
+		} else {
+			let info = result.data.charityCreateds[0];
+			let charityInfo = await retrieveCharity(info);
+			console.log({ charityInfo });
+			let charity = { ...result.data.charityCreateds[0], ...charityInfo };
+			console.log("Charity: ", charity);
+			return charity;
+		}
+	} catch (error) {
+		console.log(error);
 	}
 }
 export async function getPendingCharities() {
