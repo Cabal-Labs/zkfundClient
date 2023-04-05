@@ -50,7 +50,7 @@ export default function Home(props) {
 		<ScreenWrapper
 			className="home-page"
 			title={"zk.fund Home"}
-			loading={loading}>
+			>
 			<main>
 				<div className="container">
 					<div id="search-container">

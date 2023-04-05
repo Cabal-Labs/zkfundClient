@@ -136,13 +136,28 @@ async function GetCharityInfo(charityId: number, signer: Signer) {
 }
 async function GetDonationPools(charityId: number, signer: Signer) {
 	const { CharitiesRegistry } = Contracts(signer);
-	const data = await CharitiesRegistry.getDonationPools(charityId);
-	return data;
+
+	try{
+		const data = await CharitiesRegistry.getDonationPools(charityId);
+		return data;
+	}catch(e){
+		console.log(e);
+	}
+	
 }
 async function WithdrawDonations(charityId: number, signer: Signer) {
 	const { CharitiesRegistry } = Contracts(signer);
-	const data = await CharitiesRegistry.withdrawDonations(charityId);
-	return data;
+	try{
+		const fees = await CharitiesRegistry.estimateGas.withdrawDonations(charityId);
+		const data = await CharitiesRegistry.withdrawDonations(charityId,{
+			gasLimit: fees
+		});
+		return data;
+	}catch(e){
+		console.log(e);
+	}
+
+	
 }
 
 export {

@@ -8,14 +8,17 @@ import {
 	InputRightElement,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState , useContext} from "react";
 import { MakeDonation } from "@/lib/contracts";
 import { BigNumber, ethers } from "ethers";
-import { useSigner } from "wagmi";
+import { useSigner, useBalance } from "wagmi";
 import { getCharityInfo } from "@/lib/api/graph";
 import ZkModal from "@/components/zkModal";
 import { ETHPrice } from "@/lib/components/helpers";
 import Container from "@/lib/components/glassContainer";
+import MyAssetsSelection from "@/components/donate/myAssetsSelection";
+import { Context } from "@/lib/providers/provider";
+import { AssetType } from "@/src/components/myAssetsSelection";
 // import { ETHPrice } from "@/lib/components/helpers";
 
 export default function Donate(props: any) {
@@ -23,11 +26,36 @@ export default function Donate(props: any) {
 	// get charityId from url
 	const { charityId } = router.query;
 	let id = parseInt(charityId as string);
-
+	const { walletAddress } = useContext(Context);
 	const { data: signer, isLoading } = useSigner();
+	const [availableAssets, setAvailableAssets] = useState<AssetType[]>([
+		{
+			name: "Ethereum",
+			ticker: "ETH",
+			balance: "0.00",
+			balanceInUSD: "0.00",
+			address: "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa"
+		},
+		{
+			name: "USD Coin",
+			ticker: "USDC",
+			balance: "0.00",
+			balanceInUSD: "0.00",
+			address: "0x0FA8781a83E46826621b3BC094Ea2A0212e71B23"
+		},
+		{
+			name: "Matic",
+			ticker: "MATIC",
+			balance: "0.00",
+			balanceInUSD: "0.00",
+			address:"0x0000000000000000000000000000000000000000"
+		}
+	])
+	
 	const [charityData, setCharityData] = useState(null);
 	const [charityLoading, setCharityLoading] = useState(false);
-	const [ethPrice, setEthPrice] = useState("0.00");
+	const [selectedAsset, setSelectedAsset] = useState(availableAssets[0].ticker)
+	const [usdPrice, setUsdPrice] = useState("0.00");
 	const [timer, setTimer] = useState(null);
 
 	const [amount, setAmount] = useState("");
@@ -55,7 +83,7 @@ export default function Donate(props: any) {
 						visible: true,
 						isError: false,
 						title: "Donation Successful",
-						content: <p>NIce</p>,
+						content: <p>Nice</p>,
 					});
 				}
 			} catch (e) {
@@ -89,17 +117,29 @@ export default function Donate(props: any) {
 		const newTimer = setTimeout(async () => {
 			if (amount !== "") {
 				const price = await ETHPrice(amount);
-				setEthPrice(price);
+				setUsdPrice(price);
 			} else {
-				setEthPrice("0.00");
+				setUsdPrice("0.00");
 			}
 		}, 500);
 
 		setTimer(newTimer);
 	}
+	async function getAssets(){
+
+	
+			
+			let _availableAssets = availableAssets;
+			for (let i = 0; i < _availableAssets.length; i++) {
+				const { data, isError, isLoading } = useBalance({
+					address: _availableAssets[i].address,
+				  })
+			}
+		}
 	useEffect(() => {
 		getCharity();
-	}, [charityId]);
+		getAssets();
+	}, [charityId, walletAddress]);
 	return (
 		<ScreenWrapper className="donate-page" title={"zk.fund Home"}>
 			<Container>
@@ -115,7 +155,6 @@ export default function Donate(props: any) {
 						</div>
 						<h2 id="charity-name">{charityData?.name || "Charity Name"}</h2>
 						<div id="select-value-row">
-							{/* <h2>$</h2> */}
 							<InputGroup>
 								<Input
 									placeholder="0.00"
@@ -129,16 +168,14 @@ export default function Donate(props: any) {
 									}}
 								/>
 								<InputRightElement>
-									<h4>ETH</h4>
+								<MyAssetsSelection selectedAsset={selectedAsset} setSelectedAsset={setSelectedAsset} availableAssets={[]} />
+									
 								</InputRightElement>
 							</InputGroup>
-							{/* show eth to usd conversion */}
-							{/* <Button id="select-value-button" variant={"gradientOutline"}>
-								ETH
-							</Button> */}
 						</div>
+							{/* show eth to usd conversion */}
 						<h6 className="secondary">
-							~${ethPrice}
+							~${usdPrice}
 							{/* //todo: Marco */}
 						</h6>
 					</div>
@@ -152,6 +189,7 @@ export default function Donate(props: any) {
 						DONATE
 					</Button>
 				</>
+				
 				<ZkModal
 					isOpen={modal.visible}
 					isError={modal.isError}

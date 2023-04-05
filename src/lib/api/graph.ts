@@ -56,6 +56,7 @@ export async function GetVoteState(
 	return result.data.approveVotes;
 }
 export async function getCharityInfo(charityId: number) {
+    //somtimes charityCreateds is undefined
 	console.log("ID: ", charityId);
 	const query = `
     {
@@ -70,13 +71,16 @@ export async function getCharityInfo(charityId: number) {
     }`;
 	let result = await client.query(query, { charityId }).toPromise();
 	console.log(result);
-	let info = result.data.charityCreateds[0].info;
+    if (result.data){
 
-	let charityInfo = await retrieveCharity(info);
-	console.log({ charityInfo });
-	let charity = { ...result.data.charityCreateds[0], ...charityInfo };
-	console.log("Charity: ", charity);
-	return charity;
+        let info = result.data.charityCreateds[0].info;
+        
+        let charityInfo = await retrieveCharity(info);
+        console.log({ charityInfo });
+        let charity = { ...result.data.charityCreateds[0], ...charityInfo };
+        console.log("Charity: ", charity);
+        return charity;
+    }
 }
 export async function getCharityInfoByAddress(charityAddress) {
 	try {
@@ -97,8 +101,8 @@ export async function getCharityInfoByAddress(charityAddress) {
 			return null;
 		} else {
 			let info = result.data.charityCreateds[0];
-			let charityInfo = await retrieveCharity(info);
-			console.log({ charityInfo });
+			let charityInfo = await retrieveCharity(info.info);
+			console.log("charity info", { charityInfo });
 			let charity = { ...result.data.charityCreateds[0], ...charityInfo };
 			console.log("Charity: ", charity);
 			return charity;
@@ -158,6 +162,33 @@ export async function getDisapprovedCharities(charityId: number) {
 	let result = await client.query(query, { status }).toPromise();
 	console.log("in validation: ", result);
 	return result.data;
+}
+
+export async function isCharityApproved(charityAddress) {
+	try {
+		console.log("address: ", charityAddress);
+		const query = `
+        {
+            charityCreateds(where: {charityAddress: "${charityAddress}"}) {
+                status 
+            }
+        }`;
+		let result = await client.query(query, { charityAddress }).toPromise();
+		console.log("getByAddress", result);
+		if (result.data.length === 0) {
+			return false;
+		} else {
+			let info = result.data.charityCreateds[0];
+			console.log("Charity: ", info.status);
+            if (info.status === 2){
+                return true;
+            }else{
+                return false;
+            }
+		}
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 // export async function GetCharityRequests() {

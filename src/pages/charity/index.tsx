@@ -10,15 +10,19 @@ import {
 	PopoverTrigger,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useContext, useLayoutEffect, useState } from "react";
+import { useContext, useLayoutEffect, useState, useEffect } from "react";
+import { useAccount } from "wagmi";
+
 import { useSigner } from "wagmi";
 import { ethers } from "ethers";
-import { getTokenPrice } from "@/lib/components/helpers";
+import { getTokenInfo } from "@/lib/components/helpers";
 import { Context } from "@/lib/providers/provider";
+import { isCharityApproved } from "@/lib/api/graph";
 export default function Charity() {
 	const { data: signer, isLoading } = useSigner();
-	const { walletAddress: charityAddress } = useContext(Context);
-
+	const { walletAddress: charityAddress, setWalletAddress, setIsConnected } = useContext(Context);
+	const { address:_address, isConnected:_isConnected } = useAccount();
+	const [ isCharityWallet, setIsCharityWallet ] = useState<boolean>(false);
 	const [loading, setLoading] = useState(false);
 	const [charity, setCharity] = useState({} as any);
 	const [status, setStatus] = useState(0);
@@ -46,25 +50,42 @@ export default function Charity() {
 			usd_amount: "50",
 		},
 	];
+	async function refetchAddress(){
+		if (!charityAddress){
+			let retryAddress = _address;
+			setWalletAddress(retryAddress)
+			setIsConnected(_isConnected)
+			return retryAddress;
+		}
+		else {
+			return charityAddress
+		}
+	}
 	async function getCharity(address) {
 		let data = await getCharityInfoByAddress(address);
 		console.log("data from address: ", data);
 		if (data) {
 			let _balance = 0;
+			console.log(data.charityId)
+			
+			// TODO: Make sure this returns the array!!!!
+
 			let tokenList = await GetDonationPools(data.charityId, signer);
 			console.log("unformatted list", tokenList);
 			let _tokenList = [];
+			// let price = await getTokenPrice("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174");
+			// console.log( "Price Test: ",price );
 			// loop through token list
 
 			for (let i = 0; i < tokenList.length; i++) {
 				console.log(`tokenlist[${i}]: `, tokenList[i][0]);
 				console.log(`tokenlist[${i}]amount: `, tokenList[i].amount);
 
-				let price = await getTokenPrice(tokenList[i][0]);
+				let price = await getTokenInfo(tokenList[i][0]);
 				console.log({ price });
 				let amount = await tokenList[i].amount;
 				let _amount = parseFloat(ethers.utils.formatEther(amount));
-				let usd_amount = price.usdPrice * _amount;
+				let usd_amount = 0 * _amount;
 				let _token = {
 					address: tokenList[i].address,
 					amount: tokenList[i].amount,
@@ -93,22 +114,34 @@ export default function Charity() {
 			// pop a model saying error
 		}
 	}
-	useLayoutEffect(() => {
-		if (charityAddress !== undefined) {
-			setLoading(true);
-			console.log("inUseEffect", charityAddress);
-			getCharity(charityAddress);
-			setLoading(false);
-		}
-	}, [charityAddress]);
+	async function isCharity(address: string) {
+		const  d = await isCharityApproved(address);
+		if (d){
+			setIsCharityWallet(true);
+			await getCharity(address);
+			
 
+		}else{
+			setIsCharityWallet(false);
+		}
+	}
+
+	useEffect(() => {
+		
+		setLoading(true);
+		if (_address && _isConnected) {
+			isCharity(_address);
+			setWalletAddress(_address);
+		}
+		setLoading(false);
+	}, [_address, _isConnected]);
 	return (
 		<ScreenWrapper
 			className="charity-page"
 			title={"zk.fund Charity Portal"}
 			loading={loading}>
 			<>
-				{status !== 2 ? (
+				{!isCharityWallet ? (
 					<>
 						<h3>This wallet is not owned by a valid charity</h3>
 						<p>
@@ -117,6 +150,14 @@ export default function Charity() {
 								zkfundproject@gmail.com
 							</a>
 						</p>
+						<br />
+						<br />
+						<p>Think you're a verified Charity?</p>
+						<Button
+						onClick={()=> {
+							let retryAddress = refetchAddress();
+							getCharity(retryAddress)}}
+						>Retry Authentication</Button>
 					</>
 				) : (
 					<Container>

@@ -43,6 +43,7 @@ export default function CharityDetails({ selectedCharity }) {
 						</h5>
 					</div>
 				</div>
+				{pending}
 				<div className="content">
 					<div className="quick-info">
 						<div className="info">
@@ -59,14 +60,16 @@ export default function CharityDetails({ selectedCharity }) {
 						</div>
 					</div>
 					<p className="description">{data?.description || "No Description"}</p>
-					<Button
-						disabled={pending}
+					{!pending && (
+
+						<Button
 						variant={"outlined"}
 						onClick={() => {
-							pending && router.push(`/donate/${selectedCharity}`);
+							router.push(`/donate/${selectedCharity}`);
 						}}>
 						Donate to {data?.name}
 					</Button>
+						)}
 				</div>
 			</div>
 		);

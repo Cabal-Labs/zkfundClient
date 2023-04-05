@@ -8,6 +8,7 @@ import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { useRouter } from "next/router";
 import { Context } from "@/lib/providers/provider";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { isCharityApproved } from "@/lib/api/graph";
 
 export default function Home() {
 	const router = useRouter();
@@ -19,6 +20,7 @@ export default function Home() {
 		isConnected: _isConnected,
 	} = useContext(Context);
 	const { address, isConnected } = useAccount();
+	const [ isCharityWallet, setIsCharityWallet ] = useState<boolean>(false);
 	function handleMainCTA({ isAnnon }) {
 		if (isConnected) {
 			if (!isAnnon) {
@@ -28,9 +30,13 @@ export default function Home() {
 			useConnect();
 		}
 	}
-	function isCharity(address: string) {
-		// checks with the graph if the address is a valid charity
-		return true;
+	async function isCharity(address: string) {
+		const  d = await isCharityApproved(address);
+		if (d){
+			setIsCharityWallet(true);
+		}else{
+			setIsCharityWallet(false);
+		}
 	}
 	function handleCharityPortal() {
 		if (_isConnected) {
@@ -42,13 +48,16 @@ export default function Home() {
 		}
 	}
 	useEffect(() => {
+		
 		setLoading(true);
 		if (address && isConnected) {
+			isCharity(address);
 			setWalletAddress(address);
 			setIsConnected(isConnected);
 		}
 		setLoading(false);
 	}, [address, isConnected]);
+
 	const timelineItems = [
 		{
 			date: "Sept '22",
@@ -120,9 +129,10 @@ export default function Home() {
 										</Button>
 									</div>
 								</div>
-								{isCharity(address) ? (
+								{isCharityWallet ? (
 									<Button
 										size={"sm"}
+										isDisabled={!isCharityWallet}
 										variant={"outlined"}
 										onClick={() => handleCharityPortal()}
 										leftIcon={<Icon icon={"Group"} size={20} />}>

@@ -8,13 +8,21 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useDisclosure
 } from "@chakra-ui/react";
 import AssetSelectionRow from "./assetSelectionRow";
+export type AssetType = {
+  symbol: string;
+  name: string;
+  balance: number;
+  balanceInUSD: number;
+  address: `0x${string}`;
 
+}
 interface MyAssetsSelectionProps {
   selectedAsset: string;
   setSelectedAsset: (asset: string) => void;
-  availableAssets: any; // TODO: Create a type for this
+  availableAssets: AssetType[]; 
 }
 
 export default function MyAssetsSelection({
@@ -22,12 +30,16 @@ export default function MyAssetsSelection({
   setSelectedAsset,
   availableAssets,
 }: MyAssetsSelectionProps) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
+      <Button id="select-value-button" variant={"gradientOutline"} onClick={onOpen}>
+        {selectedAsset}
+      </Button>
       <Modal
         variant={"gradientOutlined"}
-        isOpen={false} // isOpen={isOpen}
-        //   onClose={onClose}
+        isOpen={isOpen}
+        onClose={onClose}
       >
         <ModalOverlay />
         <ModalContent>
@@ -37,16 +49,16 @@ export default function MyAssetsSelection({
           </ModalHeader>
           {/* <ModalCloseButton /> */}
           <ModalBody>
-            {/* {availableAssets.map((asset) => (
+            {availableAssets.map((asset) => (
               <AssetSelectionRow
-                ticker={asset.ticker}
+                ticker={asset.symbol}
                 name={asset.name}
-                selected={selectedAsset === asset.ticker}
-                onSelect={() => setSelectedAsset(asset.ticker)}
+                selected={selectedAsset === asset.symbol}
+                onSelect={() => {setSelectedAsset(asset.symbol); onClose()}}
                 balance={asset.balance}
                 balanceInUSD={asset.balanceInUSD}
               />
-            ))} */}
+            ))}
             <AssetSelectionRow
               ticker="ETH"
               name="Ethereum"
@@ -65,12 +77,12 @@ export default function MyAssetsSelection({
             />
           </ModalBody>
           <ModalFooter style={{ justifyContent: "center" }}>
-            {/* <Button
-              // onClick={onClose}
+            <Button
+              onClick={onClose}
               variant="pinkOutline"
             >
               Close
-            </Button> */}
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

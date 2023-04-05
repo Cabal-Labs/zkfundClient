@@ -41,11 +41,14 @@ function ipfsToHTTP(cid: string) {
 	return `https://${cid}.ipfs.w3s.link/charity.json`;
 }
 
-async function retrieveCharity(cid: string) {
+async function retrieveCharity(cid: any) {
+	
 	const _cid = ipfsToHTTP(cid);
+	
 	try {
 		const res = await fetch(_cid);
 		const data = await res.json();
+		console.log("data: ", data);
 		return data;
 	} catch (e) {
 		console.log(e);
