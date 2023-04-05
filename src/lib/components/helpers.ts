@@ -19,8 +19,7 @@ export async function getTokenInfo(tokenAddress: string): Promise<TokenInfo> {
 		console.log(process.env.MORALIS_KEY);
 		if (!Moralis) {
 			await Moralis.start({
-				apiKey:
-					"GxYUcSfWzNLpQbVjGWyR9HF3i1w8SobJgNMSRfxw2JRWyDzp7CilHoyXGrdWEMux",
+				apiKey: process.env.MORALIS_KEY,
 			});
 		}
 	} catch (e) {
