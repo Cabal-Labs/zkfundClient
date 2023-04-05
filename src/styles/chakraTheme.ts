@@ -171,9 +171,14 @@ const components = {
 					backgroundColor: "transparent",
 					borderBottomWidth: 3,
 					borderRadius: 0,
-					borderColor: "black",
+					borderColor: "white",
+					color: "white",
+					//placeholder text color
+					_placeholder: {
+						color: "gray.300",
+					},
 					_focus: {
-						borderColor: colors.primary,
+						borderColor: colors.primaryDark,
 					},
 				},
 			}),

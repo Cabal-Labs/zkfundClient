@@ -1,4 +1,6 @@
-import ScreenWrapper from "@/components/layout/screenWrapper";
+import { useEffect, useState, useContext } from "react";
+import { useRouter } from "next/router";
+import { Context } from "@/lib/providers/provider";
 import {
 	Button,
 	Checkbox,
@@ -7,18 +9,18 @@ import {
 	InputRightAddon,
 	InputRightElement,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useEffect, useState , useContext} from "react";
-import { MakeDonation } from "@/lib/contracts";
-import { BigNumber, ethers } from "ethers";
 import { useSigner, useBalance } from "wagmi";
+import { fetchBalance } from "@wagmi/core";
+import ScreenWrapper from "@/components/layout/screenWrapper";
+import { BigNumber, ethers } from "ethers";
 import { getCharityInfo } from "@/lib/api/graph";
 import ZkModal from "@/components/zkModal";
-import { ETHPrice } from "@/lib/components/helpers";
+import { ETHPrice, getTokenInfo } from "@/lib/components/helpers";
 import Container from "@/lib/components/glassContainer";
-import MyAssetsSelection from "@/components/donate/myAssetsSelection";
-import { Context } from "@/lib/providers/provider";
-import { AssetType } from "@/src/components/myAssetsSelection";
+import MyAssetsSelection, {
+	AssetType,
+} from "@/components/donate/myAssetsSelection";
+import { MakeDonation } from "@/lib/contracts";
 // import { ETHPrice } from "@/lib/components/helpers";
 
 export default function Donate(props: any) {
@@ -31,31 +33,31 @@ export default function Donate(props: any) {
 	const [availableAssets, setAvailableAssets] = useState<AssetType[]>([
 		{
 			name: "Ethereum",
-			ticker: "ETH",
-			balance: "0.00",
-			balanceInUSD: "0.00",
-			address: "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa"
+			symbol: "ETH",
+			balance: 0,
+			balanceInUSD: 0,
+			address: "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa",
 		},
 		{
 			name: "USD Coin",
-			ticker: "USDC",
-			balance: "0.00",
-			balanceInUSD: "0.00",
-			address: "0x0FA8781a83E46826621b3BC094Ea2A0212e71B23"
+			symbol: "USDC",
+			balance: 0,
+			balanceInUSD: 0,
+			address: "0x0FA8781a83E46826621b3BC094Ea2A0212e71B23",
 		},
 		{
 			name: "Matic",
-			ticker: "MATIC",
-			balance: "0.00",
-			balanceInUSD: "0.00",
-			address:"0x0000000000000000000000000000000000000000"
-		}
-	])
-	
+			symbol: "MATIC",
+			balance: 0,
+			balanceInUSD: 0,
+			address: "0x0000000000000000000000000000000000000000",
+		},
+	]);
+
 	const [charityData, setCharityData] = useState(null);
 	const [charityLoading, setCharityLoading] = useState(false);
-	const [selectedAsset, setSelectedAsset] = useState(availableAssets[0].ticker)
-	const [usdPrice, setUsdPrice] = useState("0.00");
+	const [selectedAsset, setSelectedAsset] = useState(availableAssets[0]);
+	const [usdPrice, setUsdPrice] = useState(0);
 	const [timer, setTimer] = useState(null);
 
 	const [amount, setAmount] = useState("");
@@ -109,37 +111,52 @@ export default function Donate(props: any) {
 		setCharityLoading(false);
 	}
 
-	async function handleAmount(amount: string) {
+	async function handleAmount(amount: string, address: `0x${string}`) {
 		// handle amount input
 		setAmount(amount);
 		clearTimeout(timer);
 
 		const newTimer = setTimeout(async () => {
 			if (amount !== "") {
-				const price = await ETHPrice(amount);
+				const info = await getTokenInfo(address);
+				let price = info.usdPrice * parseFloat(amount);
 				setUsdPrice(price);
 			} else {
-				setUsdPrice("0.00");
+				setUsdPrice(0);
 			}
 		}, 500);
 
 		setTimer(newTimer);
 	}
-	async function getAssets(){
+	async function getAssets() {
+		let _availableAssets = [];
+		for (let i = 0; i < availableAssets.length; i++) {
+			let asset = availableAssets[i];
+			console.log({ asset });
+			try {
+				let result = await fetchBalance({ address: asset.address });
+				let info = await getTokenInfo(asset.address);
+				console.log(result.value._hex);
+				asset.balance = parseFloat(ethers.utils.formatEther(result.value._hex));
+				// asset.balanceInUSD = asset.balance * info.data.usdPrice;
+				console.log(asset.balance);
 
-	
-			
-			let _availableAssets = availableAssets;
-			for (let i = 0; i < _availableAssets.length; i++) {
-				const { data, isError, isLoading } = useBalance({
-					address: _availableAssets[i].address,
-				  })
+				// asset.balance = balance;
+				// asset.balanceInUSD = balance * 1;
+			} catch (e) {
+				console.log(e);
 			}
+			_availableAssets.push(asset);
 		}
+		console.log(_availableAssets);
+		setAvailableAssets(_availableAssets);
+	}
 	useEffect(() => {
 		getCharity();
+	}, [charityId]);
+	useEffect(() => {
 		getAssets();
-	}, [charityId, walletAddress]);
+	}, [walletAddress]);
 	return (
 		<ScreenWrapper className="donate-page" title={"zk.fund Home"}>
 			<Container>
@@ -164,20 +181,19 @@ export default function Donate(props: any) {
 									variant={"underlined"}
 									value={amount}
 									onChange={(e: any) => {
-										handleAmount(e.target.value);
+										handleAmount(e.target.value, selectedAsset.address);
 									}}
 								/>
-								<InputRightElement>
-								<MyAssetsSelection selectedAsset={selectedAsset} setSelectedAsset={setSelectedAsset} availableAssets={[]} />
-									
-								</InputRightElement>
+								<InputRightAddon>
+									<MyAssetsSelection
+										selectedAsset={selectedAsset}
+										setSelectedAsset={setSelectedAsset}
+										availableAssets={availableAssets}
+									/>
+								</InputRightAddon>
 							</InputGroup>
 						</div>
-							{/* show eth to usd conversion */}
-						<h6 className="secondary">
-							~${usdPrice}
-							{/* //todo: Marco */}
-						</h6>
+						<h6 className="to-usd secondary">~${usdPrice}</h6>
 					</div>
 					<Checkbox className="anonymous-checkbox" defaultChecked>
 						Make this donation anonymous
@@ -189,7 +205,7 @@ export default function Donate(props: any) {
 						DONATE
 					</Button>
 				</>
-				
+
 				<ZkModal
 					isOpen={modal.visible}
 					isError={modal.isError}

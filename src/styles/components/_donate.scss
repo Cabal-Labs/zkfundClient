@@ -2,37 +2,48 @@
 @import "../mixins";
 
 .asset-selection-row-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 5px 0px;
-  .select-circle {
-    height: 3rem;
-    width: 3rem;
-    border-width: 2px;
-    border-color: white;
-    border-radius: 50%;
-    margin-right: 0.75rem;
-    align-items: center;
-    justify-content: center;
-  }
-  .asset-info-text-container {
-    flex: 1;
-    .asset-info-top-row {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-    .asset-info-bottom-row {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      .balance {
-        color: var.$text-secondary;
-      }
-      .balance-in-usd {
-        color: var.$text-secondary;
-      }
-    }
-  }
+	cursor: pointer;
+	&:hover {
+		background-color: $button-background;
+		.select-circle {
+			border-color: var.$primary;
+		}
+	}
+	@include flex-container(row, flex-start, flex-start, nowrap, 1, 0.25rem);
+	margin: 5px 0px;
+	padding: 0.5rem 0.75rem;
+	border-radius: 0.25rem;
+	.chakra-radio {
+		margin-top: 0.5rem;
+		padding-right: 0.5rem;
+	}
+	.select-circle {
+		height: 3rem;
+		width: 3rem;
+		border-width: 2px;
+		border-color: white;
+		border-radius: 50%;
+		margin-right: 0.75rem;
+		align-items: center;
+		justify-content: center;
+	}
+	.asset-info-text-container {
+		flex: 1;
+		.asset-info-top-row {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+		}
+		.asset-info-bottom-row {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			.balance {
+				color: var.$text-secondary;
+			}
+			.balance-in-usd {
+				color: var.$text-secondary;
+			}
+		}
+	}
 }

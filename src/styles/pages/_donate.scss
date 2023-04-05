@@ -7,7 +7,6 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			// TODO: temporary background-color until we put glass back
 			background-color: rgba($color: #f1d4ff, $alpha: 0.2);
 			padding: 30px;
 			border-radius: 20px;
@@ -30,9 +29,10 @@
 					display: flex;
 					margin-top: 2rem;
 				}
-				.eth-to-usd {
+				.to-usd {
 					margin-top: 1rem;
 					margin-bottom: 1rem;
+					text-align: center;
 				}
 				#select-value-input {
 					// background-color: blue;
@@ -43,19 +43,15 @@
 					text-align: center;
 				}
 			}
-			#bottom-container {
-				display: flex;
-				flex-direction: column;
-				.anonymous-checkbox {
-					margin-top: 1.875rem;
-					//blah
-				}
-				#donate-button {
-					width: "100%";
-					font-size: 1.5rem;
-					margin-top: 2rem;
-					padding: 1.5rem 0rem;
-				}
+
+			.chakra-checkbox {
+				margin-block: 1rem;
+			}
+			#donate-button {
+				width: "100%";
+				font-size: 1.5rem;
+				margin-top: 1rem;
+				padding: 1.85rem 2rem;
 			}
 		}
 	}
