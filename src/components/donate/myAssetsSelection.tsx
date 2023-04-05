@@ -49,17 +49,19 @@ export default function MyAssetsSelection({
 					{/* <ModalCloseButton /> */}
 					<ModalBody>
 						{availableAssets.map((asset) => (
-							<AssetSelectionRow
-								symbol={asset.symbol}
-								name={asset.name}
-								selected={selectedAsset.symbol === asset.symbol}
-								onSelect={() => {
-									setSelectedAsset(asset);
-									onClose();
-								}}
-								balance={asset.balance}
-								balanceInUSD={asset.balanceInUSD}
-							/>
+							<div key={asset.name}>
+								<AssetSelectionRow
+									symbol={asset.symbol}
+									name={asset.name}
+									selected={selectedAsset.symbol === asset.symbol}
+									onSelect={() => {
+										setSelectedAsset(asset);
+										onClose();
+									}}
+									balance={asset.balance}
+									balanceInUSD={asset.balanceInUSD}
+								/>
+							</div>
 						))}
 						{/* <AssetSelectionRow
               ticker="ETH"

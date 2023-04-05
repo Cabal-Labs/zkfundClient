@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { Context } from "@/lib/providers/provider";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { isCharityApproved } from "@/lib/api/graph";
+import { initMoralis } from "@/lib/components/helpers";
 
 export default function Home() {
 	const router = useRouter();
@@ -18,9 +19,12 @@ export default function Home() {
 		setWalletAddress,
 		setIsConnected,
 		isConnected: _isConnected,
+		isMoralisConnected,
+		setIsMoralisConnected,
+		setMoralis,
 	} = useContext(Context);
 	const { address, isConnected } = useAccount();
-	const [ isCharityWallet, setIsCharityWallet ] = useState<boolean>(false);
+	const [isCharityWallet, setIsCharityWallet] = useState<boolean>(false);
 	function handleMainCTA({ isAnnon }) {
 		if (isConnected) {
 			if (!isAnnon) {
@@ -31,10 +35,10 @@ export default function Home() {
 		}
 	}
 	async function isCharity(address: string) {
-		const  d = await isCharityApproved(address);
-		if (d){
+		const d = await isCharityApproved(address);
+		if (d) {
 			setIsCharityWallet(true);
-		}else{
+		} else {
 			setIsCharityWallet(false);
 		}
 	}
@@ -48,7 +52,6 @@ export default function Home() {
 		}
 	}
 	useEffect(() => {
-		
 		setLoading(true);
 		if (address && isConnected) {
 			isCharity(address);
@@ -58,6 +61,13 @@ export default function Home() {
 		setLoading(false);
 	}, [address, isConnected]);
 
+	useEffect(() => {
+		if (!isMoralisConnected) {
+			const more = initMoralis();
+			setMoralis(more);
+			setIsMoralisConnected(true);
+		}
+	}, []);
 	const timelineItems = [
 		{
 			date: "Sept '22",

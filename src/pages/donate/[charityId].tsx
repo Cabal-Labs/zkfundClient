@@ -15,12 +15,13 @@ import ScreenWrapper from "@/components/layout/screenWrapper";
 import { BigNumber, ethers } from "ethers";
 import { getCharityInfo } from "@/lib/api/graph";
 import ZkModal from "@/components/zkModal";
-import { ETHPrice, getTokenInfo } from "@/lib/components/helpers";
+import { getTokenInfo } from "@/lib/components/helpers";
 import Container from "@/lib/components/glassContainer";
 import MyAssetsSelection, {
 	AssetType,
 } from "@/components/donate/myAssetsSelection";
 import { MakeDonation } from "@/lib/contracts";
+import { Alchemy, Network } from "alchemy-sdk";
 // import { ETHPrice } from "@/lib/components/helpers";
 
 export default function Donate(props: any) {
@@ -28,7 +29,7 @@ export default function Donate(props: any) {
 	// get charityId from url
 	const { charityId } = router.query;
 	let id = parseInt(charityId as string);
-	const { walletAddress } = useContext(Context);
+	const { walletAddress, moralis } = useContext(Context);
 	const { data: signer, isLoading } = useSigner();
 	const [availableAssets, setAvailableAssets] = useState<AssetType[]>([
 		{
@@ -107,7 +108,7 @@ export default function Donate(props: any) {
 		setCharityLoading(true);
 		let data = await getCharityInfo(id);
 		setCharityData(data);
-		console.log(data);
+		// console.log(data);
 		setCharityLoading(false);
 	}
 
@@ -118,7 +119,7 @@ export default function Donate(props: any) {
 
 		const newTimer = setTimeout(async () => {
 			if (amount !== "") {
-				const info = await getTokenInfo(address);
+				const info = await getTokenInfo(address, moralis);
 				let price = info.usdPrice * parseFloat(amount);
 				setUsdPrice(price);
 			} else {
@@ -128,18 +129,32 @@ export default function Donate(props: any) {
 
 		setTimer(newTimer);
 	}
+	const config = {
+		apiKey: process.env.ALCHEMY_ID,
+		network: Network.MATIC_MUMBAI,
+	};
 	async function getAssets() {
 		let _availableAssets = [];
+		try {
+			const alchemy = new Alchemy(config);
+			let balances = await alchemy.core.getTokenBalances(walletAddress);
+			console.log({ balances });
+		} catch (e) {
+			console.log(e);
+		}
 		for (let i = 0; i < availableAssets.length; i++) {
 			let asset = availableAssets[i];
 			console.log({ asset });
 			try {
-				let result = await fetchBalance({ address: asset.address });
-				let info = await getTokenInfo(asset.address);
-				console.log(result.value._hex);
+				let result = await fetchBalance({
+					address: asset.address,
+				});
+				// console.log({ result });
+				let info = await getTokenInfo(asset.address, moralis);
+				// console.log(result.value._hex);
 				asset.balance = parseFloat(ethers.utils.formatEther(result.value._hex));
-				// asset.balanceInUSD = asset.balance * info.data.usdPrice;
-				console.log(asset.balance);
+				asset.balanceInUSD = asset.balance * info.usdPrice || 0;
+				// console.log(asset.balance);
 
 				// asset.balance = balance;
 				// asset.balanceInUSD = balance * 1;

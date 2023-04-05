@@ -1,47 +1,36 @@
 import Moralis from "moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
-async function initMoralis() {
-	if (!Moralis) {
-		await Moralis.start({
-			apiKey: process.env.MORALIS_KEY,
-		});
-		return;
-	} else {
-		return;
-	}
+
+export async function initMoralis() {
+	await Moralis.start({
+		apiKey: process.env.MORALIS_KEY,
+	});
+	return Moralis;
 }
+
 type TokenInfo = {
 	usdPrice: number;
 	nativePrice: any;
 };
-export async function getTokenInfo(tokenAddress: string): Promise<TokenInfo> {
-	try {
-		console.log(process.env.MORALIS_KEY);
-		if (!Moralis) {
-			await Moralis.start({
-				apiKey: process.env.MORALIS_KEY,
-			});
-		}
-	} catch (e) {
-		console.error(e);
-	}
+export async function getTokenInfo(
+	tokenAddress: string,
+	_Moralis: any
+): Promise<TokenInfo> {
 	try {
 		const chain = EvmChain.POLYGON;
-		console.log("chain: ", chain);
-		console.log("tokenAddress: ", tokenAddress);
+		// console.log("chain: ", chain);
+		// console.log("tokenAddress: ", tokenAddress);
 		let mainnetTokenAddress = mumbaiToMainnet(tokenAddress);
-		console.log("mainet address: ", mainnetTokenAddress);
-		const response = await Moralis.EvmApi.token.getTokenPrice({
+		// console.log("mainet address: ", mainnetTokenAddress);
+		const response = await _Moralis.EvmApi.token.getTokenPrice({
 			address: mainnetTokenAddress,
 			chain,
 		});
 		const data = {
-			//@ts-expect-error
 			usdPrice: response.usdPrice,
-			//@ts-expect-error
 			nativePrice: response.nativePrice,
 		};
-		console.log("response:", response.toJSON());
+		// console.log("response:", response.toJSON());
 
 		return data;
 	} catch (e) {
@@ -62,7 +51,10 @@ function mumbaiToMainnet(address: string) {
 			"0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", //USDC
 		"0x0000000000000000000000000000000000000000":
 			"0x0000000000000000000000000000000000000000", //MATIC
+		"0xE097d6B3100777DC31B34dC2c58fB524C2e76921":
+			"0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", //USDC 2
 	};
+
 	const d: string = translate[address];
 	return d;
 }

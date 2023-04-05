@@ -3,9 +3,17 @@ import AllData, { Data } from "./context";
 
 export const Context = createContext<Data>({
 	loggedIn: false,
-	setLoggedIn: () => {},
+	setLoggedIn: (boolean) => {},
 	pubAddress: "",
-	setPubAddress: () => {},
+	setPubAddress: (string) => {},
+	walletAddress: "",
+	setWalletAddress: (string) => {},
+	isConnected: false,
+	setIsConnected: (boolean) => {},
+	isMoralisConnected: false,
+	setIsMoralisConnected: (boolean) => {},
+	moralis: undefined,
+	setMoralis: () => {},
 });
 
 export const Provider = ({ children }: any) => {
