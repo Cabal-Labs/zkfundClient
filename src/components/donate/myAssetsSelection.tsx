@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
 	Button,
 	Modal,
@@ -11,25 +11,35 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import AssetSelectionRow from "./assetSelectionRow";
+import { useBalance } from "wagmi";
+import { whiteListedTokens } from "@/pages/donate/[charityId]";
+import { Context } from "@/lib/providers/provider";
 export type AssetType = {
-	symbol: string;
-	name: string;
 	balance: number;
-	balanceInUSD: number;
 	address: `0x${string}`;
 };
 interface MyAssetsSelectionProps {
-	selectedAsset: AssetType;
-	setSelectedAsset: (asset: AssetType) => void;
-	availableAssets: AssetType[];
+	selectedAsset: `0x${string}`;
+	setSelectedAsset: any;
 }
 
 export default function MyAssetsSelection({
 	selectedAsset,
 	setSelectedAsset,
-	availableAssets,
 }: MyAssetsSelectionProps) {
+	const { walletAddress } = useContext(Context);
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const { data, isError, isLoading } = useBalance({
+		address: walletAddress as `0x${string}`,
+		token: assetCheck(),
+	});
+	function assetCheck(): `0x${string}` {
+		if (selectedAsset === "0x0000000000000000000000000000000000000000") {
+			return null;
+		} else {
+			return selectedAsset;
+		}
+	}
 	return (
 		<>
 			<Button
@@ -37,7 +47,7 @@ export default function MyAssetsSelection({
 				variant={"outlined"}
 				minW={"80px"}
 				onClick={onOpen}>
-				{selectedAsset.symbol}
+				{data?.symbol}
 			</Button>
 			<Modal variant={"gradientOutlined"} isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
@@ -48,18 +58,15 @@ export default function MyAssetsSelection({
 					</ModalHeader>
 					{/* <ModalCloseButton /> */}
 					<ModalBody>
-						{availableAssets.map((asset) => (
-							<div key={asset.name}>
+						{whiteListedTokens.map((asset) => (
+							<div key={asset}>
 								<AssetSelectionRow
-									symbol={asset.symbol}
-									name={asset.name}
-									selected={selectedAsset.symbol === asset.symbol}
+									address={asset}
+									selected={asset === selectedAsset}
 									onSelect={() => {
 										setSelectedAsset(asset);
 										onClose();
 									}}
-									balance={asset.balance}
-									balanceInUSD={asset.balanceInUSD}
 								/>
 							</div>
 						))}

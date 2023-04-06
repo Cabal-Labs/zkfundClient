@@ -10,10 +10,6 @@ export const Context = createContext<Data>({
 	setWalletAddress: (string) => {},
 	isConnected: false,
 	setIsConnected: (boolean) => {},
-	isMoralisConnected: false,
-	setIsMoralisConnected: (boolean) => {},
-	moralis: undefined,
-	setMoralis: () => {},
 });
 
 export const Provider = ({ children }: any) => {

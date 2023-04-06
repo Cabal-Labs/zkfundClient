@@ -9,13 +9,13 @@ import {
 	InputRightAddon,
 	InputRightElement,
 } from "@chakra-ui/react";
-import { useSigner, useBalance } from "wagmi";
+import { useSigner, useBalance, useAccount } from "wagmi";
 import { fetchBalance } from "@wagmi/core";
 import ScreenWrapper from "@/components/layout/screenWrapper";
 import { BigNumber, ethers } from "ethers";
 import { getCharityInfo } from "@/lib/api/graph";
 import ZkModal from "@/components/zkModal";
-import { getTokenInfo } from "@/lib/components/helpers";
+import { getTokenInfo, mumbaiToMainnet } from "@/lib/components/helpers";
 import Container from "@/lib/components/glassContainer";
 import MyAssetsSelection, {
 	AssetType,
@@ -23,41 +23,27 @@ import MyAssetsSelection, {
 import { MakeDonation } from "@/lib/contracts";
 import { Alchemy, Network } from "alchemy-sdk";
 // import { ETHPrice } from "@/lib/components/helpers";
-
+export const whiteListedTokens: `0x${string}`[] = [
+	"0x0000000000000000000000000000000000000000",
+	"0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa",
+	"0x0FA8781a83E46826621b3BC094Ea2A0212e71B23",
+	"0x2d7882beDcbfDDce29Ba99965dd3cdF7fcB10A1e",
+];
 export default function Donate(props: any) {
 	const router = useRouter();
 	// get charityId from url
 	const { charityId } = router.query;
 	let id = parseInt(charityId as string);
-	const { walletAddress, moralis } = useContext(Context);
+	const { walletAddress } = useContext(Context);
 	const { data: signer, isLoading } = useSigner();
-	const [availableAssets, setAvailableAssets] = useState<AssetType[]>([
-		{
-			name: "Ethereum",
-			symbol: "ETH",
-			balance: 0,
-			balanceInUSD: 0,
-			address: "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa",
-		},
-		{
-			name: "USD Coin",
-			symbol: "USDC",
-			balance: 0,
-			balanceInUSD: 0,
-			address: "0x0FA8781a83E46826621b3BC094Ea2A0212e71B23",
-		},
-		{
-			name: "Matic",
-			symbol: "MATIC",
-			balance: 0,
-			balanceInUSD: 0,
-			address: "0x0000000000000000000000000000000000000000",
-		},
-	]);
+	// const {data} = useAccount()
+
+	const [availableAssets, setAvailableAssets] =
+		useState<string[]>(whiteListedTokens);
 
 	const [charityData, setCharityData] = useState(null);
 	const [charityLoading, setCharityLoading] = useState(false);
-	const [selectedAsset, setSelectedAsset] = useState(availableAssets[0]);
+	const [selectedAsset, setSelectedAsset] = useState(whiteListedTokens[0]);
 	const [usdPrice, setUsdPrice] = useState(0);
 	const [timer, setTimer] = useState(null);
 
@@ -68,6 +54,25 @@ export default function Donate(props: any) {
 		title: "",
 		content: null,
 	});
+	const {
+		data: maticData,
+		isError,
+		isLoading: maticLoading,
+		refetch,
+	} = useBalance({
+		address: walletAddress as `0x${string}`,
+		token: assetCheck(),
+	});
+	useEffect(() => {
+		refetch();
+	}, [selectedAsset]);
+	function assetCheck(): `0x${string}` {
+		if (selectedAsset === "0x0000000000000000000000000000000000000000") {
+			return null;
+		} else {
+			return selectedAsset;
+		}
+	}
 
 	async function donate() {
 		// send amount to charity
@@ -119,9 +124,10 @@ export default function Donate(props: any) {
 
 		const newTimer = setTimeout(async () => {
 			if (amount !== "") {
-				const info = await getTokenInfo(address, moralis);
-				let price = info.usdPrice * parseFloat(amount);
-				setUsdPrice(price);
+				const info = await getTokenInfo(address);
+				// let price = info.usdPrice * parseFloat(amount);
+				// console.log({ price });
+				setUsdPrice(0);
 			} else {
 				setUsdPrice(0);
 			}
@@ -134,37 +140,30 @@ export default function Donate(props: any) {
 		network: Network.MATIC_MUMBAI,
 	};
 	async function getAssets() {
-		let _availableAssets = [];
+		console.log("GETTING ASSETS");
+		let _availableAssets = ["0x0000000000000000000000000000000000000000"];
+
 		try {
 			const alchemy = new Alchemy(config);
-			let balances = await alchemy.core.getTokenBalances(walletAddress);
+			let balances = (await alchemy.core.getTokenBalances(
+				walletAddress
+			)) as any;
+			console.log("HERE");
 			console.log({ balances });
+
+			for (let i = 0; i < balances.tokenBalances.length; i++) {
+				// if the mainnet address of the token is in the availableAssets array
+				//fetch the price and amount
+				let tokenBalance = balances.tokenBalances[i].tokenBalance;
+				let tokenAddress = balances.tokenBalances[i].contractAddress;
+				if (whiteListedTokens.indexOf(tokenAddress) !== -1) {
+					_availableAssets.push(tokenAddress);
+				}
+			}
+			setAvailableAssets(_availableAssets);
 		} catch (e) {
 			console.log(e);
 		}
-		for (let i = 0; i < availableAssets.length; i++) {
-			let asset = availableAssets[i];
-			console.log({ asset });
-			try {
-				let result = await fetchBalance({
-					address: asset.address,
-				});
-				// console.log({ result });
-				let info = await getTokenInfo(asset.address, moralis);
-				// console.log(result.value._hex);
-				asset.balance = parseFloat(ethers.utils.formatEther(result.value._hex));
-				asset.balanceInUSD = asset.balance * info.usdPrice || 0;
-				// console.log(asset.balance);
-
-				// asset.balance = balance;
-				// asset.balanceInUSD = balance * 1;
-			} catch (e) {
-				console.log(e);
-			}
-			_availableAssets.push(asset);
-		}
-		console.log(_availableAssets);
-		setAvailableAssets(_availableAssets);
 	}
 	useEffect(() => {
 		getCharity();
@@ -196,21 +195,20 @@ export default function Donate(props: any) {
 									variant={"underlined"}
 									value={amount}
 									onChange={(e: any) => {
-										handleAmount(e.target.value, selectedAsset.address);
+										handleAmount(e.target.value, selectedAsset);
 									}}
 								/>
 								<InputRightAddon>
 									<MyAssetsSelection
 										selectedAsset={selectedAsset}
 										setSelectedAsset={setSelectedAsset}
-										availableAssets={availableAssets}
 									/>
 								</InputRightAddon>
 							</InputGroup>
 						</div>
 						<h6 className="to-usd secondary">~${usdPrice}</h6>
 					</div>
-					<Checkbox className="anonymous-checkbox" defaultChecked>
+					<Checkbox className="anonymous-checkbox" defaultChecked isDisabled>
 						Make this donation anonymous
 					</Checkbox>
 					<Button

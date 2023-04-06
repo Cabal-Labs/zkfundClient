@@ -18,11 +18,16 @@ import { ethers } from "ethers";
 import { getTokenInfo } from "@/lib/components/helpers";
 import { Context } from "@/lib/providers/provider";
 import { isCharityApproved } from "@/lib/api/graph";
+
 export default function Charity() {
 	const { data: signer, isLoading } = useSigner();
-	const { walletAddress: charityAddress, setWalletAddress, setIsConnected } = useContext(Context);
-	const { address:_address, isConnected:_isConnected } = useAccount();
-	const [ isCharityWallet, setIsCharityWallet ] = useState<boolean>(false);
+	const {
+		walletAddress: charityAddress,
+		setWalletAddress,
+		setIsConnected,
+	} = useContext(Context);
+	const { address: _address, isConnected: _isConnected } = useAccount();
+	const [isCharityWallet, setIsCharityWallet] = useState<boolean>(false);
 	const [loading, setLoading] = useState(false);
 	const [charity, setCharity] = useState({} as any);
 	const [status, setStatus] = useState(0);
@@ -50,15 +55,14 @@ export default function Charity() {
 			usd_amount: "50",
 		},
 	];
-	async function refetchAddress(){
-		if (!charityAddress){
+	async function refetchAddress() {
+		if (!charityAddress) {
 			let retryAddress = _address;
-			setWalletAddress(retryAddress)
-			setIsConnected(_isConnected)
+			setWalletAddress(retryAddress);
+			setIsConnected(_isConnected);
 			return retryAddress;
-		}
-		else {
-			return charityAddress
+		} else {
+			return charityAddress;
 		}
 	}
 	async function getCharity(address) {
@@ -66,8 +70,8 @@ export default function Charity() {
 		console.log("data from address: ", data);
 		if (data) {
 			let _balance = 0;
-			console.log(data.charityId)
-			
+			console.log(data.charityId);
+
 			// TODO: Make sure this returns the array!!!!
 
 			let tokenList = await GetDonationPools(data.charityId, signer);
@@ -76,31 +80,32 @@ export default function Charity() {
 			// let price = await getTokenPrice("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174");
 			// console.log( "Price Test: ",price );
 			// loop through token list
+			if (tokenList.length > 0) {
+				for (let i = 0; i < tokenList.length; i++) {
+					console.log(`tokenlist[${i}]: `, tokenList[i][0]);
+					console.log(`tokenlist[${i}]amount: `, tokenList[i].amount);
 
-			for (let i = 0; i < tokenList.length; i++) {
-				console.log(`tokenlist[${i}]: `, tokenList[i][0]);
-				console.log(`tokenlist[${i}]amount: `, tokenList[i].amount);
-
-				let price = await getTokenInfo(tokenList[i][0]);
-				console.log({ price });
-				let amount = await tokenList[i].amount;
-				let _amount = parseFloat(ethers.utils.formatEther(amount));
-				let usd_amount = 0 * _amount;
-				let _token = {
-					address: tokenList[i].address,
-					amount: tokenList[i].amount,
-					usd_amount: usd_amount,
-					name: price.nativePrice.name,
-					symbol: price.nativePrice.symbol,
-				};
-				_balance += usd_amount;
-				_tokenList.push(_token);
+					// let price = await getTokenInfo(tokenList[i][0]);
+					// console.log({ price });
+					// let amount = await tokenList[i].amount;
+					// let _amount = parseFloat(ethers.utils.formatEther(amount));
+					// let usd_amount = 0 * _amount;
+					// let _token = {
+					// 	address: tokenList[i].address,
+					// 	amount: tokenList[i].amount,
+					// 	usd_amount: usd_amount,
+					// 	name: price.nativePrice.name,
+					// 	symbol: price.nativePrice.symbol,
+					// };
+					// _balance += usd_amount;
+					_tokenList.push({});
+				}
+				setStatus(data.status);
+				let _data = { ...data, balance: _balance, tokenList: _tokenList };
+				console.log("_data: ", _data);
+				setCharity(_data);
+				return data;
 			}
-			setStatus(data.status);
-			let _data = { ...data, balance: _balance, tokenList: _tokenList };
-			console.log("_data: ", _data);
-			setCharity(_data);
-			return data;
 		} else {
 			return null;
 		}
@@ -115,19 +120,16 @@ export default function Charity() {
 		}
 	}
 	async function isCharity(address: string) {
-		const  d = await isCharityApproved(address);
-		if (d){
+		const d = await isCharityApproved(address);
+		if (d) {
 			setIsCharityWallet(true);
 			await getCharity(address);
-			
-
-		}else{
+		} else {
 			setIsCharityWallet(false);
 		}
 	}
 
 	useEffect(() => {
-		
 		setLoading(true);
 		if (_address && _isConnected) {
 			isCharity(_address);
@@ -154,10 +156,12 @@ export default function Charity() {
 						<br />
 						<p>Think you're a verified Charity?</p>
 						<Button
-						onClick={()=> {
-							let retryAddress = refetchAddress();
-							getCharity(retryAddress)}}
-						>Retry Authentication</Button>
+							onClick={() => {
+								let retryAddress = refetchAddress();
+								getCharity(retryAddress);
+							}}>
+							Retry Authentication
+						</Button>
 					</>
 				) : (
 					<Container>
