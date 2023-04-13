@@ -60,16 +60,14 @@ export default function CharityDetails({ selectedCharity }) {
 						</div>
 					</div>
 					<p className="description">{data?.description || "No Description"}</p>
-					{!pending && (
 
-						<Button
+					<Button
 						variant={"outlined"}
 						onClick={() => {
 							router.push(`/donate/${selectedCharity}`);
 						}}>
 						Donate to {data?.name}
 					</Button>
-						)}
 				</div>
 			</div>
 		);

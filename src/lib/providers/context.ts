@@ -14,6 +14,7 @@ const AllData = () => {
 	const [loggedIn, setLoggedIn] = useState<boolean>(false);
 	const [walletAddress, setWalletAddress] = useState<string>("");
 	const [isConnected, setIsConnected] = useState<boolean>(false);
+
 	const provider = useMemo(
 		() => ({
 			loggedIn,

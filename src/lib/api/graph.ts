@@ -20,7 +20,7 @@ export async function GetAllCharities() {
     `;
 	// make the request
 	let result = await client.query(query, {}).toPromise();
-	console.log({ result });
+	// console.log({ result });
 	return result.data.charityCreateds;
 }
 export async function SearchCharities(search: string) {
@@ -56,8 +56,8 @@ export async function GetVoteState(
 	return result.data.approveVotes;
 }
 export async function getCharityInfo(charityId: number) {
-    //somtimes charityCreateds is undefined
-	console.log("ID: ", charityId);
+	//somtimes charityCreateds is undefined
+	// console.log("ID: ", charityId);
 	const query = `
     {
         charityCreateds(where: {charityId: "${charityId}"}) {
@@ -70,21 +70,20 @@ export async function getCharityInfo(charityId: number) {
         }
     }`;
 	let result = await client.query(query, { charityId }).toPromise();
-	console.log(result);
-    if (result.data){
+	// console.log(result);
+	if (result.data) {
+		let info = result.data.charityCreateds[0].info;
 
-        let info = result.data.charityCreateds[0].info;
-        
-        let charityInfo = await retrieveCharity(info);
-        console.log({ charityInfo });
-        let charity = { ...result.data.charityCreateds[0], ...charityInfo };
-        console.log("Charity: ", charity);
-        return charity;
-    }
+		let charityInfo = await retrieveCharity(info);
+		// console.log({ charityInfo });
+		let charity = { ...result.data.charityCreateds[0], ...charityInfo };
+		// console.log("Charity: ", charity);
+		return charity;
+	}
 }
 export async function getCharityInfoByAddress(charityAddress) {
 	try {
-		console.log("address: ", charityAddress);
+		// console.log("address: ", charityAddress);
 		const query = `
         {
             charityCreateds(where: {charityAddress: "${charityAddress}"}) {
@@ -96,15 +95,15 @@ export async function getCharityInfoByAddress(charityAddress) {
             }
         }`;
 		let result = await client.query(query, { charityAddress }).toPromise();
-		console.log("getByAddress", result);
+		// console.log("getByAddress", result);
 		if (result.data.length === 0) {
 			return null;
 		} else {
 			let info = result.data.charityCreateds[0];
 			let charityInfo = await retrieveCharity(info.info);
-			console.log("charity info", { charityInfo });
+			// console.log("charity info", { charityInfo });
 			let charity = { ...result.data.charityCreateds[0], ...charityInfo };
-			console.log("Charity: ", charity);
+			// console.log("Charity: ", charity);
 			return charity;
 		}
 	} catch (error) {
@@ -125,7 +124,7 @@ export async function getPendingCharities() {
         }
       }`;
 	let result = await client.query(query, { status }).toPromise();
-	console.log("in validation: ", result);
+	// console.log("in validation: ", result);
 	return result.data;
 }
 
@@ -143,7 +142,7 @@ export async function getApprovedCharities(charityId: number) {
         }
       }`;
 	let result = await client.query(query, { status }).toPromise();
-	console.log("in validation: ", result);
+	// console.log("in validation: ", result);
 	return result.data.charityCreateds;
 }
 export async function getDisapprovedCharities(charityId: number) {
@@ -160,13 +159,13 @@ export async function getDisapprovedCharities(charityId: number) {
         }
       }`;
 	let result = await client.query(query, { status }).toPromise();
-	console.log("in validation: ", result);
+	// console.log("in validation: ", result);
 	return result.data;
 }
 
 export async function isCharityApproved(charityAddress) {
 	try {
-		console.log("address: ", charityAddress);
+		// console.log("address: ", charityAddress);
 		const query = `
         {
             charityCreateds(where: {charityAddress: "${charityAddress}"}) {
@@ -174,17 +173,17 @@ export async function isCharityApproved(charityAddress) {
             }
         }`;
 		let result = await client.query(query, { charityAddress }).toPromise();
-		console.log("getByAddress", result);
+		// console.log("getByAddress", result);
 		if (result.data.length === 0) {
 			return false;
 		} else {
 			let info = result.data.charityCreateds[0];
-			console.log("Charity: ", info.status);
-            if (info.status === 2){
-                return true;
-            }else{
-                return false;
-            }
+			// console.log("Charity: ", info.status);
+			if (info.status === 2) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	} catch (error) {
 		console.log(error);
