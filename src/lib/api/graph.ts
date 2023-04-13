@@ -191,12 +191,17 @@ export async function isCharityApproved(charityAddress) {
 	}
 }
 
-// export async function GetCharityRequests() {
-// 	const query = `
-//     {
-//         CharityCreated {
-//             name
-//         }
-//     }
-//     `;
-// }
+export async function getInitialCharities() {
+    const query = `
+    {
+        charityCreateds(first: 8) {
+            id
+            charityAddress
+            name
+            charityId
+            status
+          }
+        }`;
+	let result = await client.query(query,{}).toPromise();
+	return result.data.charityCreateds;
+}
