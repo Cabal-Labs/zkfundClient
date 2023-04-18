@@ -39,8 +39,14 @@ export default function Home(props) {
 			}
 			setLoading(false);
 			return charities;
+		}else{
+			const charities = await getInitialCharities();
+			setCharities(charities);
+			setLoading(false);
+			return charities;
 		}
-		setLoading(false);
+
+		
 	}
 	const getInitial = async () => {
 		const charities = await getInitialCharities();

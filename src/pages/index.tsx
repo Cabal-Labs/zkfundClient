@@ -161,15 +161,10 @@ export default function Home() {
 					<div className="content">
 						<h2>Why do we exist?</h2>
 						<p>
-							Laboris nostrud dolore proident culpa non mollit proident
-							reprehenderit aliqua et quis exercitation Lorem. Deserunt sunt
-							commodo elit fugiat fugiat ad proident magna. Incididunt do minim
-							irure veniam esse. Sint eiusmod do proident fugiat irure laborum
-							consequat pariatur reprehenderit velit minim cupidatat. Laborum
-							nulla aute reprehenderit excepteur nostrud velit reprehenderit
-							irure aliquip ad ea incididunt ipsum. Commodo cupidatat laborum
-							qui reprehenderit laboris non nulla commodo officia minim anim in
-							occaecat.
+						ZKFund exists as a pioneering web3 company, dedicated to democratizing access to donations by harnessing the power of blockchain technology. 
+						Our mission is to champion the right to donate and support causes that align with individual values while fostering a transparent and accountable donation ecosystem.
+						As a forward-thinking organization, ZKFund understands the importance of embracing innovation to address the challenges faced by the traditional philanthropic sector.
+						Our dedication to utilizing blockchain technology not only enhances the security and privacy of donations but also streamlines the donation process, making it more accessible and efficient for all.
 						</p>
 					</div>
 					<div className="img-wrapper">
@@ -185,15 +180,11 @@ export default function Home() {
 					<div className="content">
 						<h2>Donations are protected by Free Speech</h2>
 						<p>
-							Laboris nostrud dolore proident culpa non mollit proident
-							reprehenderit aliqua et quis exercitation Lorem. Deserunt sunt
-							commodo elit fugiat fugiat ad proident magna. Incididunt do minim
-							irure veniam esse. Sint eiusmod do proident fugiat irure laborum
-							consequat pariatur reprehenderit velit minim cupidatat. Laborum
-							nulla aute reprehenderit excepteur nostrud velit reprehenderit
-							irure aliquip ad ea incididunt ipsum. Commodo cupidatat laborum
-							qui reprehenderit laboris non nulla commodo officia minim anim in
-							occaecat.
+						As a leading force in decentralized philanthropy, ZKFund upholds the principles of privacy and Free Speech by providing truly anonymous donation options. 
+						This approach enables donors to voice their support for a wide range of social, political, and environmental causes without facing judgment, discrimination, 
+						or potential backlash. By combining cutting-edge technology with our unwavering commitment to privacy and Free Speech,
+						 ZKFund is fostering a more inclusive and equitable donation environment, enabling individuals from all walks of life to make a positive impact on the world.
+						 Discover the future of philanthropy with ZKFund, and join us in redefining the way we give.
 						</p>
 					</div>
 					<div className="img-wrapper">
@@ -209,15 +200,8 @@ export default function Home() {
 					<div className="content">
 						<h2>Verified charities give you peace of mind</h2>
 						<p>
-							Laboris nostrud dolore proident culpa non mollit proident
-							reprehenderit aliqua et quis exercitation Lorem. Deserunt sunt
-							commodo elit fugiat fugiat ad proident magna. Incididunt do minim
-							irure veniam esse. Sint eiusmod do proident fugiat irure laborum
-							consequat pariatur reprehenderit velit minim cupidatat. Laborum
-							nulla aute reprehenderit excepteur nostrud velit reprehenderit
-							irure aliquip ad ea incididunt ipsum. Commodo cupidatat laborum
-							qui reprehenderit laboris non nulla commodo officia minim anim in
-							occaecat.
+						At ZKFund, we prioritize the importance of curating a network of validators who collaborate to onboard a diverse range of charities, as determined by community requests. This decentralized approach empowers the community by placing decision-making authority into their hands.
+Furthermore, ZKFund is committed to safeguarding donor privacy by enabling truly anonymous donations. This protects individuals who might face risks when supporting specific social causes, encouraging a more open and dynamic philanthropic environment without fear of repercussions.
 						</p>
 					</div>
 					<div className="img-wrapper">

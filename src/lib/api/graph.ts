@@ -26,7 +26,7 @@ export async function GetAllCharities() {
 export async function SearchCharities(search: string) {
 	const query = `
     {
-        charityCreateds(where: {name_starts_with_nocase: "${search}"}) {
+        charityCreateds(where: {name_contains_nocase: "${search}"}, orderBy: name) {
             id
             charityAddress
             name
