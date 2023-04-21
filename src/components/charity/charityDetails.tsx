@@ -5,6 +5,7 @@ import { Avatar, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { P } from "styled-icons/fa-solid";
+import ZkCarousel from "../carousel";
 
 export default function CharityDetails({ selectedCharity }) {
 	const router = useRouter();
@@ -58,6 +59,10 @@ export default function CharityDetails({ selectedCharity }) {
 							<Icon icon={"Contact"} title={"Location"} />
 							<p>{data?.contact || "No contact"}</p>
 						</div>
+					</div>
+						
+					<div className="image-carousel">
+					 <ZkCarousel /> 
 					</div>
 					<p className="description">{data?.description || "No Description"}</p>
 

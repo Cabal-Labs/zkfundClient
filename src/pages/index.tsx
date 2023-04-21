@@ -102,7 +102,7 @@ export default function Home() {
 				<div id="landing">
 					<div className="title">
 						<h1>Donations are your Right</h1>
-						<h3>powered by Polygon zkEVM</h3>
+						<h3>powered by Polygon</h3>
 					</div>
 					<div className="cta">
 						{_isConnected ? (
