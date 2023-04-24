@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { Context } from "@/lib/providers/provider";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { isCharityApproved } from "@/lib/api/graph";
+import { ethers } from "ethers";
 export default function Home() {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);

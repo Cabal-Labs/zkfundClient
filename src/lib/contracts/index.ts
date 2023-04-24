@@ -76,7 +76,7 @@ async function MakeDonation(
 	signer: Signer
 ) {
 	const { CharitiesRegistry } = Contracts(signer);
-	if (_tokensA == "0") {
+	if (_tokensA == "0x0000000000000000000000000000000000000000") {
 		const gasFee = await CharitiesRegistry.estimateGas.makeDonation(
 			charityId,
 			_tokensA,
@@ -88,16 +88,42 @@ async function MakeDonation(
 
 		// Making the donation
 		try {
-			const result = await CharitiesRegistry.makeDonation(charityId, {
+			const result = await CharitiesRegistry.makeDonation(
+				charityId,
+				_tokensA,
+				0, 
+				{
 				value: _value,
 				gasLimit: gasFee,
-			});
+				}
+			);
 			return result;
 		} catch (e) {
 			console.log(e);
 			return e;
 		}
 	} else {
+		const gasFee = await CharitiesRegistry.estimateGas.makeDonation(
+			charityId,
+			_tokensA,
+			_value
+		);
+
+		// Making the donation
+		try {
+			const result = await CharitiesRegistry.makeDonation(
+				charityId,
+				_tokensA,
+				_value,
+				{
+					gasLimit: gasFee,
+				}
+			);
+			return result;
+		} catch (e) {
+			console.log(e);
+			return e;
+		}
 	}
 }
 async function ResolveCharities(charityId: number, signer: Signer) {
