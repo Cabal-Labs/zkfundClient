@@ -12,12 +12,7 @@ export default function CharityDetails({ selectedCharity }) {
 	const [data, setData] = useState({} as any);
 	const [pending, setPending] = useState(true);
 	const [loading, setLoading] = useState(false);
-
-	const cards = [
-		'https://images.unsplash.com/photo-1612852098516-55d01c75769a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
-		'https://images.unsplash.com/photo-1627875764093-315831ac12f7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
-		'https://images.unsplash.com/photo-1571432248690-7fd6980a1ae2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
-	];
+	const [images, setImages] = useState([]);
 
 	async function getCharity() {
 		console.log("getting charity info with id: ", selectedCharity);
@@ -25,6 +20,7 @@ export default function CharityDetails({ selectedCharity }) {
 		else {
 			let data = await getCharityInfo(selectedCharity);
 			console.log("data: ", data);
+			setImages(data?.images);
 			setData(data);
 			if (data?.status == 0) {
 				setPending(false);
@@ -42,7 +38,7 @@ export default function CharityDetails({ selectedCharity }) {
 		return (
 			<div className="charity-details" id={`charity-${selectedCharity}`}>
 				<div className="header">
-					<Avatar src={data?.pic} size="lg" />
+					<Avatar src={data?.profile} size="lg" />
 					<div className="content">
 						<h2>{data?.name}</h2>
 						<h5 className="secondary">
@@ -54,10 +50,10 @@ export default function CharityDetails({ selectedCharity }) {
 				<div className="content">
 
 
-					{(cards.length > 0) 
+					{((images).length > 0) 
 						&&
 						<div className="image-carousel">
-							<ZkCarousel cards={cards} /> 
+							<ZkCarousel cards={data?.images} /> 
 						</div>
 					}
 					<div className="quick-info">
@@ -71,7 +67,7 @@ export default function CharityDetails({ selectedCharity }) {
 						</div>
 						<div className="info">
 							<Icon icon={"Contact"} title={"Location"} />
-							<p>{data?.contact || "No contact"}</p>
+							<p>{data?.email || "No contact"}</p>
 						</div>
 					</div>
 						

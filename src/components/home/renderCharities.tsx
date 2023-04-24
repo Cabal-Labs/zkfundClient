@@ -3,6 +3,7 @@ import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import CharityCard from "../charity/charityCard";
+import {getCharityInfo} from "@/lib/api/graph";
 
 interface RenderProps {
 	loading: boolean;
@@ -33,10 +34,14 @@ export default function RenderCharities({
 		setSelectedCharity(item.charityId);
 	}
 
+	
+
 	const [open, setOpen] = useState<boolean>(false);
 	useEffect(() => {
 		// when the search term changes, make sure open is true
 		setOpen(true);
+		
+
 	}, [searchTerm]);
 
 	if (loading) {
