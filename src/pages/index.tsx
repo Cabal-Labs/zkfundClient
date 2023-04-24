@@ -161,73 +161,74 @@ export default function Home() {
 					<div className="content">
 						<h2>Why do we exist?</h2>
 						<p>
-							Laboris nostrud dolore proident culpa non mollit proident
-							reprehenderit aliqua et quis exercitation Lorem. Deserunt sunt
-							commodo elit fugiat fugiat ad proident magna. Incididunt do minim
-							irure veniam esse. Sint eiusmod do proident fugiat irure laborum
-							consequat pariatur reprehenderit velit minim cupidatat. Laborum
-							nulla aute reprehenderit excepteur nostrud velit reprehenderit
-							irure aliquip ad ea incididunt ipsum. Commodo cupidatat laborum
-							qui reprehenderit laboris non nulla commodo officia minim anim in
-							occaecat.
+							There are so many platforms you can use to donate to charities,
+							but none of them offer true donation privacy. The ones that claim
+							to do so still facilitate transactions that are trackable by
+							governments. Why is donation privacy important? People may not
+							want others to see what social causes or political candidates they
+							support for various reasons. In terms of social and professional
+							implications, other people and even one's workplace may not be
+							tolerant of the causes one chooses to support. Moreover, in some
+							parts of the world, especially 3rd world countries and countries
+							with oppressive regimes, it is actually dangerous to publicly
+							support certain political parties or social causes.
 						</p>
 					</div>
-					<div className="img-wrapper">
+					{/* <div className="img-wrapper">
 						<Image
 							src={"https://picsum.photos/200"}
 							layout={"fill"}
 							objectFit={"cover"}
 							objectPosition={"center"}
 						/>
-					</div>
+					</div> */}
 				</section>
 				<section className="reverse" id="info-1">
 					<div className="content">
 						<h2>Donations are protected by Free Speech</h2>
 						<p>
-							Laboris nostrud dolore proident culpa non mollit proident
-							reprehenderit aliqua et quis exercitation Lorem. Deserunt sunt
-							commodo elit fugiat fugiat ad proident magna. Incididunt do minim
-							irure veniam esse. Sint eiusmod do proident fugiat irure laborum
-							consequat pariatur reprehenderit velit minim cupidatat. Laborum
-							nulla aute reprehenderit excepteur nostrud velit reprehenderit
-							irure aliquip ad ea incididunt ipsum. Commodo cupidatat laborum
-							qui reprehenderit laboris non nulla commodo officia minim anim in
-							occaecat.
+							At zk.fund, we believe people deserve the right to donate to
+							causes that are meaningful to them, regardless of what others may
+							believe. Our mission is to make safe, secure, and anonymous
+							donations possible for everyone, especially for causes that are
+							stigmatized in a donor's community. Our platform uses cutting-edge
+							technology to ensure that your donations stay private, so you can
+							support the causes you believe in without worrying about potential
+							consequences.
 						</p>
 					</div>
-					<div className="img-wrapper">
+					{/* <div className="img-wrapper">
 						<Image
 							src={"https://picsum.photos/200"}
 							layout={"fill"}
 							objectFit={"cover"}
 							objectPosition={"center"}
 						/>
-					</div>
+					</div> */}
 				</section>
 				<section className="" id="info-1">
 					<div className="content">
 						<h2>Verified charities give you peace of mind</h2>
 						<p>
-							Laboris nostrud dolore proident culpa non mollit proident
-							reprehenderit aliqua et quis exercitation Lorem. Deserunt sunt
-							commodo elit fugiat fugiat ad proident magna. Incididunt do minim
-							irure veniam esse. Sint eiusmod do proident fugiat irure laborum
-							consequat pariatur reprehenderit velit minim cupidatat. Laborum
-							nulla aute reprehenderit excepteur nostrud velit reprehenderit
-							irure aliquip ad ea incididunt ipsum. Commodo cupidatat laborum
-							qui reprehenderit laboris non nulla commodo officia minim anim in
-							occaecat.
+							We know how it sounds. Anonymous donations? That sounds like a
+							recipe for disaster, especially when you consider certain bad
+							actors that could benefit from receiving funding through the
+							platform. How do I make sure my money isn't going to money
+							laundering activities or towards funding terrorist organizations?
+							Rest assured, we have built out a robust validator network that
+							works to verify each and every charity and organization on
+							zk.fund. Our validators are trained to conduct heavy due diligence
+							to ensure every organization on the platform is legitimate.
 						</p>
 					</div>
-					<div className="img-wrapper">
+					{/* <div className="img-wrapper">
 						<Image
 							src={"https://picsum.photos/200"}
 							layout={"fill"}
 							objectFit={"cover"}
 							objectPosition={"center"}
 						/>
-					</div>
+					</div> */}
 				</section>
 				<section id="timeline">
 					<div className="content">

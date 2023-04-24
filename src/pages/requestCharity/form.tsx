@@ -17,6 +17,7 @@ import { useSigner } from "wagmi";
 import { InitCharity } from "@/lib/contracts";
 import { sign } from "crypto";
 import countries from "@/lib/countries";
+import Container from "@/lib/components/glassContainer";
 
 export default function Charity() {
 	const router = useRouter();
@@ -216,31 +217,18 @@ export default function Charity() {
 
 	return (
 		<ScreenWrapper className="request-form">
-			<main>
-				<div className="container">
-					<ZkModal
-						isOpen={modal.visible}
-						isError={modal.isError}
-						title={modal.title}
-						onClose={hideAndClearModal}>
-						<>{modal.content}</>
-					</ZkModal>
-					<FormControl>
-						{page === 1 ? renderFirstPage() : renderSecondPage()}
-					</FormControl>
-				</div>
-
-				<div className="shapes">
-					<div className="shape-0"></div>
-					<div className="shape-1"></div>
-					<div className="shape-2"></div>
-					<div className="shape-3"></div>
-					<div className="shape-4"></div>
-					<div className="shape-5"></div>
-					<div className="shape-6"></div>
-					<div className="shape-7"></div>
-				</div>
-			</main>
+			<Container>
+				<FormControl>
+					{page === 1 ? renderFirstPage() : renderSecondPage()}
+				</FormControl>
+			</Container>
+			<ZkModal
+				isOpen={modal.visible}
+				isError={modal.isError}
+				title={modal.title}
+				onClose={hideAndClearModal}>
+				<>{modal.content}</>
+			</ZkModal>
 		</ScreenWrapper>
 	);
 }

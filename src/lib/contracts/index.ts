@@ -76,7 +76,7 @@ async function MakeDonation(
 	signer: Signer
 ) {
 	const { CharitiesRegistry } = Contracts(signer);
-	if (_tokensA == "0") {
+	if (_tokensA == "0x0000000000000000000000000000000000000000") {
 		const gasFee = await CharitiesRegistry.estimateGas.makeDonation(
 			charityId,
 			_tokensA,
@@ -85,19 +85,43 @@ async function MakeDonation(
 				value: _value,
 			}
 		);
-
 		// Making the donation
 		try {
-			const result = await CharitiesRegistry.makeDonation(charityId, {
-				value: _value,
-				gasLimit: gasFee,
-			});
+			const result = await CharitiesRegistry.makeDonation(
+				charityId,
+				_tokensA,
+				0,
+				{
+					value: _value,
+					gasLimit: gasFee,
+				}
+			);
 			return result;
 		} catch (e) {
 			console.log(e);
 			return e;
 		}
 	} else {
+		const gasFee = await CharitiesRegistry.estimateGas.makeDonation(
+			charityId,
+			"0xE097d6B3100777DC31B34dC2c58fB524C2e76921",
+			_value
+		);
+		// Making the donation
+		try {
+			const result = await CharitiesRegistry.makeDonation(
+				charityId,
+				_tokensA,
+				_value,
+				{
+					gasLimit: gasFee,
+				}
+			);
+			return result;
+		} catch (e) {
+			console.log(e);
+			return e;
+		}
 	}
 }
 async function ResolveCharities(charityId: number, signer: Signer) {
@@ -137,27 +161,26 @@ async function GetCharityInfo(charityId: number, signer: Signer) {
 async function GetDonationPools(charityId: number, signer: Signer) {
 	const { CharitiesRegistry } = Contracts(signer);
 
-	try{
+	try {
 		const data = await CharitiesRegistry.getDonationPools(charityId);
 		return data;
-	}catch(e){
+	} catch (e) {
 		console.log(e);
 	}
-	
 }
 async function WithdrawDonations(charityId: number, signer: Signer) {
 	const { CharitiesRegistry } = Contracts(signer);
-	try{
-		const fees = await CharitiesRegistry.estimateGas.withdrawDonations(charityId);
-		const data = await CharitiesRegistry.withdrawDonations(charityId,{
-			gasLimit: fees
+	try {
+		const fees = await CharitiesRegistry.estimateGas.withdrawDonations(
+			charityId
+		);
+		const data = await CharitiesRegistry.withdrawDonations(charityId, {
+			gasLimit: fees,
 		});
 		return data;
-	}catch(e){
+	} catch (e) {
 		console.log(e);
 	}
-
-	
 }
 
 export {

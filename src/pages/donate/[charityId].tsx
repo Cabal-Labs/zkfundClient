@@ -26,8 +26,8 @@ import { Alchemy, Network } from "alchemy-sdk";
 export const whiteListedTokens: `0x${string}`[] = [
 	"0x0000000000000000000000000000000000000000",
 	"0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa",
-	"0x0FA8781a83E46826621b3BC094Ea2A0212e71B23",
 	"0x2d7882beDcbfDDce29Ba99965dd3cdF7fcB10A1e",
+	"0xE097d6B3100777DC31B34dC2c58fB524C2e76921",
 ];
 export default function Donate(props: any) {
 	const router = useRouter();
@@ -55,7 +55,7 @@ export default function Donate(props: any) {
 		content: null,
 	});
 	const {
-		data: maticData,
+		data: tokenData,
 		isError,
 		isLoading: maticLoading,
 		refetch,
@@ -76,32 +76,31 @@ export default function Donate(props: any) {
 
 	async function donate() {
 		// send amount to charity
-		if (isLoading) return null;
-		else if (!signer) return null;
-		else {
-			//TODO: ADD all the tokens donations options
-			let _amount = ethers.utils.parseEther(amount);
-			try {
-				const result = await MakeDonation(id, _amount, "", signer);
-				if (result) {
-					console.log(result);
 
-					// pop success modal
-					setModal({
-						visible: true,
-						isError: false,
-						title: "Donation Successful",
-						content: <p>Nice</p>,
-					});
-				}
-			} catch (e) {
+		let _amount = ethers.utils.parseUnits(amount, tokenData?.decimals);
+		console.log(_amount.toString());
+		try {
+			console.log("MAKING DONATION");
+			const result = await MakeDonation(id, _amount, selectedAsset, signer);
+			console.log("DONATION MADE");
+			if (result) {
+				console.log(result);
+
+				// pop success modal
 				setModal({
 					visible: true,
-					isError: true,
-					title: "Donation Failed",
-					content: <p>{e.message}</p>,
+					isError: false,
+					title: "Donation Successful",
+					content: <p>Nice</p>,
 				});
 			}
+		} catch (e) {
+			setModal({
+				visible: true,
+				isError: true,
+				title: "Donation Failed",
+				content: <p>{e.message}</p>,
+			});
 		}
 	}
 	const hideAndClearModal = () => {

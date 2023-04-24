@@ -9,6 +9,18 @@
 		.chakra_button {
 			margin-top: 1rem;
 		}
+		.asset-container {
+			border-radius: 0.5rem;
+			margin-block: 2rem;
+		}
+		.asset-display-row-container {
+			@include flex-container(row, space-between, center, nowrap, 0, 0.25rem);
+			width: 100%;
+			background-color: rgba(0, 0, 0, 0.25);
+			padding: 0.25rem 0.75rem;
+			margin-block: 0.25rem;
+			border-radius: 0.25rem;
+		}
 		.bar-wrapper {
 			width: 100%;
 			@include flex-container(row, flex-start, center, nowrap, 0, 0);
