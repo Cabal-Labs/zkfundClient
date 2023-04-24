@@ -179,7 +179,7 @@ export default function Donate(props: any) {
 						<div id="charity-logo-div">
 							<img
 								id="charity-logo"
-								src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmiAMnhX5wmE3rsbFP1Y6gIxdvTUxbC6sNhhNQnzqM9JEOtfWpjQuPHNj4luUVwILKr4&usqp=CAU"
+								src={charityData?.profile || "/images/charity-logo.png"}
 								alt="charity logo"
 							/>
 						</div>

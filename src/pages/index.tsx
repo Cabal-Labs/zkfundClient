@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { Context } from "@/lib/providers/provider";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { isCharityApproved } from "@/lib/api/graph";
+import { ethers } from "ethers";
 export default function Home() {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
@@ -102,7 +103,7 @@ export default function Home() {
 				<div id="landing">
 					<div className="title">
 						<h1>Donations are your Right</h1>
-						<h3>powered by Polygon zkEVM</h3>
+						<h3>powered by Polygon</h3>
 					</div>
 					<div className="cta">
 						{_isConnected ? (
@@ -161,17 +162,17 @@ export default function Home() {
 					<div className="content">
 						<h2>Why do we exist?</h2>
 						<p>
-							There are so many platforms you can use to donate to charities,
-							but none of them offer true donation privacy. The ones that claim
-							to do so still facilitate transactions that are trackable by
-							governments. Why is donation privacy important? People may not
-							want others to see what social causes or political candidates they
-							support for various reasons. In terms of social and professional
-							implications, other people and even one's workplace may not be
-							tolerant of the causes one chooses to support. Moreover, in some
-							parts of the world, especially 3rd world countries and countries
-							with oppressive regimes, it is actually dangerous to publicly
-							support certain political parties or social causes.
+							ZKFund exists as a pioneering web3 company, dedicated to
+							democratizing access to donations by harnessing the power of
+							blockchain technology. Our mission is to champion the right to
+							donate and support causes that align with individual values while
+							fostering a transparent and accountable donation ecosystem. As a
+							forward-thinking organization, ZKFund understands the importance
+							of embracing innovation to address the challenges faced by the
+							traditional philanthropic sector. Our dedication to utilizing
+							blockchain technology not only enhances the security and privacy
+							of donations but also streamlines the donation process, making it
+							more accessible and efficient for all.
 						</p>
 					</div>
 					{/* <div className="img-wrapper">
@@ -187,14 +188,17 @@ export default function Home() {
 					<div className="content">
 						<h2>Donations are protected by Free Speech</h2>
 						<p>
-							At zk.fund, we believe people deserve the right to donate to
-							causes that are meaningful to them, regardless of what others may
-							believe. Our mission is to make safe, secure, and anonymous
-							donations possible for everyone, especially for causes that are
-							stigmatized in a donor's community. Our platform uses cutting-edge
-							technology to ensure that your donations stay private, so you can
-							support the causes you believe in without worrying about potential
-							consequences.
+							As a leading force in decentralized philanthropy, ZKFund upholds
+							the principles of privacy and Free Speech by providing truly
+							anonymous donation options. This approach enables donors to voice
+							their support for a wide range of social, political, and
+							environmental causes without facing judgment, discrimination, or
+							potential backlash. By combining cutting-edge technology with our
+							unwavering commitment to privacy and Free Speech, ZKFund is
+							fostering a more inclusive and equitable donation environment,
+							enabling individuals from all walks of life to make a positive
+							impact on the world. Discover the future of philanthropy with
+							ZKFund, and join us in redefining the way we give.
 						</p>
 					</div>
 					{/* <div className="img-wrapper">
@@ -210,15 +214,15 @@ export default function Home() {
 					<div className="content">
 						<h2>Verified charities give you peace of mind</h2>
 						<p>
-							We know how it sounds. Anonymous donations? That sounds like a
-							recipe for disaster, especially when you consider certain bad
-							actors that could benefit from receiving funding through the
-							platform. How do I make sure my money isn't going to money
-							laundering activities or towards funding terrorist organizations?
-							Rest assured, we have built out a robust validator network that
-							works to verify each and every charity and organization on
-							zk.fund. Our validators are trained to conduct heavy due diligence
-							to ensure every organization on the platform is legitimate.
+							At ZKFund, we prioritize the importance of curating a network of
+							validators who collaborate to onboard a diverse range of
+							charities, as determined by community requests. This decentralized
+							approach empowers the community by placing decision-making
+							authority into their hands. Furthermore, ZKFund is committed to
+							safeguarding donor privacy by enabling truly anonymous donations.
+							This protects individuals who might face risks when supporting
+							specific social causes, encouraging a more open and dynamic
+							philanthropic environment without fear of repercussions.
 						</p>
 					</div>
 					{/* <div className="img-wrapper">

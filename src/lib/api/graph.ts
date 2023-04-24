@@ -1,7 +1,7 @@
 // handles api requests related to validating charities
 import { createClient } from "urql";
 import { retriveCharity as retrieveCharity } from "../ipfs";
-const APIURL = "https://api.studio.thegraph.com/query/43431/zkfundv2/v0.0.1";
+const APIURL = "https://api.studio.thegraph.com/query/43431/zkfundv3/v0.0.1";
 const client = createClient({
 	url: APIURL,
 });
@@ -26,7 +26,7 @@ export async function GetAllCharities() {
 export async function SearchCharities(search: string) {
 	const query = `
     {
-        charityCreateds(where: {name_starts_with_nocase: "${search}"}) {
+        charityCreateds(where: {name_contains_nocase: "${search}"}, orderBy: name, status: 2) {
             id
             charityAddress
             name
@@ -190,12 +190,17 @@ export async function isCharityApproved(charityAddress) {
 	}
 }
 
-// export async function GetCharityRequests() {
-// 	const query = `
-//     {
-//         CharityCreated {
-//             name
-//         }
-//     }
-//     `;
-// }
+export async function getInitialCharities() {
+    const query = `
+    {
+        charityCreateds(first: 8, where: {status: 2}) {
+            id
+            charityAddress
+            name
+            charityId
+            status
+          }
+        }`;
+	let result = await client.query(query,{}).toPromise();
+	return result.data.charityCreateds;
+}

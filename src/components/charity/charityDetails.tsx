@@ -5,12 +5,14 @@ import { Avatar, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { P } from "styled-icons/fa-solid";
+import ZkCarousel from "../carousel";
 
 export default function CharityDetails({ selectedCharity }) {
 	const router = useRouter();
 	const [data, setData] = useState({} as any);
 	const [pending, setPending] = useState(true);
 	const [loading, setLoading] = useState(false);
+	const [images, setImages] = useState([]);
 
 	async function getCharity() {
 		console.log("getting charity info with id: ", selectedCharity);
@@ -18,6 +20,7 @@ export default function CharityDetails({ selectedCharity }) {
 		else {
 			let data = await getCharityInfo(selectedCharity);
 			console.log("data: ", data);
+			setImages(data?.images);
 			setData(data);
 			if (data?.status == 0) {
 				setPending(false);
@@ -35,7 +38,7 @@ export default function CharityDetails({ selectedCharity }) {
 		return (
 			<div className="charity-details" id={`charity-${selectedCharity}`}>
 				<div className="header">
-					<Avatar src={data?.pic} size="lg" />
+					<Avatar src={data?.profile} size="lg" />
 					<div className="content">
 						<h2>{data?.name}</h2>
 						<h5 className="secondary">
@@ -45,6 +48,14 @@ export default function CharityDetails({ selectedCharity }) {
 				</div>
 				{pending}
 				<div className="content">
+
+
+					{((images).length > 0) 
+						&&
+						<div className="image-carousel">
+							<ZkCarousel cards={data?.images} /> 
+						</div>
+					}
 					<div className="quick-info">
 						<div className="info">
 							<Icon icon={"City"} title={"Location"} />
@@ -56,9 +67,10 @@ export default function CharityDetails({ selectedCharity }) {
 						</div>
 						<div className="info">
 							<Icon icon={"Contact"} title={"Location"} />
-							<p>{data?.contact || "No contact"}</p>
+							<p>{data?.email || "No contact"}</p>
 						</div>
 					</div>
+						
 					<p className="description">{data?.description || "No Description"}</p>
 
 					<Button

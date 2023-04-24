@@ -7,7 +7,7 @@ import { charityCards, charityDetails } from "@/lib/dummyData";
 import CharityDetails from "@/components/charity/charityDetails";
 import charitiesApi from "@/lib/api/charities";
 import { useToast } from "@chakra-ui/react";
-import { SearchCharities } from "@/lib/api/graph";
+import { SearchCharities, getInitialCharities } from "@/lib/api/graph";
 import Icon from "@/lib/icons";
 
 export default function Home(props) {
@@ -15,7 +15,7 @@ export default function Home(props) {
 
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
-	const [charities, setCharities] = useState<CharityCardProps[]>([]);
+	const [charities, setCharities] = useState<any>([]);
 	const [selectedCharity, setSelectedCharity] = useState<number>(0);
 
 	async function getCharities(search: string): Promise<CharityCardProps[]> {
@@ -39,12 +39,23 @@ export default function Home(props) {
 			}
 			setLoading(false);
 			return charities;
+		}else{
+			const charities = await getInitialCharities();
+			setCharities(charities);
+			setLoading(false);
+			return charities;
 		}
-		setLoading(false);
-	}
 
+		
+	}
+	const getInitial = async () => {
+		const charities = await getInitialCharities();
+		setCharities(charities);
+	};
+	
 	useEffect(() => {
 		console.log("selectedCharity: ", selectedCharity);
+		getInitial();
 	}, [selectedCharity]);
 	return (
 		<ScreenWrapper
