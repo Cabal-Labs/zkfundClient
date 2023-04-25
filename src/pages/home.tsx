@@ -3,7 +3,7 @@ import DebounceSearch from "@/components/home/debounceSearch";
 import RenderCharities from "@/components/home/renderCharities";
 import ScreenWrapper from "@/components/layout/screenWrapper";
 import { CharityCardProps } from "@/lib/types";
-import { charityCards, charityDetails } from "@/lib/dummyData";
+
 import CharityDetails from "@/components/charity/charityDetails";
 import charitiesApi from "@/lib/api/charities";
 import { useToast } from "@chakra-ui/react";

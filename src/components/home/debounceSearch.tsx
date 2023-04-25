@@ -10,7 +10,7 @@ import {
 	InputRightElement,
 } from "@chakra-ui/react";
 import { CharityCardProps } from "@/lib/types";
-import { charityCards } from "@/lib/dummyData";
+
 interface DebounceSearchProps {
 	onSubmit: (string) => Promise<CharityCardProps[]>;
 	searchTerm: string;
