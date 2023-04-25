@@ -79,8 +79,10 @@ export default function Donate(props: any) {
 
 		let _amount = ethers.utils.parseUnits(amount, tokenData?.decimals);
 		console.log(_amount.toString());
+		console.log({ selectedAsset });
 		try {
 			console.log("MAKING DONATION");
+			
 			const result = await MakeDonation(id, _amount, selectedAsset, signer);
 			console.log("DONATION MADE");
 			if (result) {

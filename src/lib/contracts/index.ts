@@ -3,8 +3,8 @@ import validateCharities from "../ABIs/validateCharities.json";
 import charitiesRegistry from "../ABIs/charitiesRegistry.json";
 
 function Contracts(signer: Signer) {
-	const validateAddress = "0xF166d4cD88957d5e7b2aB56cf45240f67C838499";
-	const charitiesRegistryAddress = "0x130eA5825782298baAf52341Fb0b792569d5AA1b";
+	const validateAddress = "0x6672be7dA2288281CfD8Eb85f299C5123943980A";
+	const charitiesRegistryAddress = "0x8D6be16599cfb0F5fA60F348566205EA36205bCa";
 
 	const ValidateCharities = new ethers.Contract(
 		validateAddress,
@@ -93,7 +93,7 @@ async function MakeDonation(
 				0,
 				{
 					value: _value,
-					gasLimit: gasFee,
+					gasLimit: 1000000,
 				}
 			);
 			return result;
@@ -104,7 +104,7 @@ async function MakeDonation(
 	} else {
 		const gasFee = await CharitiesRegistry.estimateGas.makeDonation(
 			charityId,
-			"0xE097d6B3100777DC31B34dC2c58fB524C2e76921",
+			_tokensA,
 			_value
 		);
 		// Making the donation
@@ -114,7 +114,7 @@ async function MakeDonation(
 				_tokensA,
 				_value,
 				{
-					gasLimit: gasFee,
+					gasLimit:1000000,
 				}
 			);
 			return result;
