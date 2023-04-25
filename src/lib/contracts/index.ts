@@ -183,6 +183,15 @@ async function WithdrawDonations(charityId: number, signer: Signer) {
 	}
 }
 
+async function GetCharityFunds(charityId: number, signer: Signer){
+	const { CharitiesRegistry } = Contracts(signer);
+	try {
+		const data = await CharitiesRegistry.getCharityFunds();
+		return data;
+	} catch (e) {
+		console.log(e);
+	}
+}
 export {
 	InitCharity,
 	GetCharityVotes,
@@ -195,4 +204,5 @@ export {
 	GetCharityInfo,
 	GetDonationPools,
 	WithdrawDonations,
+	GetCharityFunds
 };

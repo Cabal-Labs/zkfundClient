@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { useLayoutEffect, useState } from "react";
 import { useSigner } from "wagmi";
 import { ethers } from "ethers";
-import { getTokenPrice } from "@/lib/components/helpers";
+//import { getTokenPrice } from "@/lib/c omponents/helpers";
 export default function Charity() {
 	const { data: signer, isLoading } = useSigner();
 	const router = useRouter();
@@ -45,37 +45,37 @@ export default function Charity() {
 			usd_amount: "50",
 		},
 	];
-	async function getCharity(address) {
-		let data = await getCharityInfoByAddress(address);
-		console.log("data: ", data);
-		if (data) {
-			let _balance = 0;
-			let tokenList = await GetCharityFunds(data.charityId, signer);
-			console.log("unformatted list", tokenList);
-			let _tokenList = [];
-			// loop through token list
-			for (let i = 0; i < tokenList.length; i++) {
-				let price = await getTokenPrice(tokenList[i].address);
-				let amount = await tokenList[i].amount;
-				let _amount = parseFloat(ethers.utils.formatEther(amount));
-				let usd_amount = price.usdPrice * _amount;
-				let _token = {
-					address: tokenList[i].address,
-					amount: tokenList[i].amount,
-					usd_amount: usd_amount,
-					name: price.nativePrice.name,
-					symbol: price.nativePrice.symbol,
-				};
-				_balance += usd_amount;
-				_tokenList.push(_token);
-			}
-			setStatus(data.status);
-			let _data = { ...data, balance: _balance, tokenList: _tokenList };
-			console.log("_data: ", _data);
-			setCharity(_data);
-		}
-		return data;
-	}
+	// async function getCharity(address) {
+	// 	let data = await getCharityInfoByAddress(address);
+	// 	console.log("data: ", data);
+	// 	if (data) {
+	// 		let _balance = 0;
+	// 		let tokenList = await GetCharityFunds(data.charityId, signer);
+	// 		console.log("unformatted list", tokenList);
+	// 		let _tokenList = [];
+	// 		// loop through token list
+	// 		for (let i = 0; i < tokenList.length; i++) {
+	// 			let price = await getTokenPrice(tokenList[i].address);
+	// 			let amount = await tokenList[i].amount;
+	// 			let _amount = parseFloat(ethers.utils.formatEther(amount));
+	// 			let usd_amount = price.usdPrice * _amount;
+	// 			let _token = {
+	// 				address: tokenList[i].address,
+	// 				amount: tokenList[i].amount,
+	// 				usd_amount: usd_amount,
+	// 				name: price.nativePrice.name,
+	// 				symbol: price.nativePrice.symbol,
+	// 			};
+	// 			_balance += usd_amount;
+	// 			_tokenList.push(_token);
+	// 		}
+	// 		setStatus(data.status);
+	// 		let _data = { ...data, balance: _balance, tokenList: _tokenList };
+	// 		console.log("_data: ", _data);
+	// 		setCharity(_data);
+	// 	}
+	// 	return data;
+	// }
 	async function handleWithdraw() {
 		console.log("withdraw");
 		let result = await WithdrawDonations(charity.charityId, signer);
@@ -89,7 +89,7 @@ export default function Charity() {
 		if (charityAddress === undefined) return;
 		setLoading(true);
 		console.log("inUseEffect", charityAddress);
-		getCharity(charityAddress);
+		//getCharity(charityAddress);
 		setLoading(false);
 	}, []);
 
