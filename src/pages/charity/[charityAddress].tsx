@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { useLayoutEffect, useState } from "react";
 import { useSigner } from "wagmi";
 import { ethers } from "ethers";
-//import { getTokenPrice } from "@/lib/c omponents/helpers";
+import { getTokenPrice } from "@/lib/c omponents/helpers";
 export default function Charity() {
 	const { data: signer, isLoading } = useSigner();
 	const router = useRouter();
