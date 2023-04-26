@@ -3,7 +3,13 @@ import Image from "next/image";
 import { Button } from "@chakra-ui/react";
 import ScreenWrapper from "@/components/layout/screenWrapper";
 import Icon from "@/lib/icons";
-import { useContext, useEffect, useState } from "react";
+import {
+	useContext,
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { useRouter } from "next/router";
 import { Context } from "@/lib/providers/provider";
@@ -93,12 +99,39 @@ export default function Home() {
 			status: "todo",
 		},
 	];
+	const imageRef = useRef<HTMLImageElement>(null);
+	const handleMouseMove = (event) => {
+		const x = event.clientX;
+		const y = event.clientY;
+		console.log(imageRef.current.style);
+		if (imageRef.current) {
+			console.log({ x, y });
+
+			imageRef.current.style.setProperty("mask-position", `${x}px ${y}px`);
+		}
+	};
+
+	useLayoutEffect(() => {
+		document.addEventListener("mousemove", handleMouseMove);
+		return () => {
+			document.removeEventListener("mousemove", handleMouseMove);
+		};
+	}, []);
 
 	return (
 		<ScreenWrapper
 			title={"Welcome to zk.fund"}
 			className="landing-page"
 			loading={loading}>
+			<div id="background-container">
+				<img
+					ref={imageRef}
+					id="landing-background"
+					src="/landing_background.jpg"
+					alt="landing"
+				/>
+			</div>
+			<div id="landing-background"></div>
 			<main>
 				<div id="landing">
 					<div className="title">
@@ -175,14 +208,14 @@ export default function Home() {
 							more accessible and efficient for all.
 						</p>
 					</div>
-					{/* <div className="img-wrapper">
+					<div className="img-wrapper">
 						<Image
-							src={"https://picsum.photos/200"}
+							src={"/make_a_change.jpg"}
 							layout={"fill"}
 							objectFit={"cover"}
 							objectPosition={"center"}
 						/>
-					</div> */}
+					</div>
 				</section>
 				<section className="reverse" id="info-1">
 					<div className="content">
@@ -201,14 +234,14 @@ export default function Home() {
 							ZKFund, and join us in redefining the way we give.
 						</p>
 					</div>
-					{/* <div className="img-wrapper">
+					<div className="img-wrapper">
 						<Image
-							src={"https://picsum.photos/200"}
+							src={"/free_speech.jpg"}
 							layout={"fill"}
 							objectFit={"cover"}
 							objectPosition={"center"}
 						/>
-					</div> */}
+					</div>
 				</section>
 				<section className="" id="info-1">
 					<div className="content">
@@ -225,14 +258,14 @@ export default function Home() {
 							philanthropic environment without fear of repercussions.
 						</p>
 					</div>
-					{/* <div className="img-wrapper">
+					<div className="img-wrapper">
 						<Image
-							src={"https://picsum.photos/200"}
+							src={"/crowd.jpg"}
 							layout={"fill"}
 							objectFit={"cover"}
 							objectPosition={"center"}
 						/>
-					</div> */}
+					</div>
 				</section>
 				<section id="timeline">
 					<div className="content">

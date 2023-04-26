@@ -2,6 +2,44 @@
 @import "../mixins";
 
 #page-container.landing-page {
+	#background-container {
+		position: absolute;
+		height: 100vh;
+		top: 0;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	#landing-background {
+		position: absolute;
+		object-fit: cover;
+		height: 100%;
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-clip: text;
+		-webkit-background-clip: text; /* For Safari */
+		color: transparent;
+		-webkit-mask-image: radial-gradient(
+			circle 550px,
+			rgba(0, 0, 0, 1) 30%,
+			rgba(0, 0, 0, 0) 120%
+		);
+		mask-image: radial-gradient(
+			circle 350px,
+			rgba(0, 0, 0, 1) 30%,
+			rgba(0, 0, 0, 0) 120%
+		);
+		-webkit-mask-position: 0px 0px;
+		// mask-position: 0px 0px;
+		// -webkit-mask-repeat: no-repeat;
+		// mask-repeat: no-repeat;
+		// clip-path: inset(0);
+	}
+
 	main {
 		height: 100%;
 		overflow: scroll;
@@ -35,7 +73,7 @@
 		section {
 			margin: 0 auto;
 			width: min(100%, 60rem);
-			padding-block: 4rem;
+			padding-block: 12rem;
 			justify-content: stretch;
 			display: grid;
 			justify-content: stretch;
@@ -64,15 +102,18 @@
 				border-radius: 0.5rem;
 				overflow: hidden;
 				grid-area: picture;
+				img {
+					filter: grayscale(100%) brightness(80%);
+				}
 			}
 		}
 		#timeline {
-			// background: linear-gradient(
-			// 	to top,
-			// 	var.$foreground 0%,
-
-			// 	var.$background 100%
-			// );
+			margin-block: 10rem;
+			padding-block: 5rem;
+			border-radius: 2rem;
+			background-color: rgba(0, 0, 0, 0.2);
+			margin-bottom: 4rem;
+			backdrop-filter: blur(20px);
 			@include flex-container(column, center, center, nowrap, 0, 1rem);
 			.content {
 				.timeline {
