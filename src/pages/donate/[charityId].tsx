@@ -93,7 +93,7 @@ export default function Donate(props: any) {
 					visible: true,
 					isError: false,
 					title: "Donation Successful",
-					content: <p>Nice</p>,
+					content: <h2>Thank you!</h2>,
 				});
 			}
 		} catch (e) {

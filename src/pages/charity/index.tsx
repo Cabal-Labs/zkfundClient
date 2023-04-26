@@ -90,6 +90,7 @@ export default function Charity() {
 						let _data = { ...data, balance: _balance, tokenList: _tokenList };
 						console.log("_data: ", _data);
 						setCharity(_data);
+						_tokenList.reverse();
 						return data;
 					}
 				}

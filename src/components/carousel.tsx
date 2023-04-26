@@ -82,6 +82,7 @@ export default function Carousel({cards}) {
         {cards.map((url, index) => (
           <div>
             <img 
+            
               key={index}
               src={url}
               alt="carousel"

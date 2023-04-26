@@ -11,7 +11,7 @@ import { SearchCharities, getInitialCharities } from "@/lib/api/graph";
 import Icon from "@/lib/icons";
 
 export default function Home(props) {
-	const toast = useToast();
+	
 
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
@@ -29,13 +29,6 @@ export default function Home(props) {
 			} else {
 				setCharities([]);
 				// show an error toast saying something went wrong
-				toast({
-					title: "Error",
-					description: "Something went wrong",
-					status: "error",
-					duration: 5000,
-					isClosable: true,
-				});
 			}
 			setLoading(false);
 			return charities;
@@ -50,6 +43,7 @@ export default function Home(props) {
 	}
 	const getInitial = async () => {
 		const charities = await getInitialCharities();
+		console.log("charities: ", charities);
 		setCharities(charities);
 	};
 	
