@@ -16,6 +16,7 @@ import { Context } from "@/lib/providers/provider";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { isCharityApproved } from "@/lib/api/graph";
 import { ethers } from "ethers";
+import { useMousePosition } from "./_app";
 export default function Home() {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
@@ -99,24 +100,20 @@ export default function Home() {
 			status: "todo",
 		},
 	];
-	const imageRef = useRef<HTMLImageElement>(null);
-	const handleMouseMove = (event) => {
-		const x = event.clientX;
-		const y = event.clientY;
-		console.log(imageRef.current.style);
-		if (imageRef.current) {
-			console.log({ x, y });
 
-			imageRef.current.style.setProperty("mask-position", `${x}px ${y}px`);
-		}
-	};
+	function Overlay() {
+		const { x, y } = useMousePosition();
 
-	useLayoutEffect(() => {
-		document.addEventListener("mousemove", handleMouseMove);
-		return () => {
-			document.removeEventListener("mousemove", handleMouseMove);
-		};
-	}, []);
+		return (
+			<div
+				className="overlay"
+				style={{
+					position: "absolute",
+					left: `${x}px`,
+					top: `${y}px`,
+				}}></div>
+		);
+	}
 
 	return (
 		<ScreenWrapper
@@ -124,8 +121,8 @@ export default function Home() {
 			className="landing-page"
 			loading={loading}>
 			<div id="background-container">
+				<Overlay />
 				<img
-					ref={imageRef}
 					id="landing-background"
 					src="/landing_background.jpg"
 					alt="landing"

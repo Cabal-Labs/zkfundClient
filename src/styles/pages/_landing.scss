@@ -1,16 +1,32 @@
 @use "../var";
 @import "../mixins";
-
+#app-header {
+	z-index: 5 !important;
+}
 #page-container.landing-page {
 	#background-container {
 		position: absolute;
 		height: 100vh;
 		top: 0;
+		left: 0;
 		width: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		overflow: hidden;
+		z-index: -1;
+		.overlay {
+			position: absolute;
+			height: 200vh;
+			width: 200vw;
+			transform: translate(-50%, -50%);
+			background: radial-gradient(
+				circle 350px,
+				rgba(0, 0, 0, 0.5) 50%,
+				var.$background 200%
+			);
+			z-index: 1;
+		}
 	}
 
 	#landing-background {
@@ -20,20 +36,22 @@
 		background-size: cover;
 		background-position: center center;
 		background-repeat: no-repeat;
-		background-clip: text;
-		-webkit-background-clip: text; /* For Safari */
-		color: transparent;
-		-webkit-mask-image: radial-gradient(
-			circle 550px,
-			rgba(0, 0, 0, 1) 30%,
-			rgba(0, 0, 0, 0) 120%
-		);
-		mask-image: radial-gradient(
-			circle 350px,
-			rgba(0, 0, 0, 1) 30%,
-			rgba(0, 0, 0, 0) 120%
-		);
-		-webkit-mask-position: 0px 0px;
+		filter: grayscale(100%) brightness(80%) blur(10px);
+
+		// background-clip: text;
+		// -webkit-background-clip: text; /* For Safari */
+		// color: transparent;
+		// -webkit-mask-image: radial-gradient(
+		// 	circle 550px,
+		// 	rgba(0, 0, 0, 1) 30%,
+		// 	rgba(0, 0, 0, 0) 120%
+		// );
+		// mask-image: radial-gradient(
+		// 	circle 350px,
+		// 	rgba(0, 0, 0, 1) 30%,
+		// 	rgba(0, 0, 0, 0) 120%
+		// );
+		// -webkit-mask-position: 0px 0px;
 		// mask-position: 0px 0px;
 		// -webkit-mask-repeat: no-repeat;
 		// mask-repeat: no-repeat;

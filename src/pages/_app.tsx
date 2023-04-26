@@ -9,7 +9,7 @@ import chakraTheme from "@/styles/chakraTheme";
 import { WagmiConfig } from "wagmi";
 import { chains, wagmiClient } from "@/lib/rainbowKit/config";
 import { useLayoutEffect, useState } from "react";
-function useMousePosition() {
+export function useMousePosition() {
 	const [position, setPosition] = useState({ x: 0, y: 0 });
 
 	useLayoutEffect(() => {
