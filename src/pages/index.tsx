@@ -132,7 +132,7 @@ export default function Home() {
 			<main>
 				<div id="landing">
 					<div className="title">
-						<h1>Donations are your Right</h1>
+						<h1>Donations are your right</h1>
 						<h3>powered by Polygon</h3>
 					</div>
 					<div className="cta">
